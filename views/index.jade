@@ -1,0 +1,114 @@
+head
+    title TravelStart
+    // Core CSS
+    link(href='stylesheets/core.css', rel='stylesheet')
+    // Custom CSS
+    link(href='stylesheets/core-casual.css', rel='stylesheet')
+    script(type='text/javascript', src='javascripts/jquery.js')
+    script(src='/javascripts/index.js')
+    script(type='text/javascript', src='javascripts/bootstrap.js')
+    script(type='text/javascript', src='javascripts/bootstrap.min.js')
+  body
+    .container
+      .row
+        .box
+          p(style='text-align:center')
+            img(src='img/travelStart.png', alt='')
+    // Navigation
+    nav.navbar.navbar-default(role='navigation')
+      .container
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          // navbar-brand is hidden on larger screens, but visible when the menu is collapsed
+          a.navbar-brand(href='index.html') travelstart
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='index.html') Book
+            li
+              a(href='about.html') About
+            li
+              a(href='blog.html') Blog
+            li
+              a(href='contact.html') Contact
+        // /.navbar-collapse
+      // /.container
+    .container
+      .row
+        .box
+          .col-lg-12
+            hr
+            h2.intro-text.text-center
+              strong Book
+      .row
+        .box
+          .col-lg-12
+            form(role='form')
+              .row
+                .form-group.col-lg-4
+                  select#yesCheck.form-control(onchange='yesnoCheck(this);', name='yesno')
+                    option(value='0') One Way
+                    option(value='1') Return
+              .row
+                .form-group.col-lg-4
+                  label Depature
+                  input.form-control(type='date')
+                #ifYes.form-group.col-lg-4(style='display:none')
+                  label Return
+                  input.form-control(type='date')
+            a.btn.btn-default.btn-lg(href='#') Book
+      .row
+        .box
+          .col-lg-12
+            form(role='form')
+              .row
+                .form-group.col-lg-10
+                  input#searchterm.form-control(type='text')
+                .form-group.col-lg-2
+                  a#search.btn.btn-default.btn-lg(href='#', style='') Search
+      .row
+        .box
+          .col-lg-12.text-center
+            #carousel-example-generic.carousel.slide
+              // Indicators
+              ol.carousel-indicators.hidden-xs
+                li.active(data-target='#carousel-example-generic', data-slide-to='0')
+                li(data-target='#carousel-example-generic', data-slide-to='1')
+                li(data-target='#carousel-example-generic', data-slide-to='2')
+              // Wrapper for slides
+              .carousel-inner
+                .item.active
+                  h2(style='position:fixed;')
+                    | Cape Town
+                    h2
+                      img.img-responsive.img-full(src='img/slide-1.jpg', alt='')
+                .item
+                  h2(style='position:fixed;')
+                    | Egypt
+                    h2
+                      img.img-responsive.img-full(src='img/slide-2.jpg', alt='')
+                .item
+                  h2(style='position:fixed;')
+                    | Madagascar
+                    h2
+                      img.img-responsive.img-full(src='img/slide-3.jpg', alt='')
+              // Controls
+              a.left.carousel-control(href='#carousel-example-generic', data-slide='prev')
+                span.icon-prev
+              a.right.carousel-control(href='#carousel-example-generic', data-slide='next')
+                span.icon-next
+      .row
+        .box
+          .col-lg-12
+    // /.container
+    footer
+      .container
+        .row
+          .col-lg-12.text-center
+            p Copyright © Your Website 2014
