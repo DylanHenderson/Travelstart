@@ -1,7 +1,7 @@
 var SparqlClient = require('sparql-client');
 var util = require('util');
 var mongo = require('mongodb');
-var db = require('mongoskin').db('mongodb://localhost:27017/nodetest1');
+var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 
 module.exports = {
 
@@ -13,6 +13,10 @@ module.exports = {
 
 		console.log('database querying');
 		
+
+		var locations = query.locations;
+		var keywords = query.keywords;
+
 
 		var results =
 			[
@@ -41,7 +45,7 @@ module.exports = {
 		
 		var endpoint = 'http://dbpedia.org/sparql';
 
-			//query dbpedia for images of all port cities in south africa
+		//query dbpedia for images of all port cities in south africa
 		var query = "SELECT ?s ?q WHERE {   ?s ?o <http://dbpedia.org/class/yago/PortCitiesInSouthAfrica>;     foaf:depiction ?q }limit 10";
 		var client = new SparqlClient(endpoint);
 		console.log("Query to " + endpoint);
@@ -49,8 +53,10 @@ module.exports = {
 		client.query(query)
 		  .execute(function(error, results) {
 
-		    
-		    console.log("////////////////");
+		    if(error){
+		    	console.log("error when retrieving through sparql: "+error);
+		    }else{
+		    	 console.log("////////////////");
 		    console.log(results.results.bindings);
 		    console.log("////////////////");
 
@@ -59,7 +65,7 @@ module.exports = {
 		  //send results from dbpedia through to database (initial)
 		  ///////////////////////////////////////////////////////////////////////
 
-
+			console.log("adding location items to database");
 		    for(var i in results.results.bindings){
 
 		      // Get our values to store 
@@ -75,31 +81,46 @@ module.exports = {
 
 		      // Set our collection
 		      var collection = db.collection('locationCollection');
-		      console.log("adding location item to database");
-
-
 		      
-		      // Submit to the DB
-		      collection.insert({
-		          "locationName" : locationName,
-		          "image" : image,
-		          "keywords:": ["Holdiay", "Fun"]
-		      }, function (err, result) {
-		          if (err) {
-		              // If it failed, return error
-		              res.send("There was a problem adding the information to the database.");
-		          }
-		          else {
-		            console.log("worked!");
-		          }
-		      });
+
+
+
+
+
+
+		      collection.findOne({locationName:locationName}, function(err, result) {
+		      	if(err){
+		      		console.log(err);
+		      	}else{
+		      		//if already exists
+		      		if(result){
+		      			console.log("location already in database");
+		      		}else{
+				      // Submit to the DB
+				      collection.insert({
+				          "locationName" : locationName,
+				          "image" : image,
+				          "keywords:": ["Holdiay", "Fun"]
+				      }, function (err, result) {
+				          if (err) {
+				              // If it failed, return error
+				              res.send("There was a problem adding the information to the database.");
+				          }
+				          else {
+				            //console.log("worked!");
+				          }
+				      });
+		      		}
+		      	}
+			  });
+		      
+
 		  
 
 
 		    }
-
-		  //////////////////////////////////////////////////////////////
-
+		    }		   
+		 //////////////////////////////////////////////////////////////
 		});
 
 
@@ -107,23 +128,31 @@ module.exports = {
 		var collection = db.collection('keywordCollection');
 		console.log("adding keywords to database");
 
+		collection.findOne({keyword:'Holiday'}, function(err, result) {
+		    if (result){
+				console.log("keyword already in database");
+		    }else{
+		    	
+		    	// Submit to the DB
+				collection.insert({
+				    "keyword" : "Holiday",
+				    "locations:": ["Cape_Town", "Saldanha","Durban","Port_Elizabeth","East_London"]
+				}, function (err, result) {
+				    if (err) {
+				        // If it failed, return error
+				        res.send("There was a problem adding the information to the database.");
+				    }
+				    else {
+				      //console.log("worked!");
+				    }
+				});
 
 
-		// Submit to the DB
-		collection.insert({
-		    "keyword" : "Holiday",
-		    "locations:": ["Cape_Town", "Saldanha","Durban","Port_Elizabeth","East_London"]
-		}, function (err, result) {
-		    if (err) {
-		        // If it failed, return error
-		        res.send("There was a problem adding the information to the database.");
 		    }
-		    else {
-		      console.log("worked!");
-		    }
+		    callback();
 		});
 
-		callback();
+
 	}
 
 
