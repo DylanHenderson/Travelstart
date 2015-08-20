@@ -3,39 +3,49 @@ var util = require('util');
 var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 
+function getLocation(location,callback){
+    var collection = db.collection('locationCollection');
+    collection.findOne({locationName:location},function(e,docs){
+        callback(e,docs);
+    });
+}
+
+function getKeyword(keyword,callback){
+    var collection = db.collection('keywordCollection');
+    collection.findOne({keyword:keyword},function(e,docs){
+        callback(e,docs);
+    });
+}
+
 module.exports = {
 
-
+	//get results from database based on a query incluyding locations and keywords
 	retrieve: function(query, callback){
-		//do stuff
-
-
-
 		console.log('database querying');
 		
 
 		var locations = query.locations;
 		var keywords = query.keywords;
+		var results = [];
+		console.log(locations);
+		console.log(keywords);
 
 
-		var results =
-			[
-				{
-					locationName: "Cape_Town",
-					keywords: ["Holiday","Fun"]
 
-				},
+		if(keywords){
+			var keyword = keywords[0];	
+			getKeyword(keyword,function(err,docs){
+				//fix order
+				if(err){
+					callback(null,err);
+				}else{
+					console.log(docs);
+					callback(docs,null);
 
-				{
-					locationName:"Port_Elizebeth",
-					keywords: ["Fun","Exciting"]
 				}
 
-
-			];
-
-		var err = null;
-		callback(results, err);
+			});
+		}
 	},
 
 
@@ -128,14 +138,14 @@ module.exports = {
 		var collection = db.collection('keywordCollection');
 		console.log("adding keywords to database");
 
-		collection.findOne({keyword:'Holiday'}, function(err, result) {
+		collection.findOne({keyword:'fun'}, function(err, result) {
 		    if (result){
 				console.log("keyword already in database");
 		    }else{
 		    	
 		    	// Submit to the DB
 				collection.insert({
-				    "keyword" : "Holiday",
+				    "keyword" : "fun",
 				    "locations:": ["Cape_Town", "Saldanha","Durban","Port_Elizabeth","East_London"]
 				}, function (err, result) {
 				    if (err) {
