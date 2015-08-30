@@ -21,7 +21,7 @@ function getKeyword(keyword,callback){
 
 function getRoutes(departure_location,callback){
     var collection = db.collection('routesCollection');
-    collection.findOne({location:"JNB"},function(e,docs){
+    collection.findOne({location:departure_location},function(e,docs){
         callback(e,docs);
     });
 }
@@ -101,6 +101,16 @@ function addFlightRoutes(callback){
 
 }
 
+//checks if an object is in an array
+function inArray(array,object,key){
+	for(var i =0; i< array.length; i++){
+		if (array[i][key] === object[key]){
+			return true
+		}
+	}
+	return false;
+}
+
 //Create a collection of the possible destinations that we can populate with more information
 function addFlightDestinations(callback){
 	console.log("accessing destinations from file");
@@ -111,8 +121,42 @@ function addFlightDestinations(callback){
 		}else{
 			var line_data = data.split(/\r?\n/);
 
-			//
-			//var destinations = 
+			
+			var destinations = [];
+
+			//create destination array with no duplicates
+			for(var i in line_data){
+				var locations = line_data[i].split(" ");
+				var destination = locations[1];
+				if (!(inArray(destinations,{location:destination},"location"))){
+					destinations.push({location:destination});
+				}
+			}
+
+			// Set our collection
+		    var collection = db.collection('destinationCollection');
+
+		    collection.findOne({},function(err,data){
+        		if(err){
+        			callback(err);
+        		}else{
+        			//if we already have items in the collection
+        			if(data){
+						callback("destinationCollection already populated, if you wish to re-populate, drop the collection.");
+        			}
+        			else{
+        				//if it's empty we add our destinations
+        				collection.insert(destinations, function(err, data) {
+						    if (err){ 
+						    	callback(err);
+						    }
+						    if (data){
+						    	callback(null);
+						    }
+						});
+        			}
+        		}
+    		});			
 
 			
 		}
@@ -179,6 +223,15 @@ module.exports = {
 			}
 		});
 
+		addFlightDestinations(function(err){
+			if(err){
+				console.log(err);
+			}
+			else{
+				console.log("successfuly added destinations to the database");
+			}
+		});
+
 
 		getRoutes("JNB",function(err,data){
 			if(err){
@@ -186,7 +239,7 @@ module.exports = {
 			}
 			else{
 				console.log("checking data");
-				console.log(data);
+				//console.log(data);
 			}
 		});
 
