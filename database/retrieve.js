@@ -3,7 +3,14 @@ var util = require('util');
 var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
+
 var file_location_codes = "./database/location_destination.txt";
+var file_locations = "./database/locations.txt";
+//var file_asia_locations = "./database/europe_locations.txt";
+//var file_africa_locations = "./database/africa_locations.txt";
+//var file_south_america_locations = "./database/south_america_locations.txt";
+//var file_north_america_locations = "./database/north_america_locations.txt";
+
 
 function getLocation(location,callback){
     var collection = db.collection('locationCollection');
@@ -117,7 +124,7 @@ function addFlightDestinations(callback){
 	readFile(file_location_codes,function(err,data){
 		if(err){
 			console.log("error when retrieving desination codes from file: "+ err);
-			callback(err);
+			callback(null,err);
 		}else{
 			var line_data = data.split(/\r?\n/);
 
@@ -131,6 +138,47 @@ function addFlightDestinations(callback){
 				if (!(inArray(destinations,{location:destination},"location"))){
 					destinations.push({location:destination});
 				}
+			}
+
+			callback(null,destinations);
+
+			
+		}
+	});
+}
+
+// get location name, country and continent name and add to available destinations
+function addDestinationDetails(destinations,callback){
+	console.log("accessing destination information from file");
+	readFile(file_locations,function(err,data){
+		if(err){
+			console.log("error when retrieving desination information from file: "+ err);
+			callback(err);
+		}else{
+			//split input file into lines
+			var line_data = data.split(/\r?\n/);
+
+			
+
+			for(var i =0; i< line_data.length; i++){
+				var line = line_data[i].split("-");
+
+				//no extra info
+				if(line.length === 3){
+					var location_name = line[0].trim();
+					var code = line[1].trim();
+					var country = line[2].trim();
+
+					//check code against each destination and add to destinations array
+					for(var j=0; j<destinations.length; j++){
+						if(destinations[j].location === code){
+							destinations[j].location_name = location_name;
+							destinations[j].country = country;
+						}
+					}
+				}
+
+				//do extra info steps here
 			}
 
 			// Set our collection
@@ -156,10 +204,12 @@ function addFlightDestinations(callback){
 						});
         			}
         		}
-    		});			
+    		});	
 
-			
+
+
 		}
+
 	});
 }
 
@@ -223,16 +273,25 @@ module.exports = {
 			}
 		});
 
-		addFlightDestinations(function(err){
+		addFlightDestinations(function(err,data){
 			if(err){
 				console.log(err);
 			}
 			else{
-				console.log("successfuly added destinations to the database");
+				addDestinationDetails(data,function(err){
+					if (err){
+						console.log(err);
+					}else{
+						console.log("successfuly added destinations and information to the database");
+					}
+
+				});
+
+				
 			}
 		});
 
-
+		/*
 		getRoutes("JNB",function(err,data){
 			if(err){
 				console.log(err);
@@ -242,6 +301,7 @@ module.exports = {
 				//console.log(data);
 			}
 		});
+		*/
 
 		//query dbpedia for images of all port cities in south africa
 		//var query = "SELECT ?s ?q WHERE {   ?s ?o <http://dbpedia.org/class/yago/PortCitiesInSouthAfrica>;     foaf:depiction ?q }limit 10";
