@@ -279,7 +279,7 @@ function addDestinationCollection(location,keyword,callback){
     		}
     	}
 
-    }
+    });
 
 
 
