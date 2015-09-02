@@ -280,16 +280,41 @@ function addDestinationCollection(location,keyword,callback){
     	}
 
     });
-
-
-
 }
 
 //add a new keyword to the keywordCollection
 function addKeywordCollection(){
 
-		
-}
+	// Set our collection
+    var collection = db.collection('keywordCollection');
+
+    //check if we can find the location to update
+    collection.findOne({keyword:keyword},function(err,data){
+    	if(err){
+    		callback(err)
+    	}else{
+    		if (data){
+    			var locations = data.locations;
+    			if(locations.indexOf(location) === -1){
+    				collection.update({keyword:keyword}, {'$push':{locations:location}}, function(err) {
+        				if (err){
+        					callback(err);
+        				}else{
+
+        					callback(null);
+        				}
+    				});
+    			}
+    		}
+    		//destination does not exist
+    		else{
+    			callback("keyword does not exist");
+    		}
+    	}
+
+    });
+}	
+
 
 
 
