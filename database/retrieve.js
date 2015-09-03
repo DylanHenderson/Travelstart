@@ -283,7 +283,7 @@ function addDestinationCollection(location,keyword,callback){
 }
 
 //add a new keyword to the keywordCollection
-function addKeywordCollection(){
+function addKeywordCollection(location,keyword,callback){
 
 	// Set our collection
     var collection = db.collection('keywordCollection');
@@ -306,15 +306,43 @@ function addKeywordCollection(){
     				});
     			}
     		}
-    		//destination does not exist
+    		//keyword does not exist so add it
     		else{
-    			callback("keyword does not exist");
+    			collection.insert({keyword:keyword, locations: [location]}, function(err) {
+    				if (err){
+    					callback(err);
+    				}else{
+    					console.log("added new keyword-location pair to database");
+    					callback(null);
+    				}
+    			});
     		}
     	}
 
     });
 }	
 
+function addKeywords(locations,keywords){
+	//add such keywords to the location (if given location) and normalize weighting
+	for(var i = 0; i<locations.length; i++ ){
+		//update location collection
+		for(var j=0; j<keywords.length; j++){
+			addKeyword(locations[i],keywords[j],function(err){
+				if(err){
+					console.log(err);
+				}else{
+					console.log("successfully added a keyword to the locationCollection and the keywordCollection")
+				}
+			});
+
+
+		}
+		//find location, if found, add to keywords.
+		//Note we're not so worried about the async nature here, this can take as long as it wants.
+
+		//update keyword collection
+	}
+}
 
 
 
@@ -324,16 +352,22 @@ module.exports = {
 	retrieve: function(query, callback){
 		console.log('database querying');
 		
-
+		query = {
+				locations:["NYC","LON"],
+				keywords:["cold","urban"]				
+		}
 		var locations = query.locations;
 		var keywords = query.keywords;
 		var results = [];
 		console.log(locations);
 		console.log(keywords);
 
+		addKeywords(locations,keywords);
+
 
 		//retrieve results for user
 		if(keywords){
+			console.log("retrieving results for user")
 			var keyword = keywords[0];	
 			getKeyword(keyword,function(err,docs){
 				//fix order
@@ -347,25 +381,9 @@ module.exports = {
 
 			});
 
-			//add such keywords to the location (if given location) and normalize weighting
-			for(var i = 0; i<locations.length; i++ ){
-				//update location collection
-				for(var j=0; j<keywords.length; j++){
-					addKeyword(locations[i],keywords[j],function(err){
-						if(err){
-							console.log(err);
-						}else{
-							console.log("successfully added a keyword to the locationCollection and the keywordCollection")
-						}
-					});
+			
 
-
-				}
-				//find location, if found, add to keywords.
-				//Note we're not so worried about the async nature here, this can take as long as it wants.
-
-				//update keyword collection
-			}
+			
 
 			//location_updates = {location:"NYC"},{'$pull':{keywords:'FUN'}}
 			//update()
@@ -414,6 +432,13 @@ module.exports = {
 				
 			}
 		});
+		/*
+		retrieve({},function(results,err){
+
+
+			console.log(err);
+		});
+*/
 
 		/*
 		getRoutes("JNB",function(err,data){
