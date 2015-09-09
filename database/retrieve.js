@@ -3,6 +3,7 @@ var util = require('util');
 var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
+var endpoint = 'http://dbpedia.org/sparql';
 
 var file_location_codes = "./database/location_destination.txt";
 var file_locations = "./database/locations.txt";
@@ -344,6 +345,79 @@ function addKeywords(locations,keywords){
 	}
 }
 
+//get image montages for all our destinations from DBPEDIA
+function populateImageAddresses(){
+
+	//query for destination
+	var query = "SELECT ?s ?o WHERE { ?s dbpedia2:name \"Athens\"@en; foaf:depiction ?o}";
+	var client = new SparqlClient(endpoint);
+
+
+	client.query(query).execute(function(error, results) {
+		if(error){
+			console.log("error when retrieving results from DBPedia: " + error);
+		}else{
+			if(results){
+				console.log("retrieving the following from DBPedia");
+				console.log(results);
+
+				for(var i in results.results.bindings){
+
+			      // Get our values to store 
+			      var locationName = results.results.bindings[i].s.value;
+
+			      //we want the specific country image
+			        if (picName == ":Athens"){
+				      	var imageUrl = results.results.bindings[i].q.value;
+
+
+						// Set our collection
+						var collection = db.collection('destinationCollection');
+
+						collection.findOne({location:locationName}, function(err, result) {
+							if(err){
+								console.log(err);
+							}else{
+								//if already exists
+								if(result){
+									console.log("location already in database");
+
+
+									// Submit to the DB
+							        collection.update({
+							            "location": locationName
+							        },{
+							        	"imageUrl": imageUrl
+							        },
+							        function (err, result) {
+							            if (err) {
+							              // If it failed, return error
+							              res.send("There was a problem adding the information to the database.");
+							            }
+							            else {
+							              console.log("successfully added an image to the database");
+							            }
+							        });
+
+
+								}else{
+									console.log("No image available for destination name: "+locationName);
+
+								}
+							}
+						});
+
+
+
+			        }
+
+				}
+			}
+		}
+	});
+
+}
+
 
 
 module.exports = {
@@ -432,13 +506,7 @@ module.exports = {
 				
 			}
 		});
-		/*
-		retrieve({},function(results,err){
 
-
-			console.log(err);
-		});
-*/
 
 		/*
 		getRoutes("JNB",function(err,data){

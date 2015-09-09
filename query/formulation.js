@@ -243,7 +243,7 @@ module.exports = {
 		
 		var results;
 		results = {
-			keywords,
+			keywords: keywords,
 			locations:[]
 		};
 		
