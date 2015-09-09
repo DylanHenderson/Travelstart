@@ -3,7 +3,7 @@ var util = require('util');
 var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
-var endpoint = 'http://dbpedia.org/sparql';
+
 
 var file_location_codes = "./database/location_destination.txt";
 var file_locations = "./database/locations.txt";
@@ -348,11 +348,16 @@ function addKeywords(locations,keywords){
 //get image montages for all our destinations from DBPEDIA
 function populateImageAddresses(){
 
+
+	var endpoint = 'http://dbpedia.org/sparql';
 	//query for destination
-	var query = "SELECT ?s ?o WHERE { ?s dbpedia2:name \"Athens\"@en; foaf:depiction ?o}";
+	var query = "SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> \"Athens\"@en; foaf:depiction ?q}";
 	var client = new SparqlClient(endpoint);
 
 
+
+
+	
 	client.query(query).execute(function(error, results) {
 		if(error){
 			console.log("error when retrieving results from DBPedia: " + error);
@@ -365,16 +370,18 @@ function populateImageAddresses(){
 
 			      // Get our values to store 
 			      var locationName = results.results.bindings[i].s.value;
+			      console.log(locationName);
 
 			      //we want the specific country image
-			        if (picName == ":Athens"){
+			        if (locationName == "http://dbpedia.org/resource/Athens"){
 				      	var imageUrl = results.results.bindings[i].q.value;
+				      	console.log(imageUrl);
 
 
 						// Set our collection
 						var collection = db.collection('destinationCollection');
 
-						collection.findOne({location:locationName}, function(err, result) {
+						collection.findOne({location_name:"Athens"}, function(err, result) {
 							if(err){
 								console.log(err);
 							}else{
@@ -385,9 +392,9 @@ function populateImageAddresses(){
 
 									// Submit to the DB
 							        collection.update({
-							            "location": locationName
+							            location_name: "Athens"
 							        },{
-							        	"imageUrl": imageUrl
+							        	$set:{imageUrl: imageUrl}
 							        },
 							        function (err, result) {
 							            if (err) {
@@ -401,7 +408,7 @@ function populateImageAddresses(){
 
 
 								}else{
-									console.log("No image available for destination name: "+locationName);
+									console.log("the following destination is not in the database: "+locationName);
 
 								}
 							}
@@ -415,6 +422,7 @@ function populateImageAddresses(){
 			}
 		}
 	});
+	
 
 }
 
@@ -478,6 +486,8 @@ module.exports = {
 	populate: function(callback){
 		
 		var endpoint = 'http://dbpedia.org/sparql';
+
+		populateImageAddresses();
 
 		//add location->destination routes from text file
 		addFlightRoutes(function(err){
