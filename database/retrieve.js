@@ -154,7 +154,7 @@ function addDestinationDetails(destinations,callback){
 	readFile(file_locations,function(err,data){
 		if(err){
 			console.log("error when retrieving desination information from file: "+ err);
-			callback(err);
+			callback(err,null);
 		}else{
 			//split input file into lines
 			var line_data = data.split(/\r?\n/);
@@ -184,6 +184,9 @@ function addDestinationDetails(destinations,callback){
 				//do extra info steps here
 			}
 
+			callback(null,destinations);
+
+			/*
 			// Set our collection
 		    var collection = db.collection('destinationCollection');
 
@@ -210,7 +213,7 @@ function addDestinationDetails(destinations,callback){
     		});	
 
 
-
+		    */
 		}
 
 	});
@@ -346,26 +349,97 @@ function addKeywords(locations,keywords){
 }
 
 //get image montages for all our destinations from DBPEDIA
-function populateImageAddresses(){
+//locations: [{location: "NYC", location_name: "New York City",keywords:[]}]
+function populateImageAddresses(locations,callback){
+
+	//first construct our DBPEDIA query for all our locations
+	//example shortened query:
+	/*
+	SELECT * {
+    {
+        SELECT ?s ?q WHERE {
+            ?s <http://dbpedia.org/property/name> "Cape Town"@en;
+               foaf:depiction ?q
+        }
+    } UNION {
+        SELECT ?s ?q WHERE {
+            ?s <http://dbpedia.org/property/name> "Athens"@en;
+               foaf:depiction ?q
+        }
+    }
+    */
+	
+
 
 
 	var endpoint = 'http://dbpedia.org/sparql';
-	//query for destination
-	var query = "SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> \"Athens\"@en; foaf:depiction ?q}";
 	var client = new SparqlClient(endpoint);
 
+	//we have to make multiple queries cause dbpedia limits us to about 200 unions, we have about 600 locations
 
+	var querys = [];
+	var query_start = "SELECT * { ";
+	var query_end = "}";
+
+	//how many queries we need to make
+	var query_count = Math.ceil((locations.length)/200);
+
+
+	//cycle through query_count
+	//if i== to query count, set limits to the length
+
+	for(var i = 0; i< query_count; i++){
+		//add the start of the query
+		querys.push(query_start);
+
+		var j_end;
+		var j_start = i*200;
+		//we are creating the last query
+		if(i == query_count-1){
+			j_end = locations.length;
+		}else{
+			j_end = (i+1)*200;
+		}
+
+
+		//for each set of locations update the corresponding i'th query
+
+		for(var j= j_start; j< j_end; j++){
+			if(j!=j_end-1)
+				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[i].location_name + "\"" +"@en; foaf:depiction ?q } } UNION"
+
+			if(j==j_end-1)
+				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[i].location_name + "\"" +"@en; foaf:depiction ?q } }"
+		}
+
+		querys[i]+=query_end;
+
+
+	}
+
+
+
+	//cycle through locations with j
+	//If j starts at i *200; if i is query count go up to locations.length else go up to 200*(i+1)
+
+	//function that calls client.query. on return updates a count, untill count is query count, method must call it self and make query.
+
+	//add results of all querys to database
 
 
 	
-	client.query(query).execute(function(error, results) {
+	//console.log(query);
+
+
+	
+	client.query(querys[2]).execute(function(error, results) {
 		if(error){
 			console.log("error when retrieving results from DBPedia: " + error);
 		}else{
 			if(results){
-				console.log("retrieving the following from DBPedia");
-				console.log(results);
-
+				console.log("retrieving images from DBPedia");
+				//console.log(results);
+				/*
 				for(var i in results.results.bindings){
 
 			      // Get our values to store 
@@ -418,7 +492,7 @@ function populateImageAddresses(){
 
 			        }
 
-				}
+				}*/
 			}
 		}
 	});
@@ -487,7 +561,7 @@ module.exports = {
 		
 		var endpoint = 'http://dbpedia.org/sparql';
 
-		populateImageAddresses();
+		
 
 		//add location->destination routes from text file
 		addFlightRoutes(function(err){
@@ -499,16 +573,28 @@ module.exports = {
 			}
 		});
 
+
+		//initial population of database procedure
 		addFlightDestinations(function(err,data){
 			if(err){
 				console.log(err);
 			}
 			else{
-				addDestinationDetails(data,function(err){
+				addDestinationDetails(data,function(err,destinations){
 					if (err){
 						console.log(err);
 					}else{
 						console.log("successfuly added destinations and information to the database");
+
+						//now add image urls to the the destinations and push them to the database
+						populateImageAddresses(destinations,function(err){
+							if(err){
+								console.log("error adding image addresses + information to database: "+err);
+							}else{
+								console.log("successfuly added destinations and information to the database");
+							}
+
+						});
 					}
 
 				});
