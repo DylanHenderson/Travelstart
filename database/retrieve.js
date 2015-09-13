@@ -3,14 +3,13 @@ var util = require('util');
 var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
+	var endpoint = 'http://dbpedia.org/sparql';
+	var client = new SparqlClient(endpoint);
 
 
 var file_location_codes = "./database/location_destination.txt";
 var file_locations = "./database/locations.txt";
-//var file_asia_locations = "./database/europe_locations.txt";
-//var file_africa_locations = "./database/africa_locations.txt";
-//var file_south_america_locations = "./database/south_america_locations.txt";
-//var file_north_america_locations = "./database/north_america_locations.txt";
+
 
 
 function getLocation(location,callback){
@@ -186,34 +185,6 @@ function addDestinationDetails(destinations,callback){
 
 			callback(null,destinations);
 
-			/*
-			// Set our collection
-		    var collection = db.collection('destinationCollection');
-
-		    collection.findOne({},function(err,data){
-        		if(err){
-        			callback(err);
-        		}else{
-        			//if we already have items in the collection
-        			if(data){
-						callback("destinationCollection already populated, if you wish to re-populate, drop the collection.");
-        			}
-        			else{
-        				//if it's empty we add our destinations
-        				collection.insert(destinations, function(err, data) {
-						    if (err){ 
-						    	callback(err);
-						    }
-						    if (data){
-						    	callback(null);
-						    }
-						});
-        			}
-        		}
-    		});	
-
-
-		    */
 		}
 
 	});
@@ -348,6 +319,55 @@ function addKeywords(locations,keywords){
 	}
 }
 
+//recursive function to perform as many dbpedia queries as we need
+function dbpediaQueries(queries,query_count,locations,callback){
+	if (query_count==0){
+		callback(null,locations);
+	}else{
+		
+
+
+
+		client.query(queries[query_count-1]).execute(function(error, results) {
+			if(error){
+				console.log("error when retrieving results from DBPedia: " + error);
+				callback(error,null);
+			}else{
+				if(results){
+					console.log("retrieving images from DBPedia");
+					dbpediaQueries(queries,query_count-1,locations,callback);
+
+					for(var i in results.results.bindings){
+
+						//what is the location name for the depiction
+				    	var locationName = results.results.bindings[i].s.value;
+
+				        //we want the specific country image, not stuff related to it that dbpedia returns
+				        //go through all our locations to see if there's a match
+
+				        for(var j = 0; j< locations.length; j++){
+				        	//TODO: work on finding some subset if we cant find an exact match
+					        if (locationName == "http://dbpedia.org/resource/"+locations[j].location_name){
+						      	var imageUrl = results.results.bindings[i].q.value;
+						      	locations[j].imageUrl = imageUrl;
+
+							}
+				        }
+
+					}
+				}
+			}	
+		});
+
+		
+
+
+
+
+	}
+
+}
+
 //get image montages for all our destinations from DBPEDIA
 //locations: [{location: "NYC", location_name: "New York City",keywords:[]}]
 function populateImageAddresses(locations,callback){
@@ -372,8 +392,7 @@ function populateImageAddresses(locations,callback){
 
 
 
-	var endpoint = 'http://dbpedia.org/sparql';
-	var client = new SparqlClient(endpoint);
+
 
 	//we have to make multiple queries cause dbpedia limits us to about 200 unions, we have about 600 locations
 
@@ -416,87 +435,38 @@ function populateImageAddresses(locations,callback){
 
 
 	}
-
-
-
-	//cycle through locations with j
-	//If j starts at i *200; if i is query count go up to locations.length else go up to 200*(i+1)
-
-	//function that calls client.query. on return updates a count, untill count is query count, method must call it self and make query.
-
-	//add results of all querys to database
-
-
-	
-	//console.log(query);
-
-
-	
-	client.query(querys[2]).execute(function(error, results) {
-		if(error){
-			console.log("error when retrieving results from DBPedia: " + error);
+	//fix spelling
+	dbpediaQueries(querys,query_count,locations,function(err,updated_locations){
+		//console.log(updated_locations);
+		if(err){
+			callback(err);
 		}else{
-			if(results){
-				console.log("retrieving images from DBPedia");
-				//console.log(results);
-				/*
-				for(var i in results.results.bindings){
+			// Set our collection
+		    var collection = db.collection('destinationCollection');
 
-			      // Get our values to store 
-			      var locationName = results.results.bindings[i].s.value;
-			      console.log(locationName);
-
-			      //we want the specific country image
-			        if (locationName == "http://dbpedia.org/resource/Athens"){
-				      	var imageUrl = results.results.bindings[i].q.value;
-				      	console.log(imageUrl);
-
-
-						// Set our collection
-						var collection = db.collection('destinationCollection');
-
-						collection.findOne({location_name:"Athens"}, function(err, result) {
-							if(err){
-								console.log(err);
-							}else{
-								//if already exists
-								if(result){
-									console.log("location already in database");
-
-
-									// Submit to the DB
-							        collection.update({
-							            location_name: "Athens"
-							        },{
-							        	$set:{imageUrl: imageUrl}
-							        },
-							        function (err, result) {
-							            if (err) {
-							              // If it failed, return error
-							              res.send("There was a problem adding the information to the database.");
-							            }
-							            else {
-							              console.log("successfully added an image to the database");
-							            }
-							        });
-
-
-								}else{
-									console.log("the following destination is not in the database: "+locationName);
-
-								}
-							}
+		    collection.findOne({},function(err,data){
+	    		if(err){
+	    			callback(err);
+	    		}else{
+	    			//if we already have items in the collection
+	    			if(data){
+						callback("destinationCollection already populated, if you wish to re-populate, drop the collection.");
+	    			}
+	    			else{
+	    				//if it's empty we add our destinations
+	    				collection.insert(updated_locations, function(err, data) {
+						    if (err){ 
+						    	callback(err);
+						    }
+						    if (data){
+						    	callback(null);
+						    }
 						});
-
-
-
-			        }
-
-				}*/
-			}
+	    			}
+	    		}
+			});	
 		}
 	});
-	
 
 }
 
