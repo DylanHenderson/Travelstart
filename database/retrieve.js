@@ -186,7 +186,66 @@ function addDestinationDetails(destinations,callback){
 				//do extra info steps here
 			}
 
-			callback(null,destinations);
+			//get additional location information that wasnt on travelstarts website. Only updates sites that have none
+			console.log("accessing destination information from file2");
+			readFile(file_locations_new,function(err,data){
+				if(err){
+					console.log("error when retrieving desination information from file: "+ err);
+					callback(err,null);
+				}else{
+					//split input file into lines
+					var line_data = data.split(/\r?\n/);
+
+					
+
+					for(var i =0; i< line_data.length; i++){
+						var line = line_data[i].split(/[	]+/);
+						
+
+
+
+
+						//no extra info
+						if(line.length === 3){
+
+							//remove any extra information that is displayed next to name (comma)
+							var line_comma = line[0].split(",");
+							if(line_comma.length>0){
+								line[0]=line_comma[0];
+							}
+
+							//TODO: check alternative names in brackets
+
+							//console.log(line);
+							var location_name = line[0].trim();
+							var code = line[2].trim();
+							var country = line[1].trim();
+							
+							//check code against each destination and add to destinations array
+							for(var j=0; j<destinations.length; j++){
+								//destinations[j].keywords = [];
+								if(destinations[j].location === code){
+									//wasnt found in prev file but was found in this file
+									if(!destinations.location_name){
+										destinations[j].location_name = location_name;
+										destinations[j].country = country;
+									}
+
+
+								}
+							}
+						}
+
+						//do extra info steps here
+					}
+
+					callback(null,destinations);
+
+				}
+
+			});
+
+			//callback(null,destinations);
 
 		}
 
