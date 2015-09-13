@@ -8,6 +8,7 @@ var fs = require('fs');
 
 
 var file_location_codes = "./database/location_destination.txt";
+var file_locations_new = "./database/locations_new.txt";
 var file_locations = "./database/locations.txt";
 
 
@@ -147,6 +148,8 @@ function addFlightDestinations(callback){
 	});
 }
 
+
+
 // get location name, country and continent name and add to available destinations
 function addDestinationDetails(destinations,callback){
 	console.log("accessing destination information from file");
@@ -189,6 +192,64 @@ function addDestinationDetails(destinations,callback){
 
 	});
 }
+
+/*
+// get location name, country and continent name and add to available destinations
+function addDestinationDetails(destinations,callback){
+	console.log("accessing destination information from file");
+	readFile(file_locations_new,function(err,data){
+		if(err){
+			console.log("error when retrieving desination information from file: "+ err);
+			callback(err,null);
+		}else{
+			//split input file into lines
+			var line_data = data.split(/\r?\n/);
+
+			
+
+			for(var i =0; i< line_data.length; i++){
+				var line = line_data[i].split(/[	]+/);
+				
+
+
+
+
+				//no extra info
+				if(line.length === 3){
+
+					//remove any extra information that is displayed next to name (comma)
+					var line_comma = line[0].split(",");
+					if(line_comma.length>0){
+						line[0]=line_comma[0];
+					}
+
+					//TODO: check alternative names in brackets
+
+					console.log(line);
+					var location_name = line[0].trim();
+					var code = line[2].trim();
+					var country = line[1].trim();
+					
+					//check code against each destination and add to destinations array
+					for(var j=0; j<destinations.length; j++){
+						destinations[j].keywords = [];
+						if(destinations[j].location === code){
+							destinations[j].location_name = location_name;
+							destinations[j].country = country;
+
+						}
+					}
+				}
+
+				//do extra info steps here
+			}
+
+			callback(null,destinations);
+
+		}
+
+	});
+}*/
 
 function readFile(filename, callback){
 	fs.readFile(filename, 'utf8', function(err, data) {
@@ -335,7 +396,7 @@ function dbpediaQueries(queries,query_count,locations,callback){
 			}else{
 				if(results){
 					console.log("retrieving images from DBPedia");
-					dbpediaQueries(queries,query_count-1,locations,callback);
+					
 
 					for(var i in results.results.bindings){
 
@@ -347,7 +408,11 @@ function dbpediaQueries(queries,query_count,locations,callback){
 
 				        for(var j = 0; j< locations.length; j++){
 				        	//TODO: work on finding some subset if we cant find an exact match
-					        if (locationName == "http://dbpedia.org/resource/"+locations[j].location_name){
+				        	//if(locations[j].location_name ==="Athens" && locationName==="http://dbpedia.org/resource/Athens"){
+				        	//	console.log(locationName);
+				        	//	console.log(results.results.bindings[i].q.value);
+				        	//}
+					        if (locationName === "http://dbpedia.org/resource/"+locations[j].location_name){
 						      	var imageUrl = results.results.bindings[i].q.value;
 						      	locations[j].imageUrl = imageUrl;
 
@@ -355,7 +420,9 @@ function dbpediaQueries(queries,query_count,locations,callback){
 				        }
 
 					}
+					
 				}
+				dbpediaQueries(queries,query_count-1,locations,callback);
 			}	
 		});
 
@@ -425,16 +492,95 @@ function populateImageAddresses(locations,callback){
 
 		for(var j= j_start; j< j_end; j++){
 			if(j!=j_end-1)
-				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[i].location_name + "\"" +"@en; foaf:depiction ?q } } UNION"
+				if(locations[j].location_name)
+				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[j].location_name + "\"" +"@en; foaf:depiction ?q } } UNION"
 
 			if(j==j_end-1)
-				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[i].location_name + "\"" +"@en; foaf:depiction ?q } }"
+				querys[i] += " { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> " + "\""+locations[j].location_name + "\"" +"@en; foaf:depiction ?q } }"
 		}
 
 		querys[i]+=query_end;
-
+		//console.log(querys[i]);
 
 	}
+
+	/*
+	//console.log(querys[1]);
+	client.query(querys[1]).execute(function(error, results) {
+		if(error){
+			console.log("error when retrieving results from DBPedia: " + error);
+			callback(error,null);
+		}else{
+			if(results){
+				console.log("retrieving images from DBPedia");
+				
+
+				for(var i in results.results.bindings){
+
+					//what is the location name for the depiction
+			    	var locationName = results.results.bindings[i].s.value;
+
+			        //we want the specific country image, not stuff related to it that dbpedia returns
+			        //go through all our locations to see if there's a match
+
+			        for(var j = 0; j< locations.length; j++){
+			        	//TODO: work on finding some subset if we cant find an exact match
+			        	//if(locations[j].location_name ==="Athens" && locationName==="http://dbpedia.org/resource/Athens"){
+			        	//	console.log(locationName);
+			        	//	console.log(results.results.bindings[i].q.value);
+			        	//}
+				        if (locationName === "http://dbpedia.org/resource/"+locations[j].location_name){
+					      	var imageUrl = results.results.bindings[i].q.value;
+					      	locations[j].imageUrl = imageUrl;
+
+						}
+			        }
+
+				}
+				
+			}
+		}	
+	});*/
+
+
+
+    var collection = db.collection('destinationCollection');
+    
+    collection.findOne({},function(err,data){
+		if(err){
+			callback(err);
+		}else{
+			//if we already have items in the collection
+			if(data){
+				callback("destinationCollection already populated, if you wish to re-populate, drop the collection.");
+			}
+			else{
+				//if it's empty we add our destinations
+
+				dbpediaQueries(querys,query_count,locations,function(err,updated_locations){
+					if(err){
+						callback(err);
+					}else{
+
+						collection.insert(updated_locations, function(err, data) {
+						    if (err){ 
+						    	callback(err);
+						    }
+						    if (data){
+						    	callback(null);
+						    }
+						});
+					}
+				});
+
+
+
+
+			}
+		}
+	});	
+
+	/*
 	//fix spelling
 	dbpediaQueries(querys,query_count,locations,function(err,updated_locations){
 		//console.log(updated_locations);
@@ -443,7 +589,7 @@ function populateImageAddresses(locations,callback){
 		}else{
 			// Set our collection
 		    var collection = db.collection('destinationCollection');
-
+		    
 		    collection.findOne({},function(err,data){
 	    		if(err){
 	    			callback(err);
@@ -466,7 +612,7 @@ function populateImageAddresses(locations,callback){
 	    		}
 			});	
 		}
-	});
+	});*/
 
 }
 
