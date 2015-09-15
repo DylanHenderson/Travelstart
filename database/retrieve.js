@@ -6,13 +6,13 @@ var fs = require('fs');
 	var endpoint = 'http://dbpedia.org/sparql';
 	var client = new SparqlClient(endpoint);
 
-
+/*
 var file_location_codes = "./database/location_destination.txt";
 var file_locations_new = "./database/locations_new.txt";
 var file_locations = "./database/locations.txt";
+*/
 
-
-
+/*
 function getLocation(location,callback){
     var collection = db.collection('destinationCollection');
     collection.findOne({location:location},function(e,docs){
@@ -43,8 +43,33 @@ function getRoutes(departure_location,callback){
         callback(e,docs);
     });
 }
+*/
 
+function fetch(query,collectionName,callback){
+    var collection = db.collection(collectionName);
+    
+    collection.find(keyword_query).toArray(function(err,data){
+        //callback(e,docs);
+        if(err){
+        	callback(err,null);
+        }else{
+        	callback(null,data);
+        }
 
+    });
+}
+
+module.exports = {
+
+	getResults: function(query,callback){
+		var keyword_query = {"keyword":{"$in":query.locations}};
+		fetch(keyword_query,"keywordCollection",function(err,results){
+			callback(err,results);
+		});
+	}
+}
+
+/*
 //first create a collection of location ->destination objects so we know which routes we can query
 function addFlightRoutes(callback){
 	// read in location_destination.txt and store in database
@@ -117,8 +142,9 @@ function addFlightRoutes(callback){
 		}
 	});
 
-}
+}*/
 
+/*
 //checks if an object is in an array
 function inArray(array,object,key){
 	for(var i =0; i< array.length; i++){
@@ -128,7 +154,9 @@ function inArray(array,object,key){
 	}
 	return false;
 }
+*/
 
+/*
 //Create a collection of the possible destinations that we can populate with more information
 function addFlightDestinations(callback){
 	console.log("accessing destinations from file");
@@ -156,10 +184,10 @@ function addFlightDestinations(callback){
 			
 		}
 	});
-}
+}*/
 
 
-
+/*
 // get location name, country and continent name and add to available destinations
 function addDestinationDetails(destinations,callback){
 	console.log("accessing destination information from file");
@@ -261,9 +289,10 @@ function addDestinationDetails(destinations,callback){
 
 	});
 }
+*/
 
 
-
+/*
 function readFile(filename, callback){
 	fs.readFile(filename, 'utf8', function(err, data) {
 		if (err){
@@ -272,10 +301,10 @@ function readFile(filename, callback){
 			callback(null,data);
 		}
 	});
-}
+}*/
 
 
-
+/*
 function addKeywordCollection(location,keyword,callback){
 	// Set our collection
     var collection = db.collection('keywordCollection');
@@ -313,10 +342,11 @@ function addKeywordCollection(location,keyword,callback){
 
 
 }
+*/
 
 
 
-
+/*
 function addKeywords(locations,keywords){
 	//add such keywords to the location (if given location) and normalize weighting
 	for(var i = 0; i<locations.length; i++ ){
@@ -338,62 +368,11 @@ function addKeywords(locations,keywords){
 		//update keyword collection
 	}
 }
-
-//recursive function to perform as many dbpedia queries as we need
-function dbpediaQueries(queries,query_count,locations,callback){
-	if (query_count==0){
-		callback(null,locations);
-	}else{
-		
+*/
 
 
 
-		client.query(queries[query_count-1]).execute(function(error, results) {
-			if(error){
-				console.log("error when retrieving results from DBPedia: " + error);
-				callback(error,null);
-			}else{
-				if(results){
-					console.log("retrieving images from DBPedia");
-					
-
-					for(var i in results.results.bindings){
-
-						//what is the location name for the depiction
-				    	var locationName = results.results.bindings[i].s.value;
-
-				        //we want the specific country image, not stuff related to it that dbpedia returns
-				        //go through all our locations to see if there's a match
-
-				        for(var j = 0; j< locations.length; j++){
-				        	//TODO: work on finding some subset if we cant find an exact match
-				        	//if(locations[j].location_name ==="Athens" && locationName==="http://dbpedia.org/resource/Athens"){
-				        	//	console.log(locationName);
-				        	//	console.log(results.results.bindings[i].q.value);
-				        	//}
-					        if (locationName === "http://dbpedia.org/resource/"+locations[j].location_name){
-						      	var imageUrl = results.results.bindings[i].q.value;
-						      	locations[j].imageUrl = imageUrl;
-
-							}
-				        }
-
-					}
-					
-				}
-				dbpediaQueries(queries,query_count-1,locations,callback);
-			}	
-		});
-
-		
-
-
-
-
-	}
-
-}
-
+/*
 //get image montages for all our destinations from DBPEDIA
 //locations: [{location: "NYC", location_name: "New York City",keywords:[]}]
 function populateImageAddresses(locations,callback){
@@ -413,7 +392,7 @@ function populateImageAddresses(locations,callback){
                foaf:depiction ?q
         }
     }
-    */
+    
 	
 
 
@@ -502,9 +481,9 @@ function populateImageAddresses(locations,callback){
 		}
 	});	
 }
+*/
 
-
-
+/*
 module.exports = {
 
 	//get results from database based on a query incluyding locations and keywords
@@ -617,7 +596,7 @@ module.exports = {
 
 
 };
-
+*/
 
 
 

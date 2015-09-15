@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var query = require('../query/formulation.js');
-var db = require('../database/retrieve.js');
+var db = require('../database/database.js');
 var ranking = require('../ranking/rank.js');
 
 /* GET home page. */
