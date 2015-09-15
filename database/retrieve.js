@@ -14,21 +14,31 @@ var file_locations = "./database/locations.txt";
 
 
 function getLocation(location,callback){
-    var collection = db.collection('locationCollection');
-    collection.findOne({locationName:location},function(e,docs){
+    var collection = db.collection('destinationCollection');
+    collection.findOne({location:location},function(e,docs){
         callback(e,docs);
     });
 }
 
-function getKeyword(keyword,callback){
+function getResults(query,callback){
     var collection = db.collection('keywordCollection');
-    collection.findOne({keyword:keyword},function(e,docs){
-        callback(e,docs);
+    console.log(query);
+    var keyword_query = {"keyword":{"$in":["cold"]}};
+    collection.find(keyword_query).toArray(function(err,data){
+        //callback(e,docs);
+        if(err){
+        	callback(err);
+        }else{
+        	callback(data);
+        }
+
     });
 }
 
 function getRoutes(departure_location,callback){
     var collection = db.collection('routesCollection');
+
+
     collection.findOne({location:departure_location},function(e,docs){
         callback(e,docs);
     });
@@ -252,63 +262,7 @@ function addDestinationDetails(destinations,callback){
 	});
 }
 
-/*
-// get location name, country and continent name and add to available destinations
-function addDestinationDetails(destinations,callback){
-	console.log("accessing destination information from file");
-	readFile(file_locations_new,function(err,data){
-		if(err){
-			console.log("error when retrieving desination information from file: "+ err);
-			callback(err,null);
-		}else{
-			//split input file into lines
-			var line_data = data.split(/\r?\n/);
 
-			
-
-			for(var i =0; i< line_data.length; i++){
-				var line = line_data[i].split(/[	]+/);
-				
-
-
-
-
-				//no extra info
-				if(line.length === 3){
-
-					//remove any extra information that is displayed next to name (comma)
-					var line_comma = line[0].split(",");
-					if(line_comma.length>0){
-						line[0]=line_comma[0];
-					}
-
-					//TODO: check alternative names in brackets
-
-					console.log(line);
-					var location_name = line[0].trim();
-					var code = line[2].trim();
-					var country = line[1].trim();
-					
-					//check code against each destination and add to destinations array
-					for(var j=0; j<destinations.length; j++){
-						destinations[j].keywords = [];
-						if(destinations[j].location === code){
-							destinations[j].location_name = location_name;
-							destinations[j].country = country;
-
-						}
-					}
-				}
-
-				//do extra info steps here
-			}
-
-			callback(null,destinations);
-
-		}
-
-	});
-}*/
 
 function readFile(filename, callback){
 	fs.readFile(filename, 'utf8', function(err, data) {
@@ -320,90 +274,31 @@ function readFile(filename, callback){
 	});
 }
 
-//add a new keyword to the destinationCollection and the keyword Collection
-function addKeyword(location,keyword,callback){
 
-	addKeywordCollection(location, keyword,function(err){
 
-		if(err){
-
-			callback(err);
-
-		}else{
-			addDestinationCollection(location,keyword,function(err){
-				if(err){
-					callback(err);
-				}else{
-					callback(null);
-
-				}	
-			})
-
-		}
-
-	})
-}
-
-//add a new keyword to the destinationCollection
-function addDestinationCollection(location,keyword,callback){
-
-	// Set our collection
-    var collection = db.collection('destinationCollection');
-
-    //check if we can find the location to update
-    collection.findOne({location:location},function(err,data){
-    	if(err){
-    		callback(err)
-    	}else{
-    		if (data){
-    			var keywords = data.keywords;
-    			if(keywords.indexOf(keyword) === -1){
-    				collection.update({location:location}, {'$push':{keywords:keyword}}, function(err) {
-        				if (err){
-        					callback(err);
-        				}else{
-
-        					callback(null);
-        				}
-    				});
-    			}
-    		}
-    		//destination does not exist
-    		else{
-    			callback("destination does not exist");
-    		}
-    	}
-
-    });
-}
-
-//add a new keyword to the keywordCollection
 function addKeywordCollection(location,keyword,callback){
-
 	// Set our collection
     var collection = db.collection('keywordCollection');
 
-    //check if we can find the location to update
-    collection.findOne({keyword:keyword},function(err,data){
+    //attempt to find a match for the keyword and the location
+    collection.findOne({keyword:keyword,location:location},function(err,data){
+    	
     	if(err){
-    		callback(err)
+    		callback(err);
     	}else{
-    		if (data){
-    			var locations = data.locations;
-    			if(locations.indexOf(location) === -1){
-    				collection.update({keyword:keyword}, {'$push':{locations:location}}, function(err) {
-        				if (err){
-        					callback(err);
-        				}else{
+    		//if found update weight
+    		if(data){
+    			collection.update({keyword:keyword,location:location}, {'$set':{"weight":data.weight+=1}}, function(err) {
+    				if(err){
+    					callback(err);
+    				}else{
+    					callback(null);
+    				}
 
-        					callback(null);
-        				}
-    				});
-    			}
-    		}
-    		//keyword does not exist so add it
-    		else{
-    			collection.insert({keyword:keyword, locations: [location]}, function(err) {
+    			});
+    		}else{
+    		//if not found add to database
+    			collection.insert({keyword:keyword, location:location,weight:5}, function(err) {
     				if (err){
     					callback(err);
     				}else{
@@ -415,18 +310,23 @@ function addKeywordCollection(location,keyword,callback){
     	}
 
     });
-}	
+
+
+}
+
+
+
 
 function addKeywords(locations,keywords){
 	//add such keywords to the location (if given location) and normalize weighting
 	for(var i = 0; i<locations.length; i++ ){
 		//update location collection
 		for(var j=0; j<keywords.length; j++){
-			addKeyword(locations[i],keywords[j],function(err){
+			addKeywordCollection(locations[i],keywords[j],function(err){
 				if(err){
 					console.log(err);
 				}else{
-					console.log("successfully added a keyword to the locationCollection and the keywordCollection")
+					console.log("successfully added a keyword to the keywordCollection")
 				}
 			});
 
@@ -563,43 +463,6 @@ function populateImageAddresses(locations,callback){
 
 	}
 
-	/*
-	//console.log(querys[1]);
-	client.query(querys[1]).execute(function(error, results) {
-		if(error){
-			console.log("error when retrieving results from DBPedia: " + error);
-			callback(error,null);
-		}else{
-			if(results){
-				console.log("retrieving images from DBPedia");
-				
-
-				for(var i in results.results.bindings){
-
-					//what is the location name for the depiction
-			    	var locationName = results.results.bindings[i].s.value;
-
-			        //we want the specific country image, not stuff related to it that dbpedia returns
-			        //go through all our locations to see if there's a match
-
-			        for(var j = 0; j< locations.length; j++){
-			        	//TODO: work on finding some subset if we cant find an exact match
-			        	//if(locations[j].location_name ==="Athens" && locationName==="http://dbpedia.org/resource/Athens"){
-			        	//	console.log(locationName);
-			        	//	console.log(results.results.bindings[i].q.value);
-			        	//}
-				        if (locationName === "http://dbpedia.org/resource/"+locations[j].location_name){
-					      	var imageUrl = results.results.bindings[i].q.value;
-					      	locations[j].imageUrl = imageUrl;
-
-						}
-			        }
-
-				}
-				
-			}
-		}	
-	});*/
 
 
 
@@ -638,41 +501,6 @@ function populateImageAddresses(locations,callback){
 			}
 		}
 	});	
-
-	/*
-	//fix spelling
-	dbpediaQueries(querys,query_count,locations,function(err,updated_locations){
-		//console.log(updated_locations);
-		if(err){
-			callback(err);
-		}else{
-			// Set our collection
-		    var collection = db.collection('destinationCollection');
-		    
-		    collection.findOne({},function(err,data){
-	    		if(err){
-	    			callback(err);
-	    		}else{
-	    			//if we already have items in the collection
-	    			if(data){
-						callback("destinationCollection already populated, if you wish to re-populate, drop the collection.");
-	    			}
-	    			else{
-	    				//if it's empty we add our destinations
-	    				collection.insert(updated_locations, function(err, data) {
-						    if (err){ 
-						    	callback(err);
-						    }
-						    if (data){
-						    	callback(null);
-						    }
-						});
-	    			}
-	    		}
-			});	
-		}
-	});*/
-
 }
 
 
@@ -697,37 +525,44 @@ module.exports = {
 
 
 		//retrieve results for user
-		if(keywords){
-			console.log("retrieving results for user")
-			var keyword = keywords[0];	
-			getKeyword(keyword,function(err,docs){
-				//fix order
-				if(err){
-					callback(null,err);
-				}else{
-					console.log(docs);
-					callback(docs,null);
+		//if(keywords){
+		console.log("retrieving results for user")
+		//var keyword = keywords[0];	
+		getResults(query,function(err,docs){
+			//fix order
+			if(err){
+				callback(null,err);
+			}else{
+				console.log(docs);
+				callback(docs,null);
 
-				}
+			}
 
-			});
+		});
 
-			
-
-			
-
-			//location_updates = {location:"NYC"},{'$pull':{keywords:'FUN'}}
-			//update()
-		
-		}
 
 		
-
-
+		//}
 
 	},
 
+	//for when a user selects one of the results, send through the location with keywords to add/update
+	updateWeighting: function(query,callback){
+		query = {
+			location: "ROM",
+			keywords:["Romantic","ancient"]
+		}
 
+		for(var i =0; i< query.keywords.length; i++){
+			addKeywordCollection(query.location, query.keywords[i],function(err){
+				if(err){
+					console.log(err);
+				}else{
+					console.log("database updated with new keyword data");
+				}
+			})
+		}
+	},
 
 
 
@@ -777,132 +612,6 @@ module.exports = {
 				
 			}
 		});
-
-
-		/*
-		getRoutes("JNB",function(err,data){
-			if(err){
-				console.log(err);
-			}
-			else{
-				console.log("checking data");
-				//console.log(data);
-			}
-		});
-		*/
-
-		//query dbpedia for images of all port cities in south africa
-		//var query = "SELECT ?s ?q WHERE {   ?s ?o <http://dbpedia.org/class/yago/PortCitiesInSouthAfrica>;     foaf:depiction ?q }limit 10";
-		
-
-		/*
-		var client = new SparqlClient(endpoint);
-		console.log("Query to " + endpoint);
-		console.log("Query: " + query);
-		client.query(query)
-		  .execute(function(error, results) {
-
-		    if(error){
-		    	console.log("error when retrieving through sparql: "+error);
-		    }else{
-		    	 console.log("////////////////");
-		    console.log(results.results.bindings);
-		    console.log("////////////////");
-
-		    
-
-		  //send results from dbpedia through to database (initial)
-		  ///////////////////////////////////////////////////////////////////////
-
-			console.log("adding location items to database");
-		    for(var i in results.results.bindings){
-
-		      // Get our values to store 
-		      var locationName = results.results.bindings[i].s.value;
-
-
-		      //name needs to be not a URL
-		      var reg = /(?:[A-Z][a-z])\w+/g
-		      locationName = (reg.exec(locationName))[0];
-
-		      var image = results.results.bindings[i].q.value;
-
-
-		      // Set our collection
-		      var collection = db.collection('locationCollection');
-		      
-
-
-
-
-
-
-		      collection.findOne({locationName:locationName}, function(err, result) {
-		      	if(err){
-		      		console.log(err);
-		      	}else{
-		      		//if already exists
-		      		if(result){
-		      			console.log("location already in database");
-		      		}else{
-				      // Submit to the DB
-				      collection.insert({
-				          "locationName" : locationName,
-				          "image" : image,
-				          "keywords:": ["Holdiay", "Fun"]
-				      }, function (err, result) {
-				          if (err) {
-				              // If it failed, return error
-				              res.send("There was a problem adding the information to the database.");
-				          }
-				          else {
-				            //console.log("worked!");
-				          }
-				      });
-		      		}
-		      	}
-			  });
-		      
-
-		  
-
-
-		    }
-		    }		   
-		 //////////////////////////////////////////////////////////////
-		});
-
-
-		// Set our collection
-		var collection = db.collection('keywordCollection');
-		console.log("adding keywords to database");
-
-		collection.findOne({keyword:'fun'}, function(err, result) {
-		    if (result){
-				console.log("keyword already in database");
-		    }else{
-		    	
-		    	// Submit to the DB
-				collection.insert({
-				    "keyword" : "fun",
-				    "locations:": ["Cape_Town", "Saldanha","Durban","Port_Elizabeth","East_London"]
-				}, function (err, result) {
-				    if (err) {
-				        // If it failed, return error
-				        res.send("There was a problem adding the information to the database.");
-				    }
-				    else {
-				      //console.log("worked!");
-				    }
-				});
-
-
-		    }
-
-		    
-		    
-		});
-*/
 	callback();
 	}
 
