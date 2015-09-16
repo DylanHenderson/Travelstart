@@ -54,12 +54,12 @@ module.exports = {
 				keywords:["cold","urban"]				
 		}
 
-		insertion.addKeywords(locations,keywords);
+		insertion.addKeywords(query.locations,query.keywords);
 
 		//retrieve results for user
 		console.log("retrieving results for user")
 		//get results and send them back for ranking
-		retrievl.getResults(query,function(err,docs){
+		retrieval.getResults(query,function(err,docs){
 			if(err){
 				callback(null,err);
 			}else{
