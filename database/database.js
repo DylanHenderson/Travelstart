@@ -1,6 +1,7 @@
 var initialization = require('./initialization.js');
 var retrieval = require('./retrieve.js');
 var insertion = require('./insertion.js');
+var updates = require('./updates.js');
 
 module.exports = {
 
@@ -17,6 +18,18 @@ module.exports = {
 				console.log("successfuly added routes to the database");
 			}
 		});
+
+		updates.normalizeWeights();
+
+		initialization.addKeywordWeightings(function(err){
+			if(err){
+				console.log(err);
+			}
+			else{
+				console.log("successfuly added keywords to the database");
+			}
+		});
+
 		//initial population of database procedure
 		initialization.addFlightDestinations(function(err,data){
 			if(err){
@@ -40,7 +53,7 @@ module.exports = {
 				});	
 			}
 		});
-		callback();
+		//callback();
 	},
 
 
@@ -76,7 +89,7 @@ module.exports = {
 			keywords:["Romantic","ancient"]
 		}
 		for(var i =0; i< query.keywords.length; i++){
-			addKeywordCollection(query.location, query.keywords[i],function(err){
+			insertion.addKeywordCollection(query.location, query.keywords[i],function(err){
 				if(err){
 					console.log(err);
 				}else{

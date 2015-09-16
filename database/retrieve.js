@@ -25,7 +25,7 @@ function fetch(keyword_query,collectionName,callback){
 module.exports = {
 
 	getResults: function(query,callback){
-		var keyword_query = {"keyword":{"$in":query.locations}};
+		var keyword_query = {"keyword":{"$in":query.keywords}};
 		fetch(keyword_query,"keywordCollection",function(err,results){
 			callback(err,results);
 		});

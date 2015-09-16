@@ -6,9 +6,27 @@ var fs = require('fs');
 var endpoint = 'http://dbpedia.org/sparql';
 var client = new SparqlClient(endpoint);
 
-var file_location_codes = "./database/location_destination.txt";
-var file_locations_new = "./database/locations_new.txt";
-var file_locations = "./database/locations.txt";
+var file_location_codes = "./database/initial data/location_destination.txt";
+var file_locations_new = "./database/initial data/locations_new.txt";
+var file_locations = "./database/initial data/locations.txt";
+var file_weightings = "./database/initial data/weightings.txt";
+
+//constructs a keywordCollection insertion
+function createWeightings(weightings_data,callback){
+	var line_data = weightings_data.split(/\r?\n/);
+
+	var weightings = [];
+
+	for(var i =0; i< line_data.length; i++){
+		var line = line_data[i].split("-");
+		var keyword = line[0].trim();
+		var location = line[1].trim();
+		var weight = parseInt(line[2].trim());
+		weightings.push({keyword:keyword,location:location,weight:weight});
+
+	}
+	callback(weightings);
+}
 
 //constructs a DBpedia query from a list of location names
 function createDBpediaQuery(locations,callback){
@@ -233,6 +251,34 @@ module.exports = {
 			})
 		});
 	},
+
+	addKeywordWeightings: function(callback){
+		readFile(file_weightings,function(err,data){
+			if(err){
+				console.log("error when retrieving weightings from file: "+ err);
+				callback(err);
+			}else{
+				createWeightings(data,function(weightings){
+					isPopulated("keywordCollection",function(err){
+						if(err){
+							callback(err);
+						}else{
+							insert(weightings,"keywordCollection",function(err){
+								if(err){
+									callback(err);
+								}else{
+									//no error
+									callback(null);
+								}							
+
+							});
+						}
+					});
+				});
+			}
+		});
+	},
+
 	//first create a collection of location ->destination objects so we know which routes we can query
 	addFlightRoutes: function(callback){
 		readFile(file_location_codes,function(err,data){

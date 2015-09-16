@@ -1,0 +1,13 @@
+romantic - AMS - 10
+romantic - PAR - 50
+romantic - ATH - 20
+canal - AMS - 40
+ancient - ROM - 50
+urban - LON - 60
+capital - LON - 30
+exciting - AMS - 12
+fresh - DXB - 45
+exciting - DXB - 92
+inland - PAR - 38
+family - DXB - 48
+fun - PAR - 65
