@@ -6,12 +6,12 @@ var fs = require('fs');
 
 module.exports = {
 
-	addKeywords: function(locations,keywords){
+	addKeywords: function(locations,keywords,weight){
 		//add such keywords to the location (if given location) and normalize weighting
 		for(var i = 0; i<locations.length; i++ ){
 			//update location collection
 			for(var j=0; j<keywords.length; j++){
-				addKeywordCollection(locations[i],keywords[j],function(err){
+				addKeywordCollection(locations[i],keywords[j],weight,function(err){
 					if(err){
 						console.log(err);
 					}else{
@@ -28,7 +28,7 @@ module.exports = {
 }
 
 
-function addKeywordCollection(location,keyword,callback){
+function addKeywordCollection(location,keyword,weight_increase,callback){
 	// Set our collection
     var collection = db.collection('keywordCollection');
 
@@ -40,17 +40,16 @@ function addKeywordCollection(location,keyword,callback){
     	}else{
     		//if found update weight
     		if(data){
-    			collection.update({keyword:keyword,location:location}, {'$set':{"weight":data.weight+=1}}, function(err) {
+    			collection.update({keyword:keyword,location:location}, {'$set':{"weight":data.weight+=weight_increase}}, function(err) {
     				if(err){
     					callback(err);
     				}else{
     					callback(null);
     				}
-
     			});
     		}else{
     		//if not found add to database
-    			collection.insert({keyword:keyword, location:location,weight:5}, function(err) {
+    			collection.insert({keyword:keyword, location:location,weight:weight_increase}, function(err) {
     				if (err){
     					callback(err);
     				}else{

@@ -3,6 +3,10 @@ var retrieval = require('./retrieve.js');
 var insertion = require('./insertion.js');
 var updates = require('./updates.js');
 
+function normalizeWeightsDaily(){
+	updates.normalizeWeights()
+}
+
 module.exports = {
 
 
@@ -19,7 +23,9 @@ module.exports = {
 			}
 		});
 
-		updates.normalizeWeights();
+		//normalize the weights once daily
+		//86400000 ms
+		setInterval(normalizeWeightsDaily,5000);
 
 		initialization.addKeywordWeightings(function(err){
 			if(err){
@@ -66,8 +72,10 @@ module.exports = {
 				locations:["NYC","LON"],
 				keywords:["cold","urban"]				
 		}
-
-		insertion.addKeywords(query.locations,query.keywords);
+		//when we do a retrieval that contains locations and keywords, we do the lowest possible weight change
+		var weight_change = 1;
+		if(locations && keywords)
+		insertion.addKeywords(query.locations,query.keywords,weight_change);
 
 		//retrieve results for user
 		console.log("retrieving results for user")
@@ -88,8 +96,27 @@ module.exports = {
 			location: "ROM",
 			keywords:["Romantic","ancient"]
 		}
+		var weight_change = 2;
 		for(var i =0; i< query.keywords.length; i++){
-			insertion.addKeywordCollection(query.location, query.keywords[i],function(err){
+			insertion.addKeywordCollection(query.location, query.keywords[i],weight_change,function(err){
+				if(err){
+					console.log(err);
+				}else{
+					console.log("database updated with new keyword data");
+				}
+			})
+		}
+	},
+
+	//for when a user types in a keyword for a location
+	updateWeightingUser: function(query,callback){
+		query = {
+			location: "ROM",
+			keywords:["Romantic","ancient"]
+		}
+		var weight_change = 3;
+		for(var i =0; i< query.keywords.length; i++){
+			insertion.addKeywordCollection(query.location, query.keywords[i],weight_change,function(err){
 				if(err){
 					console.log(err);
 				}else{
@@ -98,5 +125,4 @@ module.exports = {
 			})
 		}
 	}
-
 };
