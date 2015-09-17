@@ -116,7 +116,7 @@ speller.edits = function (word) {
 
 // ====================================================================================================================
 
-var trainingtext = "./training.txt"
+var trainingtext = "./nsc.txt"
 
 // ====================================================================================================================
 
@@ -130,24 +130,30 @@ function readFile(filename, callback){
 	});
 }
 
+// ====================================================================================================================
+
 var formulate = function(query, callback) {
 		
-	var stopwords = ["'", ".", "?", "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "aren't", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "can't", "cannot", "could", "couldn't", "did", "didn't", "do", "does", "doesn't", "doing", "don't", "down", "during", "each", "few", "for", "from", "further", "had", "hadn't", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "isn't", "it", "it's", "its", "itself", "let's", "me", "more", "most", "mustn't", "my", "myself", "no", "nor", "not", "of", "off", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", "we've", "were", "weren't", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves"];
+	var stopwords = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',"'", ".", "?","like", "place","a", "about", "above", "above", "across", "after", "afterwards", "again", "against", "all", "almost", "alone", "along", "already", "also","although","always","am","among", "amongst", "amoungst", "amount",  "an", "and", "another", "any","anyhow","anyone","anything","anyway", "anywhere", "are", "around", "as",  "at", "back","be","became", "because","become","becomes", "becoming", "been", "before", "beforehand", "behind", "being", "below", "beside", "besides", "between", "beyond", "bill", "both", "bottom","but", "by", "call", "can", "cannot", "cant", "co", "con", "could", "couldnt", "cry", "de", "describe", "detail", "do", "done", "down", "due", "during", "each", "eg", "eight", "either", "eleven","else", "elsewhere", "empty", "enough", "etc", "even", "ever", "every", "everyone", "everything", "everywhere", "except", "few", "fifteen", "fify", "fill", "find", "fire", "first", "five", "for", "former", "formerly", "forty", "found", "four", "from", "front", "full", "further", "get", "give", "go", "had", "has", "hasnt", "have", "he", "hence", "her", "here", "hereafter", "hereby", "herein", "hereupon", "hers", "herself", "him", "himself", "his", "how", "however", "hundred", "i", "ie", "if", "in", "inc", "indeed", "interest", "into", "is", "it", "its", "itself", "keep", "last", "latter", "latterly", "least", "less", "ltd", "made", "many", "may", "me", "meanwhile", "might", "mill", "mine", "more", "moreover", "most", "mostly", "move", "much", "must", "my", "myself", "name", "namely", "neither", "never", "nevertheless", "next", "nine", "no", "nobody", "none", "noone", "nor", "not", "nothing", "now", "nowhere", "of", "off", "often", "on", "once", "one", "only", "onto", "or", "other", "others", "otherwise", "our", "ours", "ourselves", "out", "over", "own","part", "per", "perhaps", "please", "put", "rather", "re", "same", "see", "seem", "seemed", "seeming", "seems", "serious", "several", "she", "should", "show", "side", "since", "sincere", "six", "sixty", "so", "some", "somehow", "someone", "something", "sometime", "sometimes", "somewhere", "still", "such", "system", "take", "ten", "than", "that", "the", "their", "them", "themselves", "then", "thence", "there", "thereafter", "thereby", "therefore", "therein", "thereupon", "these", "they", "thickv", "thin", "third", "this", "those", "though", "three", "through", "throughout", "thru", "thus", "to", "together", "too", "top", "toward", "towards", "twelve", "twenty", "two", "un", "under", "until", "up", "upon", "us", "very", "via", "was", "we", "well", "were", "what", "whatever", "when", "whence", "whenever", "where", "whereafter", "whereas", "whereby", "wherein", "whereupon", "wherever", "whether", "which", "while", "whither", "who", "whoever", "whole", "whom", "whose", "why", "will", "with", "within", "without", "would", "yet", "you", "your", "yours", "yourself", "yourselves", "the"];
 	var terms = tokenizer.tokenize(query.toLowerCase());
 	var queryLength = terms.length;
 	var tempresult = "";
 	var correctionoccured = false;
 
+	console.log("reading file");
 	readFile(trainingtext,function(err,data){
 		if(err) {
 			console.log("error reading from file: "+ err);
 			callback(err);
 		} else{
+			console.log("training spell-checker");
 			speller.train(data);
-			
-			// take original query and remove stop words	
+
+			// take original query and remove stop words and fix spelling errors
+			console.log("removing stop words, fixing spelling errors, singularizing query terms");
 			for (var i = 0; i < queryLength; i++) {
 				if (stopwords.indexOf(terms[i]) == -1) {
+					terms[i] = speller.correct(terms[i]);
 					terms[i] = nounInflector.singularize(terms[i]);
 					tempresult = tempresult + " " + terms[i];
 				}
@@ -157,44 +163,40 @@ var formulate = function(query, callback) {
 			// the query after stop words are removed
 			afterstop = tempresult.split(" ");
 			queryLength = afterstop.length;
-			
-			var beforecorrection = afterstop;
-			// fix spelling errors
-			for (var i=0; i< queryLength; i++) {
-				afterstop[i] = speller.correct(afterstop[i]);
-			}
-			
-			for (var i=0; i< beforecorrection.length; i++) {
-				if (beforecorrection[i] != afterstop[i]) {correctionoccured = true; break;}
-			}
 
 			// add expansion terms
-			var expanded = afterstop; 
-			for (var i=0; i< afterstop.length; i++) {
-				wordnet.lookup(afterstop[i], function(results) {
-					results.forEach(function(result) {
-						var extraterms = result.synonyms;
+			var expanded = afterstop;
+
+			console.log("finding expansion terms");
+			for (var l=0; l < afterstop.length; l++) {
+				
+				wordnet.lookup(afterstop[l], function(results) {
+					for(var k=0; k<results.length;k++) {
+						var extraterms = results[k].synonyms;
+						
 						for (var j=0;j<extraterms.length;j++) {
-							//if (expanded.indexOf(extraterms[j]) == -1) {expanded.push(extraterms[j]);}
+							if (expanded.indexOf(extraterms[j]) == -1) {expanded.push(extraterms[j]);}
 						}
 
-					});
+					}
+
+					var todb;
+					todb = {
+						keywords: expanded,
+						locations:[]
+					};
+					
+					var err = null;
+					callback(todb, err);
+
 				});
+
 			}
-	
-			var results;
-			results = {
-				keywords: expanded,
-				locations:[]
-			};
-			
-			var err = null;
-			callback(results, err);
-			
-			
 		}
 	});        
 }
+
+// ====================================================================================================================
 
 module.exports = {
 	formulate: formulate
