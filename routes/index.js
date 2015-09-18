@@ -29,5 +29,26 @@ router.get('/query', function(req, res, next) {
 
 });
 
+// user selects a location from the list such as "PAR"
+router.get('/location', function(req, res, next) {
+  
+	
+
+	db.updateWeighting(req.query);
+
+
+
+
+});
+
+
+
+// user enters a keyword for a location they have selected
+router.get('/keyword', function(req, res, next) {
+  
+	db.updateWeightingUser(req.query);
+
+});
+
 
 module.exports = router;

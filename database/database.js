@@ -91,7 +91,7 @@ module.exports = {
 	},
 
 	//for when a user selects one of the results, send through the location with keywords to add/update
-	updateWeighting: function(query,callback){
+	updateWeighting: function(query){
 		query = {
 			location: "ROM",
 			keywords:["Romantic","ancient"]
@@ -109,7 +109,7 @@ module.exports = {
 	},
 
 	//for when a user types in a keyword for a location
-	updateWeightingUser: function(query,callback){
+	updateWeightingUser: function(query){
 		query = {
 			location: "ROM",
 			keywords:["Romantic","ancient"]
