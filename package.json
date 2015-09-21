@@ -19,7 +19,10 @@
     "mongoskin":"*",
     "natural":"*",
     "WNdb":"*",
-    "moment":"*"
+    "moment":"*",
+    "mocha":"*",
+    "chai":"*",
+    "rewire":"*"
 
   }
 }

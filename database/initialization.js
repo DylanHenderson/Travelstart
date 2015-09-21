@@ -11,21 +11,28 @@ var file_locations_new = "./database/initial data/locations_new.txt";
 var file_locations = "./database/initial data/locations.txt";
 var file_weightings = "./database/initial data/weightings.txt";
 
+function setDB(databaseString){
+	db = require('mongoskin').db('mongodb://localhost:27017/'+databaseString);
+}
+
 //constructs a keywordCollection insertion
-function createWeightings(weightings_data,callback){
+function createWeightings(weightings_data){
 	var line_data = weightings_data.split(/\r?\n/);
 
 	var weightings = [];
 
 	for(var i =0; i< line_data.length; i++){
 		var line = line_data[i].split("-");
-		var keyword = line[0].trim();
-		var location = line[1].trim();
-		var weight = parseInt(line[2].trim());
-		weightings.push({keyword:keyword,location:location,weight:weight});
-
+		if(line.length===3){
+			var keyword = line[0].trim();
+			var location = line[1].trim();
+			var weight = parseInt(line[2].trim());
+			weightings.push({keyword:keyword,location:location,weight:weight});
+		}
 	}
-	callback(weightings);
+
+	return weightings;
+	//callback(weightings);
 }
 
 //constructs a DBpedia query from a list of location names
@@ -68,7 +75,6 @@ function createDBpediaQuery(locations,callback){
 			}
 
 			querys[i]+=query_end;
-			//console.log(querys[i]);
 		}
 		callback(querys,query_count);
 }
@@ -114,7 +120,7 @@ function dbpediaQueries(queries,query_count,locations,callback){
 
 }
 
-//checks if an object is in an array
+//checks if an objects key is in an array
 function inArray(array,object,key){
 	for(var i =0; i< array.length; i++){
 		if (array[i][key] === object[key]){
@@ -203,7 +209,7 @@ function createFlightRoutes(flight_data,callback){
 	callback(flight_routes);
 }
 //constructs a list of flight destinations from route data
-function createFlightDestinations(flight_data,callback){
+function createFlightDestinations(flight_data){
 	var line_data = flight_data.split(/\r?\n/);
 
 	
@@ -217,8 +223,7 @@ function createFlightDestinations(flight_data,callback){
 			destinations.push({location:destination});
 		}
 	}
-
-	callback(destinations);
+	return destinations;
 }
 
 module.exports = {
@@ -258,22 +263,22 @@ module.exports = {
 				console.log("error when retrieving weightings from file: "+ err);
 				callback(err);
 			}else{
-				createWeightings(data,function(weightings){
-					isPopulated("keywordCollection",function(err){
-						if(err){
-							callback(err);
-						}else{
-							insert(weightings,"keywordCollection",function(err){
-								if(err){
-									callback(err);
-								}else{
-									//no error
-									callback(null);
-								}							
 
-							});
-						}
-					});
+				weightings = createWeightings(data);
+				isPopulated("keywordCollection",function(err){
+					if(err){
+						callback(err);
+					}else{
+						insert(weightings,"keywordCollection",function(err){
+							if(err){
+								callback(err);
+							}else{
+								//no error
+								callback(null);
+							}							
+
+						});
+					}
 				});
 			}
 		});
@@ -313,9 +318,9 @@ module.exports = {
 			if(err){
 				callback(err,null);
 			}else{
-				createFlightDestinations(data,function(destinations){
-					callback(null,destinations);
-				})
+				var destinations = createFlightDestinations(data);
+				callback(null,destinations);
+				
 			}
 		});
 	},
