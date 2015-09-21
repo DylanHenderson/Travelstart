@@ -172,7 +172,7 @@ function readFile(filename, callback){
 }
 
 //constructs a list of flight routes from route data
-function createFlightRoutes(flight_data,callback){
+function createFlightRoutes(flight_data){
 
 	//split input file into lines
 	var line_data = flight_data.split(/\r?\n/);
@@ -191,22 +191,26 @@ function createFlightRoutes(flight_data,callback){
 			location: "DUR",
 			destinations:[]
 		}
-		]
+		];
 	
 
 	//going through our list of location->destination data, push a destination that belongs to a departure location
 	for(var i in line_data){
 		var locations = line_data[i].split(" ");
-		if (locations[0] === "JNB"){
-			flight_routes[0].destinations.push(locations[1]);
-		}else if(locations[0] === "CPT"){
-			flight_routes[1].destinations.push(locations[1]);
-		}else{
-			flight_routes[2].destinations.push(locations[1]);
+		if(locations.length === 2){
+			if (locations[0] === "JNB"){
+				flight_routes[0].destinations.push(locations[1]);
+			}else if(locations[0] === "CPT"){
+				flight_routes[1].destinations.push(locations[1]);
+			}else if (locations[0] === "DUR"){
+				flight_routes[2].destinations.push(locations[1]);
+			}
+
 		}
+
 	}
 
-	callback(flight_routes);
+	return flight_routes;
 }
 //constructs a list of flight destinations from route data
 function createFlightDestinations(flight_data){
@@ -217,11 +221,15 @@ function createFlightDestinations(flight_data){
 
 	//create destination array with no duplicates
 	for(var i in line_data){
+
 		var locations = line_data[i].split(" ");
-		var destination = locations[1];
-		if (!(inArray(destinations,{location:destination},"location"))){
-			destinations.push({location:destination});
+		if(locations.length === 2){
+			var destination = locations[1];
+			if (!(inArray(destinations,{location:destination},"location"))){
+				destinations.push({location:destination});
+			}			
 		}
+
 	}
 	return destinations;
 }
@@ -292,7 +300,7 @@ module.exports = {
 				callback(err);
 			}else{
 				//create the routes from data file provided by travelstart
-				createFlightRoutes(data,function(flight_routes){
+				var flight_routes = createFlightRoutes(data);
 					//insert created routes into a routes Collection
 					isPopulated("routesCollection",function(err){
 						if(err){
@@ -307,8 +315,7 @@ module.exports = {
 								}
 							});
 						}
-					});					
-				});				
+					});									
 			}
 		});
 	},
@@ -331,11 +338,8 @@ module.exports = {
 			if(err){
 				callback(err,null);
 			}else{
-				createDestinationDetails(data,destinations, function(updated_destinations){
-					callback(null,updated_destinations)
-				});
-
-				
+				updated_destinations = createDestinationDetails(data,destinations);
+				callback(null,updated_destinations)	
 			}
 		});
 	}
@@ -344,7 +348,7 @@ module.exports = {
 }
 
 //add details to our destinations from data from travelstarts website
-function createDestinationDetails(destination_data,destinations,callback){
+function createDestinationDetails(destination_data,destinations){
 	//split input file into lines
 	var line_data = destination_data.split(/\r?\n/);
 
@@ -374,7 +378,7 @@ function createDestinationDetails(destination_data,destinations,callback){
 	}
 
 
-	callback(destinations);
+	return destinations
 }
 
 

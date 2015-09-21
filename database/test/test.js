@@ -24,28 +24,177 @@ var createDestinationDetails = initialization.__get__('createDestinationDetails'
 
 //function insert(object,collectionName,callback){
 
-//function createFlightRoutes(flight_data,callback){
 
-
-//function createFlightDestinations(flight_data,callback){
-
-//function createDestinationDetails(destination_data,destinations,callback){
 
 setDB("test_data");
 var collectionName = "keywordCollection";
 
 var collection = db.collection(collectionName);
 
+describe('createDestinationDetails',function(){
+	it('should be a function',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});
+
+	it('should return an array',function(){
+		expect(createDestinationDetails("JAalborg - AAL - Denmark\nAarhus - AAC - Denmark",[{location:"AAL"},{location:"AAC"}])).to.be.a('array');
+	});
+
+	it('should handle empty inputs',function(){
+			expect(createDestinationDetails("",[])).to.eql([
+
+
+				]);
+	});
+
+	it('should return a list of destinations as their own objects with details',function(){
+			expect(createDestinationDetails("JAalborg - AAL - Denmark\nAarhus - AAC - Denmark",[{location:"AAL"},{location:"AAC"}])).to.eql([
+				{
+					location: "AAL",
+					location_name: "JAalborg",
+					country:"Denmark",
+					keywords:[]
+					
+				},
+				{
+					location: "AAC",
+					location_name: "Aarhus",
+					country:"Denmark",
+					keywords:[]
+					
+				}
+			]);
+	});
+
+
+	it('handle errors',function(){
+			expect(createDestinationDetails("JAalborg - AAL - Denmark\nAarhus -THE- - AAC - Denmark",[{location:"AAL"},{location:"AAC"}])).to.eql([
+				{
+					location: "AAL",
+					location_name: "JAalborg",
+					country:"Denmark",
+					keywords:[]
+					
+				},
+				{
+					location: "AAC",
+					keywords:[]
+
+				}
+			]);
+	});
+
+});
+
+describe('createFlightDestinations',function(){
+	it('should be a function',function(){
+		expect(createFlightDestinations).to.be.a('function');
+	});
+
+	it('should return an array',function(){
+		expect(createFlightDestinations("JHB ROM\nCPT PAR")).to.be.a('array');
+	});
+
+	it('should handle empty inputs',function(){
+			expect(createFlightDestinations("")).to.eql([
+
+
+				]);
+	});
+
+	it('should return a list of destinations as their own objects',function(){
+			expect(createFlightDestinations("JNB ROM\nCPT PAR")).to.eql([
+				{
+					location: "ROM"
+					
+				},
+				{
+					location: "PAR"
+					
+				}
+			]);
+	});
+
+	it('handle/ignore errors in input',function(){
+		expect(createFlightDestinations("JNB - ROM\nCPT PAR")).to.eql([
+				{
+					location: "PAR"
+					
+				}
+		]);
+
+
+	});
+
+});
+
 describe('createFlightRoutes',function(){
 	it('should be a function',function(){
 		expect(createFlightRoutes).to.be.a('function');
 	});
 
-	it('should be a function',function(){
-		expect(createFlightRoutes).to.be.a('function');
+	it('should return an array',function(){
+		expect(createFlightRoutes("JHB ROM\nCPT PAR")).to.be.a('array');
 	});
 
-}
+	it('should handle empty inputs',function(){
+			expect(createFlightRoutes("")).to.eql([
+
+				{
+					location: "JNB",
+					destinations: []
+				},
+				{
+					location: "CPT",
+					destinations: []
+				},
+				{
+					location: "DUR",
+					destinations:[]
+				}
+
+
+				]);
+	});
+
+	it('should return a list of objects containing a location and its destinations',function(){
+			expect(createFlightRoutes("JNB ROM\nCPT PAR")).to.eql([
+				{
+					location: "JNB",
+					destinations: ["ROM"]
+				},
+				{
+					location: "CPT",
+					destinations: ["PAR"]
+				},
+				{
+					location: "DUR",
+					destinations:[]
+				}
+				]);
+	});
+
+	it('handle errors in input',function(){
+		expect(createFlightRoutes("JNB - ROM\nCPT PAR")).to.eql([
+				{
+					location: "JNB",
+					destinations: []
+				},
+				{
+					location: "CPT",
+					destinations: ["PAR"]
+				},
+				{
+					location: "DUR",
+					destinations:[]
+				}
+
+		]);
+
+
+	});
+
+});
 
 describe('isPopulated',function(){
 
@@ -99,7 +248,20 @@ describe('inArray',function(){
 describe('createDBpediaQuery',function(){
 
 	it('should be a function',function(){
-		expect(createWeightings).to.be.a('function');
+		expect(createDBpediaQuery).to.be.a('function');
+	});
+
+	it('should callback with an array and an int',function(){
+		createDBpediaQuery([{location_name :"Paris"},{location_name: "Athens"}],function(querys,query_count){
+			expect(querys).to.be.a('array');
+			expect(query_count).to.eql(1);
+		});
+	});
+
+	it('should create a DBPEDIA query from location names',function(){
+		createDBpediaQuery([{location_name :"Paris"},{location_name: "Athens"}],function(querys,query_count){
+			expect(querys[0]).to.eql("SELECT * {  { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> \"Paris\"@en; foaf:depiction ?q } } UNION { SELECT ?s ?q WHERE { ?s <http://dbpedia.org/property/name> \"Athens\"@en; foaf:depiction ?q } }}");
+		});
 	});
 
 
