@@ -34,8 +34,8 @@ module.exports = {
 	},
 
     getLocations: function(query,callback){
-        var query = {"location":{"$in":query}};
-        fetch(keyword_query,"DestinationCollection",function(err,results){
+        location_query = {"location":"PAR"};
+        fetch(location_query,"destinationCollection",function(err,results){
             callback(err,results);
         });
     }

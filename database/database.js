@@ -68,11 +68,14 @@ module.exports = {
 		console.log('database querying');
 		
 		//dummy query example
-		/*query = {
+		query = {
 				locations:["NYC","LON"],
 				keywords:["cold","urban"]				
-		}*/
+		}
 		console.log(query);
+
+		locations = query.locations;
+		keywords = query.keywords;
 		//when we do a retrieval that contains locations and keywords, we do the lowest possible weight change
 		var weight_change = 1;
 		if(locations && keywords)

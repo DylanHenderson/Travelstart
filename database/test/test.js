@@ -22,15 +22,36 @@ var createFlightRoutes = initialization.__get__('createFlightRoutes');
 var createFlightDestinations = initialization.__get__('createFlightDestinations');
 var createDestinationDetails = initialization.__get__('createDestinationDetails');
 var fetch = retrieval.__get__('fetch');
+//var getLocations = retrieval.__get__('getLocations');
 var addKeywordCollection = insertion.__get__('addKeywordCollection');
 // function addKeywordCollection(location,keyword,weight_increase,callback){
-
+// /getLocations: function(query,callback){
 setDB_initialization("test_data");
 setDB_retrieval("test_data");
 setDB_insertion("test_data");
 var collectionName = "keywordCollection";
 
 var collection = db.collection(collectionName);
+
+describe('getLocations',function(){
+
+	it('should be a function', function(){
+		expect(retrieval.getLocations).to.be.a('function');	
+	})
+
+	setDB_retrieval("destination_data");
+	it('should return location info for a given list of locations', function(done){
+		retrieval.getLocations(["PAR","LON"],function(err,results){
+			console.log(results);
+			expect(results[0]).to.contain.any.keys({'location':'PAR'});
+			done();
+		})
+			
+		
+	})
+	setDB_retrieval("test_data");
+
+});
 
 describe('addKeywordCollection',function(){
 	it('should be a function', function(){
@@ -127,6 +148,7 @@ describe('fetch',function(){
 	it('should be a function', function(){
 		expect(fetch).to.be.a('function');	
 	})
+
 
 
 	
