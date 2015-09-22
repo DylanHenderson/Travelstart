@@ -7,15 +7,21 @@ var fs = require('fs');
 
 
 
-form("fiddle");
+form();
+var d=[];
 function getstuff(results) {
-	var d=[]
+	
 	for(var i=0;i<results.length;i++){d.push(results[i].lemma);}
-	return d;
 }
 
-function form(term) {
+function form() {
 
-	var a=wordnet.lookup(term, getstuff);
-	console.log(a);
+	term=["fiddle","now"];
+	for (var i=0;i<2;i++) {
+		wordnet.lookup(term[i]);
+	}
+	
 }
+
+function foo() {console.log(d);}
+foo();
