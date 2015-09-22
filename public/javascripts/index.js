@@ -18,6 +18,23 @@ function searchTerm(){
 
     $.getJSON( '/query?name='+name, function( data ) {
 
+    	/*
+    	[
+    	{
+    		location:"NYC"
+
+
+
+    	},
+    	{
+    		location:"PAR",
+    		location_name: "Paris",
+    		imageURL: "www.",
+    		country: ""
+
+    	}
+    	]
+    	*/
     	console.log(data.result);
 
 

@@ -1,10 +1,44 @@
 doctype html
-html
-	head
-		title= title
-		link(rel='stylesheet', href='/stylesheets/style.css')
+html(lang='en')
+  head
+    title TravelStart
 
-	body
-		block content
+    script(src='http://code.jquery.com/jquery-1.11.0.min.js')
+    script(src='http://code.jquery.com/jquery-migrate-1.2.1.min.js')
+    link(href='/stylesheets/style1.css', rel='stylesheet')
+    link(href='/stylesheets/style2.css', rel='stylesheet')
+    link(href='/stylesheets/resultsCSS.css', rel='stylesheet')  
+    link(href='/stylesheets/instructions.css', rel='stylesheet')
 
+  body
+    .container
+      .row
+        .box
+          p(style='text-align:center')
+            img(src='/images/travelStart.png', alt='')
+    
+    // Navigation
+    nav.navbar.navbar-default(role='navigation')
+      .container
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='/') Home
+            li
+              a(href='#') FAQs
+            li
+              a(href='#') Contact Us
 
+    block content
+
+    footer
+      .container
+        .row
+          .col-lg-12.text-center
+            p
+              | Project for: 
+              a(href='http://www.travelstart.co.za/') TravelStart
+
+    script(type='text/javascript', src='/javascripts/instructions.js')  
+    script(type='text/javascript', src='/javascripts/more.js')
+    script(type='text/javascript', src='/javascripts/index.js')

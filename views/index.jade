@@ -1,84 +1,39 @@
-head
-    title TravelStart
-    // Core CSS
-    link(href='stylesheets/core.css', rel='stylesheet')
-    // Custom CSS
-    link(href='stylesheets/core-casual.css', rel='stylesheet')
-    script(type='text/javascript', src='javascripts/jquery.js')
-    script(src='/javascripts/index.js')
-    script(type='text/javascript', src='javascripts/bootstrap.js')
-    script(type='text/javascript', src='javascripts/bootstrap.min.js')
-  body
-    .container
-      .row
-        .box
-          p(style='text-align:center')
-            img(src='img/travelStart.png', alt='')
-    // Navigation
-    nav.navbar.navbar-default(role='navigation')
-      .container
-        // Brand and toggle get grouped for better mobile display
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          // navbar-brand is hidden on larger screens, but visible when the menu is collapsed
-          a.navbar-brand(href='index.html') travelstart
-        // Collect the nav links, forms, and other content for toggling
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='index.html') Book
-            li
-              a(href='about.html') About
-            li
-              a(href='blog.html') Blog
-            li
-              a(href='contact.html') Contact
-        // /.navbar-collapse
-      // /.container
-    .container
-      .row
-        .box
-          .col-lg-12
-            hr
-            h2.intro-text.text-center
-              strong Book
-      .row
-        .box
-          .col-lg-12
-            form(role='form')
-              .row
-                .form-group.col-lg-4
-                  select#yesCheck.form-control(onchange='yesnoCheck(this);', name='yesno')
-                    option(value='0') One Way
-                    option(value='1') Return
-              .row
-                .form-group.col-lg-4
-                  label Depature
-                  input.form-control(type='date')
-                #ifYes.form-group.col-lg-4(style='display:none')
-                  label Return
-                  input.form-control(type='date')
-            a.btn.btn-default.btn-lg(href='#') Book
-      .row
-        .box
-          .col-lg-12
-            form(role='form')
-              .row
-                .form-group.col-lg-10
-                  input#searchterm.form-control(type='text')
-                .form-group.col-lg-2
-                  a#search.btn.btn-default.btn-lg(href='#', style='') Search
+extends layout
 
-      .row
-        .box
-          .col-lg-12
-    // /.container
-    footer
-      .container
-        .row
-          .col-lg-12.text-center
-            p Copyright © Your Website 2014
+block content
+   
+  .container
+    .row
+      .box
+        .form-group.col-lg-12
+          .cent
+            p
+              input#searchTerm.form-control(type='text', name='Search', placeholder='Search')
+            
+            a#search(type='button')
+              button.btn.btn-default Submit
+            button#more.btn.btn-default(type='button', onclick='showDiv()') More
+  
+    .popUpBannerBox
+      .popUpBannerInner
+        .popUpBannerContent
+          h3 Example searches
+          p Exotic destination <br> Tropical destination <br> Child friendly holidays...         
+         
+
+  #moreOptions.container(style='display:none;')
+    .row
+      .box
+        .form-group.col-lg-12
+          .cent
+            p
+              input.form-control2(type='date')
+              span &nbsp returning &nbsp
+              input.form-control2(type='date')
+            p    
+              input.form-control1(type='number', placeholder='Minimum fair') 
+              span &nbsp to &nbsp
+              input.form-control1(type='number', placeholder='Maximum fair')
+
+            a#search(type='button')
+              button.btn.btn-default Submit

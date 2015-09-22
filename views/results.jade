@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  #cent
+    #pricing-table.clears
+      .plan
+        h3
+          a#result1(href='#', onclick="showResults()")
+            | Rome
+            span $59
+        a.btn.btn-dark(href='') Book
+
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            |  Detail 4
+      
+    #result(style='display:none;')
+      img(src='/images/Rome.jpg')
+      p Rome, Italy’s capital, is a sprawling, cosmopolitan city with nearly 3,000 years of globally influential art, architecture and culture on display. Ancient ruins such as the Roman Forum and the Colosseum evoke the power of the former Roman Empire. Vatican City, headquarters of the Roman Catholic Church, boasts St. Peter’s Basilica and the Vatican Museums, which house masterpieces such as Michelangelo’s Sistine Chapel frescoes.
+      a.btn.btn-dark(href='') Book
+
