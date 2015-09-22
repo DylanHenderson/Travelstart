@@ -8,7 +8,9 @@ var updates = rewire('../updates.js');
 var chai = require('chai');
 var expect = chai.expect;
 var db = require('mongoskin').db('mongodb://localhost:27017/test_data');
-var setDB = initialization.__get__('setDB');
+var setDB_initialization = initialization.__get__('setDB');
+var setDB_retrieval = retrieval.__get__('setDB');
+var setDB_insertion = insertion.__get__('setDB');
 
 var createWeightings = initialization.__get__('createWeightings');
 var createDBpediaQuery = initialization.__get__('createDBpediaQuery');
@@ -19,17 +21,143 @@ var insert= initialization.__get__('insert');
 var createFlightRoutes = initialization.__get__('createFlightRoutes');
 var createFlightDestinations = initialization.__get__('createFlightDestinations');
 var createDestinationDetails = initialization.__get__('createDestinationDetails');
+var fetch = retrieval.__get__('fetch');
+var addKeywordCollection = insertion.__get__('addKeywordCollection');
+// function addKeywordCollection(location,keyword,weight_increase,callback){
 
-//function dbpediaQueries(queries,query_count,locations,callback){
-
-//function insert(object,collectionName,callback){
-
-
-
-setDB("test_data");
+setDB_initialization("test_data");
+setDB_retrieval("test_data");
+setDB_insertion("test_data");
 var collectionName = "keywordCollection";
 
 var collection = db.collection(collectionName);
+
+describe('addKeywordCollection',function(){
+	it('should be a function', function(){
+		expect(addKeywordCollection).to.be.a('function');	
+	})
+
+
+
+
+
+	it('should add a new element to the collection if it is empty',function(done){
+		addKeywordCollection('PAR','Romantic',1,function(err){
+			expect(err).to.eql(null);
+			collection.findOne({location:"PAR"}, function(err, data) {
+			    if (err){ 
+			    	console.log(err);
+			    }else{
+					expect(err).to.eql(null);
+					expect(data).to.contain.any.keys({'location':'PAR'});
+					collection.drop(function(err,data){
+						if(err){
+							console.log(err);
+						}else{
+							done();
+						}
+						
+					});
+			    }
+			});
+		});
+	});
+
+
+
+	it('should adjust the weight of an already existing element',function(done){
+		addKeywordCollection('PAR','Romantic',1,function(err){
+			expect(err).to.eql(null);
+			addKeywordCollection('PAR','Romantic',1,function(err){
+				expect(err).to.eql(null);
+				collection.findOne({location:"PAR"}, function(err, data) {
+				    if (err){ 
+				    	console.log(err);
+				    }else{
+						expect(err).to.eql(null);
+						expect(data.weight).to.eql(2);
+						collection.drop(function(err,data){
+							if(err){
+								console.log(err);
+							}else{
+								done();
+							}
+							
+						});
+				    }
+				});
+			});
+		});
+	});
+
+	/*
+	setDB_insertion("destination_data");
+	it('should never cause the collection to contain duplicates',function(done){
+		collection.find({}).toArray(function(err, data) {
+			expect(err).to.eql(null);
+
+
+
+			for(var i =0; i< data.length; i++){
+				for(var j =0; j< data.length; j++){
+					var first = {
+						keyword:data[i].keyword,
+						location:data[i].location
+
+					};
+
+					var second = {
+						keyword:data[j].keyword,
+						location:data[j].location
+
+					};
+					expect(first).to.not.eql(second);
+				}
+				
+			}
+		    
+		});
+	});
+	*/
+
+})
+
+describe('fetch',function(){
+
+	it('should be a function', function(){
+		expect(fetch).to.be.a('function');	
+	})
+
+
+	
+
+	it('should retrieve results from a database given a query, and retrieve no results if there are none',function(done){
+		fetch({keyword:"Romantic"},"keywordCollection",function(err,results){
+			expect(err).to.eql(null);
+			expect(results).to.eql([]);
+			collection.insert({keyword:"Romantic",location:"NYC",weight:5}, function(err, data) {
+			    if (err){ 
+			    	console.log(err);
+			    }else{
+					fetch({keyword:"Romantic"},"keywordCollection",function(err,results2){
+						expect(err).to.eql(null);
+						expect(results2[0]).to.include.keys(['keyword','location','weight']);
+						collection.drop(function(err,data){
+							if(err){
+								console.log(err);
+							}else{
+								done();
+							}
+							
+						});
+					});
+			    }
+			});
+		});
+	});
+	
+
+});
 
 describe('createDestinationDetails',function(){
 	it('should be a function',function(){

@@ -6,7 +6,9 @@ var fs = require('fs');
 	var endpoint = 'http://dbpedia.org/sparql';
 	var client = new SparqlClient(endpoint);
 
-
+function setDB(databaseString){
+    db = require('mongoskin').db('mongodb://localhost:27017/'+databaseString);
+}
 
 function fetch(keyword_query,collectionName,callback){
     var collection = db.collection(collectionName);

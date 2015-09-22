@@ -4,27 +4,37 @@ var mongo = require('mongodb');
 var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
 
+function setDB(databaseString){
+    db = require('mongoskin').db('mongodb://localhost:27017/'+databaseString);
+}
+
 module.exports = {
 
 	addKeywords: function(locations,keywords,weight){
 		//add such keywords to the location (if given location) and normalize weighting
-		for(var i = 0; i<locations.length; i++ ){
-			//update location collection
-			for(var j=0; j<keywords.length; j++){
-				addKeywordCollection(locations[i],keywords[j],weight,function(err){
-					if(err){
-						console.log(err);
-					}else{
-						console.log("successfully added a keyword to the keywordCollection")
-					}
-				});
-			}
-			//find location, if found, add to keywords.
-			//Note we're not so worried about the async nature here, this can take as long as it wants.
-
-			//update keyword collection
-		}
+        addEachKeyword(locations,keywords,weight);
 	}
+};
+
+function addEachKeyword(locations,keywords,weight){
+    for(var i = 0; i<locations.length; i++ ){
+        //update location collection
+        for(var j=0; j<keywords.length; j++){
+            //we don't reference i in the function, so it's really not a problem to have the loop here
+            addKeywordCollection(locations[i],keywords[j],weight,function(err){
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log("successfully added a keyword to the keywordCollection")
+                }
+            });
+        }
+        //find location, if found, add to keywords.
+        //Note we're not so worried about the async nature here, this can take as long as it wants.
+
+        //update keyword collection
+    }
+
 }
 
 
