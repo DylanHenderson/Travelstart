@@ -31,7 +31,14 @@ module.exports = {
 		fetch(keyword_query,"keywordCollection",function(err,results){
 			callback(err,results);
 		});
-	}
+	},
+
+    getLocations: function(query,callback){
+        var query = {"location":{"$in":query}};
+        fetch(keyword_query,"DestinationCollection",function(err,results){
+            callback(err,results);
+        });
+    }
 }
 
 

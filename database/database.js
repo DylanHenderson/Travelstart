@@ -68,10 +68,11 @@ module.exports = {
 		console.log('database querying');
 		
 		//dummy query example
-		query = {
+		/*query = {
 				locations:["NYC","LON"],
 				keywords:["cold","urban"]				
-		}
+		}*/
+		console.log(query);
 		//when we do a retrieval that contains locations and keywords, we do the lowest possible weight change
 		var weight_change = 1;
 		if(locations && keywords)
@@ -86,6 +87,17 @@ module.exports = {
 			}else{
 				console.log(docs);
 				callback(docs,null);
+			}
+		});
+	},
+
+	getLocationInfo: function(query,callback){
+		retrieval.getLocations(query,function(err,docs){
+			if(err){
+				callback(err,null);
+			}else{
+				//console.log(docs);
+				callback(null,docs);
 			}
 		});
 	},
