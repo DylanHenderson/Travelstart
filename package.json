@@ -16,6 +16,13 @@
     "sparql-client":"*",
     "util":"*",
     "mongodb":"~1.4",
-    "mongoskin":"*"
+    "mongoskin":"*",
+    "natural":"*",
+    "WNdb":"*",
+    "moment":"*",
+    "mocha":"*",
+    "chai":"*",
+    "rewire":"*"
+
   }
 }

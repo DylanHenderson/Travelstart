@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var query = require('../query/formulation.js');
-var db = require('../database/retrieve.js');
+var db = require('../database/database.js');
 var ranking = require('../ranking/rank.js');
 
 /* GET home page. */
@@ -26,6 +26,27 @@ router.get('/query', function(req, res, next) {
 
 
 	});
+
+});
+
+// user selects a location from the list such as "PAR"
+router.get('/location', function(req, res, next) {
+  
+	
+
+	db.updateWeighting(req.query);
+
+
+
+
+});
+
+
+
+// user enters a keyword for a location they have selected
+router.get('/keyword', function(req, res, next) {
+  
+	db.updateWeightingUser(req.query);
 
 });
 
