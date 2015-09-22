@@ -97,7 +97,9 @@ var formulate = function(query, callback) {
 					}
 					var todb;
 					todb = {
-						keywords: keys
+						keywords: keys,
+						locations: ["LON"]
+
 					};
 					
 					var err = null;
@@ -117,4 +119,3 @@ module.exports = {
 
 };
 
-// ====================================================================================================================
