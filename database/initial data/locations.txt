@@ -110,7 +110,7 @@ Olbia - OLB - Italy
 Oslo - OLB - Norway
 Palermo - PMO - Italy
 Palma De Mallorca - PMI - Spain
-Paris - CDG - France
+Paris - PAR - France
 Porto - CDG - Portugal
 Poznan - POZ - Poland
 Prague - PRG - Czech Republic

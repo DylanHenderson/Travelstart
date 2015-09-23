@@ -68,10 +68,11 @@ module.exports = {
 		console.log('database querying');
 		
 		//dummy query example
+		/*
 		query = {
 				locations:["NYC","LON"],
 				keywords:["cold","urban"]				
-		}
+		}*/
 		console.log(query);
 
 		locations = query.locations;

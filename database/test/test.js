@@ -33,23 +33,48 @@ var collectionName = "keywordCollection";
 
 var collection = db.collection(collectionName);
 
+
+describe('dbpediaQueries',function(){
+	it('should be a function',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});
+
+	it('should eventually call back with a null error and a list of updated locations when given a dbpedia query',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});
+
+	it('should execute multiple sets of queries',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});
+
+	it('should handle empty inputs',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});
+
+	it('should should not crash when given an incorrect query',function(){
+		expect(createDestinationDetails).to.be.a('function');
+	});	
+});
+
+
 describe('getLocations',function(){
 
 	it('should be a function', function(){
 		expect(retrieval.getLocations).to.be.a('function');	
 	})
 
-	setDB_retrieval("destination_data");
+	
 	it('should return location info for a given list of locations', function(done){
+		setDB_retrieval("destination_data");
 		retrieval.getLocations(["PAR","LON"],function(err,results){
 			console.log(results);
 			expect(results[0]).to.contain.any.keys({'location':'PAR'});
 			done();
 		})
-			
+		setDB_retrieval("test_data");	
 		
 	})
-	setDB_retrieval("test_data");
+	
 
 });
 
