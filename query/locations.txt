@@ -1,0 +1,542 @@
+Aalborg - AAL - Denmark
+Aarhus - AAC - Denmark
+Aberdeen - ABZ - Scotland
+Alicante - ALC - Spain
+Amsterdam - AMS - Netherlands / Holland
+Athens - ATH - Greece
+Ankara - ESB - Turkey
+Antalya - AYT - Turkey
+Barcelona - BCN - Spain
+Bari - BRI - Italy
+Basel - BSL - Switzerland
+Belfast - BFS - Northern Ireland
+Belgorod - EGO - Russia
+Belgrade - BEG - Serbia
+Bergen - BGO - Norway
+Berlin - TXL - Germany
+Biarritz - BIQ - France
+Bilbao - BIO - Spain
+Billund - BLL - Denmark
+Birmingham - BHX - England
+Bodrum Milas - BJV - Turkey
+Bologna - BLQ - Italy
+Bordeaux - BOD - France
+Bremen - BRE - Germany
+Bristol - BRS - England
+Brussels - BRU - Belgium
+Brindisi - BDS - Italy
+Bucharest - BUH - Romania
+Budapest - BUD - Hungary
+Cardiff - CWL - Wales
+Catania - CTA - Italy
+Chi?inau - KIV - Moldova
+Cologne - CGN - Germany
+Copenhagen - CPH - Denmark
+Corfu - CFU - Greece
+Cork - ORK - Ireland
+Dalaman - DLM - Turkey
+Dnepropetrovsk - DNK - Ukraine
+Donetsk - DOK - Ukraine
+Dresden - DRS - Germany
+Dublin - DUB - Ireland
+Dubrovnik - DBV - Croatia
+Düsseldorf - DUS - Germany
+East Midlands - EMA - England
+Edinburgh - EDI - Scotland
+Erzincan - ERC - Turkey
+Exeter - EXT - England
+Faro - FAO - Portugal
+Florence - FLR - Italy
+Frankfurt - FRA - Germany
+Funchal, Madeira - FNC - Portugal
+Geneva - GVA - Switzerland
+Genoa - GOA - Italy
+Gdansk - GDN - Poland
+Gibraltar - Iberian Peninsula - GIB - United Kingdom
+Glasgow - GLA - Scotland
+Gothenburg - GOT - Sweden
+Granada - GRX - Spain
+Graz - GRZ - Austria
+Guernsey - GCI - United Kingdom
+Hamburg - HAM - Germany
+Hannover - HAJ - Germany
+Helsinki - HER - Finland
+Heraklion - HER - Greece
+Ibiza - IBZ - Spain
+Innsbruck - INN - Austria
+Inverness - INV - Scotland
+Isle Of Man - IOM - United Kingdom
+Istanbul - IST - Turkey
+Izmir - ADB - Turkey
+Jerez De La Frontera - XRY - Spain
+Jersey - JER - United Kingdom
+Katowice - KTW - Poland
+Kazan - KZN - Russia
+Kharkov - HRK - Ukraine
+Kiev - IEV - Ukraine
+Klagenfurt - KLU - Austria
+Kos - KGS - Greece
+Krakow - KRK - Poland
+Larnaca - LCA - Cyprus
+Leeds - LBA - England
+Lefkosa - ECN - Cyprus
+Leipzig - LEJ - Germany
+Linz - LNZ - Austria
+Lisbon - LIS - Portugal
+Ljubljana - LJU - Slovenia
+Lourdes - LDE - France
+London - LON - England
+Luxembourg City - LUX - Luxembourg
+Lyon - LYS - France
+Madrid - MAD - Spain
+Malaga - AGP - Spain
+Malta - MLA - Malta
+Manchester - MAN - England
+Marseille - MRS - France
+Milan - MXP - Italy
+Minsk - MSQ - Belarus
+Moscow - MOW - Russia
+Muenster - FMO - Germany
+Munich - MUC - Germany
+Mytilene - MJT - Greece
+Naples - NAP - Italy
+Newcastle - NCL - England
+Nice - NCE - France
+Norwich - NWI - England
+Novosibirsk - OVB - Russia
+Nuremberg - NUE - Germany
+Odessa - ODS - Ukraine
+Olbia - OLB - Italy
+Oslo - OLB - Norway
+Palermo - PMO - Italy
+Palma De Mallorca - PMI - Spain
+Paris - PAR - France
+Porto - CDG - Portugal
+Poznan - POZ - Poland
+Prague - PRG - Czech Republic
+Reykjavik - REK - Iceland
+Riga - RIX - Latvia
+Rome - FCO - Italy
+Rostov - ROV - Russia
+Rzeszow - RZE - Poland
+Salzburg - SZG - Austria
+Santorini - JTR - Greece
+Sarajevo - SJJ - Bosnia & Herzegovina
+Sardinia - CAG - Italy
+Seville - SVQ - Spain
+Shannon - SNN - Ireland
+Simferopol - SIP - Ukraine
+Skopje - SKP - Macedonia
+Sofia - SOF - Bulgaria
+Split - SPU - Croatia
+Strasbourg - SXB - France
+Stavanger - SVG - Norway
+Stockholm - STO - Sweden
+St. Petersburg - LED - Russia
+Stuttgart - STR - Germany
+Tallinn - TLL - Estonia
+Tbilisi - TBS - Georgia
+Teesside - MME - England
+Tenerife - TCI - Spain
+Thessaloniki - SKG - Greece
+Timisoara - TSR - Romania
+Toulouse - TLS - France
+Trieste - TRS - Italy
+Trondheim - TRD - Norway
+Turin - TRN - Italy
+Valencia - VLC - Spain
+Venice - VCE - Italy
+Verona - VRN - Italy
+Vienna - VIE - Austria
+Vigo - VGO - Spain
+Warsaw - WAW - Poland
+Wroclaw - WRO - Poland
+Yerevan - EVN - Armenia
+Zagreb - ZRH - Croatia
+Zürich - ZRH - Switzerland
+Abu Dhabi - AUH - United Arab Emirates
+Ahmedabad - AMD - India
+Almaty - ALA - Kazakhstan
+Amritsar - ATQ - India
+Amman - AUH - Jordan
+Ashkhabad - ASB - Turkmenistan
+Baghdad - BGW - Iraq
+Bahrain - BAH - Bahrain
+Bakalalan - BKM - Malaysia
+Bandung - BDO - Indonesia
+Bangalore - BLR - India
+Bangkok - BKK - Thailand
+Basra - BAH - Iraq
+Beijing - PEK - China
+Beirut - BEY - Lebanon
+Busan - PUS - South Korea
+Cebu - CEB - Philippines
+Chandigarh - IXC - India
+Changchun - CGQ - China
+Chengdu - CTU - China
+Chennai - MAA - India
+Chongqing - CKG - China
+Chiang Mai - CNX - Thailand
+Cochin - COK - India
+Colombo - CMB - Sri Lanka
+Dalian - DLC - China
+Da Nang - DAD - Vietnam
+Dammam - DMM - Saudi Arabia
+Dehradun - DED - India
+Delhi - DEL - India
+Denpasar - Bali - DPS - Indonesia
+Dhaka - DAC - Bangladesh
+Doha - DOH - Qatar
+Dubai - DXB - United Arab Emirates
+Eilat - ETH - Israel
+Fukuoka - FUK - Japan
+Goa - GOI - India
+Guam - GUM - Mariana Islands
+Guangzhou - CAN - China
+Guiyang - KWE - China
+Hanoi - HAN - Vietnam
+Hat Yai - HDY - Thailand
+Hyderabad - HYD - India
+Hangzhou - HGH - China
+Ho Chi Minh City - SGN - Vietnam
+Hong Kong - HKG - China
+Islamabad - ISB - Pakistan
+Jakarta - JKT - Indonesia
+Jeddah - JED - Saudi Arabia
+Jinan - TNA - China
+Jinjiang - JJN - China
+Kaohsiung - KHH - Taiwan
+Karachi - KHI - Pakistan
+Kathmandu - KTM - Nepal
+Khon Kaen - KKC - Thailand
+Koh Samui - USM - Thailand
+Kolkata - CCU - India
+Kota Kinabalu - BKI - Borneo
+Krabi - KBV - Thailand
+Kuala Lumpur - KUL - Malaysia
+Kuwait City - KWI - Kuwait
+Lahore - LHE - Pakistan
+Langkawi - LGK - Malaysia
+Male - MLE - Maldives
+Manila - MNL - Philippines
+Medan - KNO - Indonesia
+Medina - MED - Saudi Arabia
+Mumbai - BOM - India
+Muscat - MCT - Oman
+Nanjing - NKG - China
+Ningbo - NGB - China
+Osaka - KIX - Japan
+Penang - PEN - Malaysia
+Phnom Penh - PNH - Cambodia
+Phuket - HKT - Thailand
+Qingdao - TAO - China
+Riyadh - RUH - Saudi Arabia
+Sapporo - SPK - Japan
+Seoul - SEL - South Korea
+Shanghai - SHA - China
+Shenzhen - SZX - China
+Siem Reap - REP - Cambodia
+Singapore - SIN - Singapore
+Taichung - RMQ - Taiwan
+Taipei - TPE - Taiwan
+Tehran - IKA - Iran
+Tel Aviv - TLV - Israel
+Tokyo - NRT - Japan
+Trivandrum - TRV - India
+Vijayawada - VGA - India
+Vishakhapatnam - VTZ - India
+Wenzhou - WNZ - China
+Xiamen - XMN - China
+Xi'an - SIA - China
+Yangon - YIW - Myanmar (Burma)
+Yiwu - YIW - China
+Zhengzhou - CGO - China
+Akron-Canton - Ohio - CAK - USA
+Albany - New York - ALB - USA
+Albuquerque - New Mexico - ABQ - USA
+Anchorage - Alaska - ANC - USA
+Asheville - North Carolina - AVL - USA
+Atlanta - Georgia - ATL - USA
+Austin - Texas - AUS - USA
+Birmingham - Alabama - BHM - USA
+Bismarck - North Dakota - BIS - USA
+Boise - Idaho - BOI - USA
+Boston - Massachusetts - BOS - USA
+Bozeman - Montana - BZN - USA
+Buffalo - New York - BUF - USA
+Calgary - YYC - Canada
+Cancun - CUN - Mexico
+Charleston - South Carolina - CHS - USA
+Charlotte - North Carolina - CLL - USA
+Chicago - Illinois - CHI - USA
+Cincinnati - Ohio - CVG - USA
+Cleveland - Ohio - CLE - USA
+Columbia - South Carolina - CAE - USA
+Columbus - Ohio - CMH - USA
+Dallas - Texas - DFW - USA
+Dayton - Ohio - DAY - USA
+Denver - Colorado - DEN - USA
+Des Moines - Iowa - DSM - USA
+Detroit - Michigan - DTW - USA
+Edmonton - YEA - Canada
+El Paso - Texas - ELP - USA
+Fargo - North Dakota - FAR - USA
+Fayetteville - North Carolina - FAY - USA
+Fort Lauderdale - Florida - FLL - USA
+Fort Myers - Florida - FMY - USA
+Gainesville - Florida - GNV - USA
+Grand Falls - Montana - GTF - USA
+Grande Prairie - YQU - Canada
+Grand Rapids - Michigan - GRR - USA
+Halifax - Nova Scotia - YHZ - Canada
+Hartford - Connecticut - BDL - USA
+Honolulu - Hawaii - HNL - USA
+Houston - Texas - IAH - USA
+Indianapolis - Indiana - IND - USA
+Jacksonville - Florida - JAX - USA
+Kansas City - Missouri - MCI - USA
+Kelowna - YLW - Canada
+Key West - Florida - EYW - USA
+Knoxville - Tennessee - TYC - USA
+Kona - Hawaii - KOA - USA
+Lafayette - Louisiana - LFT - USA
+Las Vegas - Nevada - LAS - USA
+Los Angeles - California - LAX - USA
+Louisville - Kentucky - SDF - USA
+Medford - Oregon - MFR - USA
+Memphis - Tennessee - MEM - USA
+Mexico City - MEX - Mexico
+Miami - Florida - MIA - USA
+Minneapolis - Minnesota - MSP - USA
+Mobile - Alabama - MOB - USA
+Moncton - YQM - Canada
+Montreal - Quebec - YUL - Canada
+Nashville - Tennessee - MSY - USA
+New Orleans - Louisiana - BNA - USA
+New York City - NYC - USA
+Norfolk - Virginia - ORF - USA
+Oklahoma City - Oklahoma - OKC - USA
+Orlando - Florida - MCO - USA
+Ottawa - Ontario - YOW - Canada
+Philadelphia - Pennsylvania - PHL - USA
+Phoenix - Arizona - PHX - USA
+Pittsburgh - Pennsylvania - PIT - USA
+Portland - Oregon - PDX - USA
+Québec City - YQB - Canada
+Raleigh - North Carolina - RDU - USA
+Regina - YQR - Canada
+Reno - Nevada - RNO - USA
+Roanoke - Virginia - ROA - USA
+Rochester - New York - ROC - USA
+Sacramento - California - SMF - USA
+Salt Lake City - Utah - SLC - USA
+San Antonio - Texas - SAT - USA
+San Diego - California - SAN - USA
+San Francisco - California - SFO - USA
+Saskatoon - Saskatchewan - YXE - Canada
+Savannah - Georgia - SAV - USA
+Seattle - Washington - SEA - USA
+Spokane - Washington - GEG - USA
+St John's - YYT - Canada
+Tampa - Florida - TPA - USA
+Thunder Bay - YQT - Canada
+Toronto - YTO - Canada
+Tucson - Arizona - TUS - USA
+Tulsa - Oklahoma - TUL - USA
+Vancouver - YVR - Canada
+Victoria - YYJ - Canada
+Washington DC - IAD - USA
+Wausau - Wisconsin - CWA - USA
+West Palm Beach - Florida - PBI - USA
+Winnipeg - Manitoba - YWG - Canada
+Adelaide - ADL - Australia
+Auckland - AKL - New Zealand
+Brisbane - BNE - Australia
+Canberra - CBR - Australia
+Cairns - CNS - Australia
+Christchurch - CHC - New Zealand
+Darwin - DRW - Australia
+Dunedin - DUD - New Zealand
+Gold Coast - OOL - Australia
+Gladstone - DUD - Australia
+Hobart - GLT - Tasmania - Australia
+Kalgoorlie-Boulder - KGI - Australia
+Melbourne - MEL - Australia
+Mount Isa - ISA - Australia
+Perth - PER - Australia
+Rockhampton - ROK - Australia
+Sydney - SYD - Australia
+Wellington - WLG - New Zealand
+Abidjan - ABJ - Ivory Coast
+Abuja - ABV - Nigeria
+Accra - ACC - Ghana
+Addis Ababa - ADD - Ethiopia
+Agadir - AGA - Morocco
+Algiers - ALG - Algeria
+Alexandria - ALY / HBE - Egypt
+Antananarivo - TNR - Madagascar
+Asmara - ASM - Eritrea
+Aswan - ASW - Egypt
+Bamako - BKO - Mali
+Bangui - BJL - Central African Republic
+Banjul - BGF - Gambia
+Beira - BEW - Mozambique
+Benghazi - BEN - Libya
+Benin City - BNI - Nigeria
+Blantyre - BLZ - Malawi
+Bloemfontein - BFN - South Africa
+Brazzaville - BZV - Congo
+Bujumbura - BJM - Burundi
+Bukoba - BKZ - Tanzania
+Bulawayo - BUQ - Zimbabwe
+Cairo - CAI - Egypt
+Cape Town - CPT - South Africa
+Calabar - CBQ - Nigeria
+Casablanca - CAS - Morocco
+Chimoio - VPY - Mozambique
+Conakry - CKY - Guinea
+Cotonou - COO - Benin
+Dakar - DKR - Senegal
+Dar es Salaam - DAR - Tanzania
+Djibouti - JIB - Djibouti
+Douala - DLA - Cameroon
+Durban - DUR - South Africa
+East London - ELS - South Africa
+Eldoret - EDL - Kenya
+Enugu - ENU - Nigeria
+Entebbe - EBB - Uganda
+Francistown - FRW - Botswana
+Freetown - FNA - Sierra Leone
+Gaborone - GBE - Botswana
+George - GRJ - South Africa
+Harare - HRE - Zimbabwe
+Hoedspruit - HDS - South Africa
+Hurghada - HRG - Egypt
+Inhambane - INH - Mozambique
+Johannesburg - JNB - South Africa
+Juba - JUB - South Sudan
+Kasane - BBK - Botswana
+Katima Mulilo - MPA - Namibia
+Khartoum - KRT - Sudan
+Kigali - KGL - Rwanda
+Kigoma - TKQ - Tanzania
+Kimberley - KIM - South Africa
+Kilimanjaro - JRO - Tanzania
+Kinshasa - FIH - Congo
+Kisumu - KIS - Kenya
+Lagos - LOS - Nigeria
+Lanseria - HLA - South Africa
+Libreville - LBV - Gabon
+Lichinga - VXC - Mozambique
+Lilongwe - LLW - Malawi
+Livingstone - LVI - Zambia
+Lomé - LFW - Togo
+Luanda - LAD - Angola
+Lubango - SDD - Angola
+Lubumbashi - FBM - Congo
+Luderitz - LUD - Namibia
+Lusaka - LUN - Zambia
+Mahe - SEZ - Seychelles
+Malabo - SSG - Equatorial Guinea
+Malindi - MYD - Kenya
+Manzini - MTS - Swaziland
+Maputo - MPM - Mozambique
+Marrakech  - RAK - Morocco
+Maseru - MCC - Lesotho
+Maun - MUB - Botswana
+Mombasa - MBA - Kenya
+Monrovia - ROB - Liberia
+Mwanza - MWZ - Tanzania
+Nairobi - NBO - Kenya
+Nampula - APL - Mozambique
+N'Djamena - NDJ - Chad
+Ndola - NLA - Zambia
+Nelspruit - MQP - South Africa
+Nosy Be - NOS - Madagascar
+Nouakchott - NKC - Mauritania
+Ouagadougou - OUA - Burkina Faso
+Ondangwa - OND - Namibia
+Oranjemund - OMD - Namibia
+Pemba - POL - Mozambique
+Phalaborwa - PHW - South Africa
+Pietermartizburg - PZB - South Africa
+Pointe Noire - PNR - Congo
+Port Harcourt - PHC - Nigeria
+Port Louis - MRU - Mauritius
+Polokwane - PTG - South Africa
+Port Elizabeth - PLZ - South Africa
+Praslin Island - PRI - Seychelles
+Quelimane - UEL - Mozambique
+Rabat - RBA - Morocco
+Richards Bay - RCB - South Africa
+Rundu - NDU - Namibia
+Sétif - QSF - Algeria
+Sharm el-Sheikh - SSH - Algeria
+Saint Denis - RUN - Reunion Island
+Tete - TET - Mozambique
+Toamasina - TMM - Madagascar
+Toliara - TLE - Madagascar
+Tripoli - TIP - Libya
+Tunis - TUN - Tunisia
+Umtata - UTT - South Africa
+Upington - UTN - South Africa
+Victoria Falls - VFA - Zimbabwe
+Vilanculos - VNX - Mozambique
+Walvis Bay - WVB - Namibia
+Windhoek - WDH - Namibia
+Yaoundé - NSI - Cameroon
+Zanzibar - ZNZ - Tanzania
+Aguadilla Borinquen - BQN - Puerto Rico
+Arequipa - AQP - Peru
+Asunción - ASU - Paraguay
+Barbados - BGI - Barbados
+Bariloche - BRC - Argentina
+Belem - BEL - Brazil
+Belo Horizonte - BHZ - Brazil
+Bogota - BOG - Colombia
+Brasilia - BSB - Brazil
+Buenos Aires - BUE - Argentina
+Cancun - CUN - Mexico
+Caracas - CCS - Venezuela
+Cartagena - CTG - Colombia
+Cozumel - CZM - Mexico
+Curitiba - CWB - Brazil
+Cusco - CUZ - Peru
+El Calafate - FTE - Argentina
+Florianopolis - FLN - Brazil
+Fortaleza - FLN - Brazil
+Grand Cayman - GCM - Cayman Islands - Caribbean
+Grenada - GND - Grenadines - Caribbean
+Guayaquil - GYE - Ecuador
+Havana - HAV - Cuba
+Hermosillo - HMO - Mexico
+Iguassu Falls -  IGU - Brazil
+Iguazú -  IGR - Argentina
+Ilhéus -  IOS - Brazil
+Kingston - KIN - Jamaica
+La Paz - LPB - Bolivia
+Lima - LIM - Peru 
+Managua - MGA - Nicaragua
+Manaus - MNL - Brazil
+Medellin - MDE - Colombia
+Mendoza - MNL - Argentina
+Mexico City - MEX - Mexico
+Montevideo - MVD - Uruguay
+Nassau - NAS - Bahamas
+Panama City - PTY - Panama
+Pereira - PEI - Colombia
+Porto Alegre - POA - Brazil
+Quito - UIO - Ecuador
+Rio De Janeiro - RIO - Brazil
+Salvador - SSA - Brazil
+San Juan - SJU - Puerto Rico
+San Jose - SJO - Costa Rica
+Santa Cruz - SRZ - Bolivia
+Santiago - SCL - Chile
+São Luís - SLZ - Brazil
+Sao Paulo - GRU - Brazil
+Silao - BJX - Mexico
+St. Thomas - STT - U.S. Virgin Islands
+Tuxtla Gutiérrez - TGZ - Mexico
+Ushuaia - USH - Argentina
+Vitoria - VIX - Brazil
