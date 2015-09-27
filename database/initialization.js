@@ -5,11 +5,13 @@ var db = require('mongoskin').db('mongodb://localhost:27017/destination_data');
 var fs = require('fs');
 var endpoint = 'http://dbpedia.org/sparql';
 var client = new SparqlClient(endpoint);
+var jsonfile = require('jsonfile')
 
 var file_location_codes = "./database/initial data/location_destination.txt";
 var file_locations_new = "./database/initial data/locations_new.txt";
 var file_locations = "./database/initial data/locations.txt";
 var file_weightings = "./database/initial data/weightings.txt";
+var file_flight_data = "./database/initial data/flight_data.json";
 
 function setDB(databaseString){
 	db = require('mongoskin').db('mongodb://localhost:27017/'+databaseString);
@@ -342,6 +344,28 @@ module.exports = {
 				callback(null,updated_destinations)	
 			}
 		});
+	},
+
+	addFlightData: function(callback){
+		createFlightData(function(err,flight_data){
+			if(err){
+				console.log("error creating flight data: "+err);
+			}else{
+				isPopulated("flightsCollection",function(err){
+					if(err){
+						console.log(err);
+					}else{
+						insert(flight_data,"flightsCollection",function(err){
+							if(err){
+								console.log(err);
+							}else{
+								console.log("successfully added flight data to the database");
+							}
+						});
+					}
+				});
+			}
+		});
 	}
 
 
@@ -379,6 +403,31 @@ function createDestinationDetails(destination_data,destinations){
 
 
 	return destinations
+}
+//some mock flight data to use in the form:
+/*
+	{
+		destination: PAR,
+		origin: CPT,
+		cost: ,
+		departure_date:[],
+		arival_date:[],
+	}
+
+
+
+*/
+function createFlightData(callback){
+
+	jsonfile.readFile(file_flight_data, function(err, obj) {
+		if(err){
+			callback(err,null);
+		}else{
+			callback(null,obj);
+		}
+		
+
+	})
 }
 
 

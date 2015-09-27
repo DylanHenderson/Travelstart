@@ -1,0 +1,350 @@
+[{
+	"destination": "PAR",
+	"origin": "CPT",
+	"price": "9637"
+},
+{
+	"destination": "PAR",
+	"origin": "CPT",
+	"price": "10040"
+},
+{
+	"destination": "PAR",
+	"origin": "CPT",
+	"price": "7560"
+},
+{
+	"destination": "PAR",
+	"origin": "CPT",
+	"price": "9560"
+},
+{
+	"destination": "PAR",
+	"origin": "CPT",
+	"price": "11560"
+},
+{
+	"destination": "PAR",
+	"origin": "JNB",
+	"price": "9437"
+},
+{
+	"destination": "PAR",
+	"origin": "JNB",
+	"price": "9070"
+},
+{
+	"destination": "PAR",
+	"origin": "JNB",
+	"price": "9537"
+},
+{
+	"destination": "PAR",
+	"origin": "JNB",
+	"price": "9738"
+},
+{
+	"destination": "PAR",
+	"origin": "JNB",
+	"price": "10508"
+},
+{
+	"destination": "ROM",
+	"origin": "CPT",
+	"price": "7840"
+},
+{
+	"destination": "ROM",
+	"origin": "CPT",
+	"price": "8655"
+},
+{
+	"destination": "ROM",
+	"origin": "CPT",
+	"price": "8739"
+},
+{
+	"destination": "ROM",
+	"origin": "CPT",
+	"price": "9485"
+},
+{
+	"destination": "ROM",
+	"origin": "CPT",
+	"price": "14050"
+},
+{
+	"destination": "ROM",
+	"origin": "JNB",
+	"price": "7150"
+},
+{
+	"destination": "ROM",
+	"origin": "JNB",
+	"price": "8005"
+},
+{
+	"destination": "ROM",
+	"origin": "JNB",
+	"price": "9267"
+},
+{
+	"destination": "ROM",
+	"origin": "JNB",
+	"price": "10201"
+},
+{
+	"destination": "ROM",
+	"origin": "JNB",
+	"price": "12508"
+},
+{
+	"destination": "AMS",
+	"origin": "CPT",
+	"price": "8850"
+},
+{
+	"destination": "AMS",
+	"origin": "CPT",
+	"price": "8855"
+},
+{
+	"destination": "AMS",
+	"origin": "CPT",
+	"price": "9320"
+},
+{
+	"destination": "AMS",
+	"origin": "CPT",
+	"price": "9460"
+},
+{
+	"destination": "AMS",
+	"origin": "CPT",
+	"price": "9300"
+},
+{
+	"destination": "AMS",
+	"origin": "JNB",
+	"price": "8640"
+},
+{
+	"destination": "AMS",
+	"origin": "JNB",
+	"price": "8700"
+},
+{
+	"destination": "AMS",
+	"origin": "JNB",
+	"price": "9240"
+},
+{
+	"destination": "AMS",
+	"origin": "JNB",
+	"price": "9105"
+},
+{
+	"destination": "AMS",
+	"origin": "JNB",
+	"price": "9210"
+},
+{
+	"destination": "ATH",
+	"origin": "CPT",
+	"price": "9850"
+},
+{
+	"destination": "ATH",
+	"origin": "CPT",
+	"price": "10855"
+},
+{
+	"destination": "ATH",
+	"origin": "CPT",
+	"price": "9620"
+},
+{
+	"destination": "ATH",
+	"origin": "CPT",
+	"price": "8750"
+},
+{
+	"destination": "ATH",
+	"origin": "CPT",
+	"price": "9380"
+},
+{
+	"destination": "ATH",
+	"origin": "JNB",
+	"price": "9200"
+},
+{
+	"destination": "ATH",
+	"origin": "JNB",
+	"price": "8760"
+},
+{
+	"destination": "ATH",
+	"origin": "JNB",
+	"price": "11402"
+},
+{
+	"destination": "ATH",
+	"origin": "JNB",
+	"price": "8488"
+},
+{
+	"destination": "ATH",
+	"origin": "JNB",
+	"price": "12980"
+},
+{
+	"destination": "LON",
+	"origin": "CPT",
+	"price": "11200"
+},
+{
+	"destination": "LON",
+	"origin": "CPT",
+	"price": "10355"
+},
+{
+	"destination": "LON",
+	"origin": "CPT",
+	"price": "10150"
+},
+{
+	"destination": "LON",
+	"origin": "CPT",
+	"price": "12060"
+},
+{
+	"destination": "LON",
+	"origin": "CPT",
+	"price": "11380"
+},
+{
+	"destination": "LON",
+	"origin": "JNB",
+	"price": "10980"
+},
+{
+	"destination": "LON",
+	"origin": "JNB",
+	"price": "10500"
+},
+{
+	"destination": "LON",
+	"origin": "JNB",
+	"price": "11482"
+},
+{
+	"destination": "LON",
+	"origin": "JNB",
+	"price": "11326"
+},
+{
+	"destination": "LON",
+	"origin": "JNB",
+	"price": "10050"
+},
+{
+	"destination": "BKK",
+	"origin": "CPT",
+	"price": "13200"
+},
+{
+	"destination": "BKK",
+	"origin": "CPT",
+	"price": "10355"
+},
+{
+	"destination": "BKK",
+	"origin": "CPT",
+	"price": "9987"
+},
+{
+	"destination": "BKK",
+	"origin": "CPT",
+	"price": "12850"
+},
+{
+	"destination": "BKK",
+	"origin": "CPT",
+	"price": "13380"
+},
+{
+	"destination": "BKK",
+	"origin": "JNB",
+	"price": "9850"
+},
+{
+	"destination": "BKK",
+	"origin": "JNB",
+	"price": "10740"
+},
+{
+	"destination": "BKK",
+	"origin": "JNB",
+	"price": "11681"
+},
+{
+	"destination": "BKK",
+	"origin": "JNB",
+	"price": "14205"
+},
+{
+	"destination": "BKK",
+	"origin": "JNB",
+	"price": "8880"
+},
+{
+	"destination": "DXB",
+	"origin": "CPT",
+	"price": "7200"
+},
+{
+	"destination": "DXB",
+	"origin": "CPT",
+	"price": "8355"
+},
+{
+	"destination": "DXB",
+	"origin": "CPT",
+	"price": "9947"
+},
+{
+	"destination": "DXB",
+	"origin": "CPT",
+	"price": "9850"
+},
+{
+	"destination": "DXB",
+	"origin": "CPT",
+	"price": "6380"
+},
+{
+	"destination": "DXB",
+	"origin": "JNB",
+	"price": "6850"
+},
+{
+	"destination": "DXB",
+	"origin": "JNB",
+	"price": "7740"
+},
+{
+	"destination": "DXB",
+	"origin": "JNB",
+	"price": "8681"
+},
+{
+	"destination": "DXB",
+	"origin": "JNB",
+	"price": "9205"
+},
+{
+	"destination": "DXB",
+	"origin": "JNB",
+	"price": "7880"
+}]
