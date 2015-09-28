@@ -13,31 +13,11 @@ $(document).ready(function() {
 function searchTerm(){
 	    // jQuery AJAX call for JSON
 
-    var html = $("#test").html();
-
-    $("#cent").html(html);
-
-    console.log("data");
-
     var name = $("input").val();
     console.log(name)
 
     $.getJSON( '/query?name='+name, function( data ) {
-
-    	/*
-    	[
-    	{
-           '/query?name='+name
-    		location:"PAR",
-    		location_name: "Paris",
-    		imageURL: "www.",
-    		country: ""
-
-    	}
-    	]
-    	*/
         
-
         var dig = data.result;
 
         // var  html = '<h3>'+ obj.locationName+
@@ -57,8 +37,10 @@ function searchTerm(){
           
           //var deep = obj.locationName;
           //showRes(obj);
-          var blah = '<h3>'+obj.locationName+'<h3>';
-          $('#test').text(blah);
+          var blah = '<h3>'+obj.locationName+
+          '<span>'+obj.price+'</span>'+
+          '</h3>';
+
           console.log(blah);
           $('#test').html(blah);
         });
