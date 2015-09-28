@@ -6,7 +6,7 @@
 #pricing-table {
 	margin: 100px auto;
 	text-align: center;
-	width: 900px; 
+	width: 1000px; 
 	opacity: 0.8;
 }
 
@@ -14,7 +14,7 @@
 {
 	margin: 100px auto;
 	text-align: left;
-	width: 900px;
+	width: 1000px;
 	opacity: 0.8;
 	text-shadow: 0 1px rgba(255,255,255,.8);        
 	background: #fff;      
@@ -35,7 +35,7 @@
 	border: 1px solid #ddd;
 	color: #333;
 	padding: 20px;
-	width: 180px; /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */      
+	width: 200px; /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */      
 	float: left;
 	position: relative;
 }
