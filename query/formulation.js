@@ -1,13 +1,12 @@
 var natural = require('natural');
-var spell = require('./speller.js')
+var spell = require('./speller.js');
 var fs = require('fs');
 var wordnet = new natural.WordNet();
 var nounInflector = new natural.NounInflector();
-var verbInflector = new natural.PresentVerbInflector();
 var tokenizer = new natural.WordTokenizer();
 var stemmer = natural.PorterStemmer;
 
-var trainingtext = "./query/nsc.txt";
+var locationtext = "./query/locations.txt";
 var commontext = "./query/commies.txt";
 var stopwords = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',"'", ".", "?","like", "place","a", "about", "above", "above", "across", "after", "afterwards", "again", "against", "all", "almost", "alone", "along", "already", "also","although","always","am","among", "amongst", "amoungst", "amount",  "an", "and", "another", "any","anyhow","anyone","anything","anyway", "anywhere", "are", "around", "as",  "at", "back","be","became", "because","become","becomes", "becoming", "been", "before", "beforehand", "behind", "being", "below", "beside", "besides", "between", "beyond", "bill", "both", "bottom","but", "by", "call", "can", "cannot", "cant", "co", "con", "could", "couldnt", "cry", "de", "describe", "detail", "do", "done", "down", "due", "during", "each", "eg", "eight", "either", "eleven","else", "elsewhere", "empty", "enough", "etc", "even", "ever", "every", "everyone", "everything", "everywhere", "except", "few", "fifteen", "fify", "fill", "find", "fire", "first", "five", "for", "former", "formerly", "forty", "found", "four", "from", "front", "full", "further", "get", "give", "go", "had", "has", "hasnt", "have", "he", "hence", "her", "here", "hereafter", "hereby", "herein", "hereupon", "hers", "herself", "him", "himself", "his", "how", "however", "hundred", "i", "ie", "if", "in", "inc", "indeed", "interest", "into", "is", "it", "its", "itself", "keep", "last", "latter", "latterly", "least", "less", "ltd", "made", "many", "may", "me", "meanwhile", "might", "mill", "mine", "more", "moreover", "most", "mostly", "move", "much", "must", "my", "myself", "name", "namely", "neither", "never", "nevertheless", "next", "nine", "no", "nobody", "none", "noone", "nor", "not", "nothing", "now", "nowhere", "of", "off", "often", "on", "once", "one", "only", "onto", "or", "other", "others", "otherwise", "our", "ours", "ourselves", "out", "over", "own","part", "per", "perhaps", "please", "put", "rather", "re", "same", "see", "seem", "seemed", "seeming", "seems", "serious", "several", "she", "should", "show", "side", "since", "sincere", "six", "sixty", "so", "some", "somehow", "someone", "something", "sometime", "sometimes", "somewhere", "still", "such", "system", "take", "ten", "than", "that", "the", "their", "them", "themselves", "then", "thence", "there", "thereafter", "thereby", "therefore", "therein", "thereupon", "these", "they", "thickv", "thin", "third", "this", "those", "though", "three", "through", "throughout", "thru", "thus", "to", "together", "too", "top", "toward", "towards", "twelve", "twenty", "two", "un", "under", "until", "up", "upon", "us", "very", "via", "was", "we", "well", "were", "what", "whatever", "when", "whence", "whenever", "where", "whereafter", "whereas", "whereby", "wherein", "whereupon", "wherever", "whether", "which", "while", "whither", "who", "whoever", "whole", "whom", "whose", "why", "will", "with", "within", "without", "would", "yet", "you", "your", "yours", "yourself", "yourselves", "the"];
 
@@ -27,28 +26,45 @@ function readFile(filename, callback){
 
 var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback) {
 
-	var tempresult = tokenizer.tokenize(query.toLowerCase());
+	var terms = tokenizer.tokenize(query.toLowerCase());
+	var tempresult = [];
 	var removedstopwords = [];
-	var locationkeys = [];
 	var correctionoccured = false;
 
-	console.log("reading file");
-	readFile(trainingtext,function(err,data){
-		if (err) {
-			console.log("error reading from file: "+ err);
-			callback(err);
-		} else {
-			console.log("training spell-checker");
-			spell.train(data);
 
-			// ========================================================================================================
-			readFile(commontext,function(err1,commondata){
-				if (err1) {
-					console.log("error reading from file: "+ err1);
-					callback(err1);
+	// ========================================================================================================
+	readFile(commontext,function(err1,commondata){
+		if (err1) {
+			console.log("error reading from file: "+ err1);
+			callback(err1);
+		} else {
+			commonwords = commondata.split(/\r?\n/);
+			
+			//  ===============================================================================================
+			readFile(locationtext,function(error,locationdata){
+				if (error) {
+					console.log("error reading from file: "+ error);
+					callback(error);
 				} else {
-					commonwords = commondata.split(/\r?\n/);
-					
+					var lines = locationdata.split(/\r?\n/);
+					var cities= [];
+					var codes = [];
+					var locationkeys = [];
+
+					for (var i=0;i<lines.length;i++) {
+						var line = lines[i].split("-");
+						if (line.length == 3) {
+							cities.push(line[0].trim().toLowerCase());
+							codes.push(line[1].trim());
+						}
+					}
+
+					for (var i=0;i<terms.length;i++) {
+						if (cities.indexOf(terms[i]) == -1) {
+							tempresult.push(terms[i]);
+						} else {locationkeys.push(codes[cities.indexOf(terms[i])]);}
+					}
+
 					// take original query and remove stop words and fix spelling errors
 					console.log("removing stop words, fixing spelling errors,");
 					console.log("singularizing query terms, converting words to most common form");
@@ -108,10 +124,10 @@ var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback)
 								priceMin: minPrice,
 								priceMax: maxPrice
 							};
+					
 							
 							var err = null;
 							callback(todb, err);
-							console.log("keywords sent to DB: "+keylist);
 
 						} else {
 							// lookup word with wordnet
@@ -129,11 +145,12 @@ var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback)
 							});					
 						}
 					}
-					// ================================================================================================
+					// ========================================================================================
 				}
 			});
 		}
-	});        
+	});
+     
 }
 
 // ====================================================================================================================
