@@ -24,7 +24,7 @@ function readFile(filename, callback){
 
 // ====================================================================================================================
 
-var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback) {
+var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departLocation, callback) {
 
 	var terms = tokenizer.tokenize(query.toLowerCase());
 	var tempresult = [];
@@ -119,10 +119,11 @@ var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback)
 							var todb = {
 								keywords: keylist,
 								locations: locationkeys,
-								departureDate: deptDate,
+								departureDate: departDate,
 								arrivalDate: arrDate,
 								priceMin: minPrice,
-								priceMax: maxPrice
+								priceMax: maxPrice,
+								departureLocation: departLocation
 							};
 					
 							
