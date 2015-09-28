@@ -11,8 +11,9 @@ router.get('/', function(req, res, next) {
 
 // user enters query such as "somewhere fun"
 router.get('/query', function(req, res, next) {
-  
-	query.formulate(req.query.name,function(results,err){
+  	
+  	//query, deptDate, arrDate, minPrice, maxPrice, callback
+	query.formulate(req.query.name,[1,1,1],[1,1,1],5000,9000,function(results,err){
 
 		db.retrieve(results,function(results1,err1){
 
