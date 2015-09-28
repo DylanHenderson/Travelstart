@@ -74,6 +74,10 @@ module.exports = {
 		console.log(query);
 		//when we do a retrieval that contains locations and keywords, we do the lowest possible weight change
 		var weight_change = 1;
+
+		var locations = query.locations;
+		var keywords = query.keywords;
+
 		if(locations && keywords)
 		insertion.addKeywords(query.locations,query.keywords,weight_change);
 
@@ -84,7 +88,7 @@ module.exports = {
 			if(err){
 				callback(null,err);
 			}else{
-				console.log(docs);
+				console.log(docs.keywords);
 				callback(docs,null);
 			}
 		});
