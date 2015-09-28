@@ -28,20 +28,46 @@ module.exports = {
 
 	getResults: function(query,callback){
 		var keyword_query = {"keyword":{"$in":query.keywords}};
-		fetch(keyword_query,"keywordCollection",function(err,results){
-			callback(err,results);
+        var location_query = {"location":{"$in":query.locations}};
+        var results = {};
+		fetch(keyword_query,"keywordCollection",function(err,keywords){
+
+            if(err){
+                callback(err,null);
+            }else{
+                results.keywords = keywords;
+                //callback(err,results);
+                fetch({},"flightsCollection",function(err2,flights){
+
+                    if(err2){
+                        callback(err2,null);
+                    }else{
+                        results.flights = flights;
+                        fetch(location_query,"destinationCollection",function(err3,locations){
+                            if(err3){
+                                callback(err3,null);
+                            }else{
+                                results.locations = locations;
+                                callback(null,results);
+                            }
+                            
+                        });
+                    }
+                    
+                });
+            }
+            
+
 		});
 	},
 
     getLocations: function(query,callback){
-        location_query = {"location":"PAR"};
+        location_query = {"location":{"$in":query.locations}};
         fetch(location_query,"destinationCollection",function(err,results){
             callback(err,results);
         });
     }
 }
-
-
 
 
 

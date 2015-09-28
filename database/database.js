@@ -27,6 +27,10 @@ module.exports = {
 		//86400000 ms
 		setInterval(normalizeWeightsDaily,5000);
 
+		initialization.addFlightData(function(err){
+
+		});
+
 		initialization.addKeywordWeightings(function(err){
 			if(err){
 				console.log(err);
@@ -66,12 +70,7 @@ module.exports = {
 	//get keywords from database
 	retrieve: function(query, callback){
 		console.log('database querying');
-		
-		//dummy query example
-		/*query = {
-				locations:["NYC","LON"],
-				keywords:["cold","urban"]				
-		}*/
+
 		console.log(query);
 		//when we do a retrieval that contains locations and keywords, we do the lowest possible weight change
 		var weight_change = 1;
