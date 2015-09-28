@@ -2,24 +2,32 @@ extends layout
 
 block content
    
-  .container
+  #main.container
     .row
       .box
         .form-group.col-lg-12
           .cent
             p
-              input#searchTerm.form-control(type='text', name='Search', placeholder='Search')
+              input#searchTerm.form-control(type='text', placeholder='Search')
+              a.tooltip(href='#')
+                img(src='/images/tool.png')
+                span
+                  strong Example input
+                  br
+                  | Fun holiday.
+                  br
+                  | Tropical destinations.
+                  br
+                  | Romantic paradise.  
             
             a#search(type='button')
-              button.btn.btn-default Submit
-            button#more.btn.btn-default(type='button', onclick='showDiv()') More
-  
-    .popUpBannerBox
-      .popUpBannerInner
-        .popUpBannerContent
-          h3 Example searches
-          p Exotic destination <br> Tropical destination <br> Child friendly holidays...         
-         
+              button#sub.btn.btn-default(onclick='showResults()') Submit
+            a.tooltip(href='#')  
+              button#more.btn.btn-default(type='button', onclick='showDiv()') More
+              span
+                  strong More Button
+                  br
+                  | Lets you have a more specific search with dates and price ranges.
 
   #moreOptions.container(style='display:none;')
     .row
@@ -36,4 +44,86 @@ block content
               input.form-control1(type='number', placeholder='Maximum fair')
 
             a#search(type='button')
-              button.btn.btn-default Submit
+              button.btn.btn-default(onclick='showResults()') Submit
+
+  #pricing-table.clear(style='display:none;')
+    #cent
+      .plan
+        h3          
+          | Rome
+          span $59
+        a.btn.btn-default(href='') Book
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+      .plan
+        h3          
+          | Rome
+          span $59
+        a.btn.btn-default(href='') Book
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+      .plan
+        h3          
+          | Rome
+          span $59
+        a.btn.btn-default(href='') Book
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+      .plan
+        h3          
+          | Rome
+          span $59
+        a.btn.btn-default(href='') Book
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+      .plan
+        h3          
+          | Rome
+          span $59
+        a.btn.btn-default(href='') Book
+        ul
+          li
+            |  Detail 1
+          li
+            |  Detail 2
+          li
+            |  Detail 3
+          li
+            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details    
+
+  #details.container(style='display:none;')
+    .row
+      .box
+        .form-group.col-lg-12
+          .cent    
+            img(src='/images/Rome.jpg')
+            p Rome, Italy’s capital, is a sprawling, cosmopolitan city with nearly 3,000 years of globally influential art, architecture and culture on display. Ancient ruins such as the Roman Forum and the Colosseum evoke the power of the former Roman Empire. Vatican City, headquarters of the Roman Catholic Church, boasts St. Peter’s Basilica and the Vatican Museums, which house masterpieces such as Michelangelo’s Sistine Chapel frescoes.
+            a.btn.btn-default(href='') Book
