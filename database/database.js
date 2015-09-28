@@ -99,7 +99,7 @@ module.exports = {
 				callback(null,docs);
 			}
 		});
-	});
+	},
 
 	//for when a user selects one of the results, send through the location with keywords to add/update
 	updateWeighting: function(query){

@@ -23,6 +23,7 @@
     "rewire": "*",
     "serve-favicon": "~2.3.0",
     "sparql-client": "*",
-    "util": "*"
+    "util": "*",
+    "jsonfile": "*"
   }
 }
