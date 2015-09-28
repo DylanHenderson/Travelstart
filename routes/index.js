@@ -18,10 +18,10 @@ router.get('/query', function(req, res, next) {
 		db.retrieve(results,function(results1,err1){
 
 			ranking.calculateRank(results1,function(results2,err2){
-
+				console.log("sending through results");
 				console.log(results2);
 				res.send({result: results2});
-
+				res.end();
 			});
 		});
 
