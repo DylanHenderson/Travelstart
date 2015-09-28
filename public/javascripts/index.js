@@ -16,6 +16,16 @@ function searchTerm(){
     var name = $("input").val();
     console.log(name)
 
+
+    $.post('/query', {searchQuery: name, priceMin: 0, priceMax: 9000, departureDate: [1,1,1], returnDate: [1,1,1], departureLocation: "CPT"}, function(data, textStatus) {
+      //data contains the JSON object
+      //textStatus contains the status: success, error, etc
+      var dig = data.result;
+      console.log(dig);
+
+    }, "json");
+
+    /*
     $.getJSON( '/query?name='+name, function( data ) {
         
         var dig = data.result;
@@ -55,7 +65,7 @@ function searchTerm(){
         
 
 
-    });
+    });*/
 }
 
 function yesnoCheck() {

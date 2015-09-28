@@ -116,7 +116,7 @@ Poznan - POZ - Poland
 Prague - PRG - Czech Republic
 Reykjavik - REK - Iceland
 Riga - RIX - Latvia
-Rome - FCO - Italy
+Rome - ROM - Italy
 Rostov - ROV - Russia
 Rzeszow - RZE - Poland
 Salzburg - SZG - Austria

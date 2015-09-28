@@ -10,18 +10,17 @@ router.get('/', function(req, res, next) {
 });
 
 // user enters query such as "somewhere fun"
-router.get('/query', function(req, res, next) {
-  	
+router.post('/query', function(req, res) {
   	//query, deptDate, arrDate, minPrice, maxPrice, callback
-	query.formulate(req.query.name,[1,1,1],[1,1,1],5000,9000,function(results,err){
+	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,"CPT",function(results,err){
 
 		db.retrieve(results,function(results1,err1){
 
 			ranking.calculateRank(results1,function(results2,err2){
 				console.log("sending through results");
 				console.log(results2);
-				res.send({result: results2});
-				res.end();
+				//res.send({result: results2},200);
+				res.status(200).send({result: results2});
 			});
 		});
 
