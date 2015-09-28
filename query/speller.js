@@ -24,7 +24,7 @@
  * 1) call speller.train() one or more times with a large text to train the language model
  * 2) call speller.correct(word) to retrieve the correction for the specified word
  */
-
+var fs = require('fs');
 var speller = {};
 
 // Dummy initializer for non-ServerJS environments.
@@ -105,3 +105,30 @@ speller.edits = function (word) {
 		});
 	return results;
 };
+
+speller.train("romantic");
+
+
+var trainingtext = "./query/nsc.txt";
+// ====================================================================================================================
+
+function readFile(filename, callback){
+	fs.readFile(filename, 'utf8', function(err, data) {
+		if (err){
+			callback(err,null);
+		}else{
+			callback(null,data);
+		}
+	});
+}
+
+readFile(trainingtext,function(err,data){
+	if (err) {
+		console.log("error reading from file: "+ err);
+		callback(err);
+	} else {
+		console.log("training spell-checker");
+		speller.train(data);
+	}
+});
+
