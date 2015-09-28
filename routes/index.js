@@ -19,12 +19,8 @@ router.get('/query', function(req, res, next) {
 			ranking.calculateRank(results1,function(results2,err2){
 
 				console.log(results2);
-				//res.send({result: results2});
-				//res.render('results',data, { title: 'Holidays' });
+				res.send({result: results2});
 
-				res.render("results", {
-        			locals: {results:results2, title: "Holidays"}
-    			});
 			});
 		});
 
