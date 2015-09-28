@@ -25,7 +25,7 @@ function readFile(filename, callback){
 
 // ====================================================================================================================
 
-var formulate = function(query, callback) {
+var formulate = function(query, deptDate, arrDate, minPrice, maxPrice, callback) {
 
 	var tempresult = tokenizer.tokenize(query.toLowerCase());
 	var removedstopwords = [];
@@ -102,11 +102,16 @@ var formulate = function(query, callback) {
 							
 							var todb = {
 								keywords: keylist,
-								locations: locationkeys
+								locations: locationkeys,
+								departureDate: deptDate,
+								arrivalDate: arrDate,
+								priceMin: minPrice,
+								priceMax: maxPrice
 							};
 							
 							var err = null;
 							callback(todb, err);
+							console.log("keywords sent to DB: "+keylist);
 
 						} else {
 							// lookup word with wordnet
