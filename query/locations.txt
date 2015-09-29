@@ -29,7 +29,7 @@ Bucharest - BUH - Romania
 Budapest - BUD - Hungary
 Cardiff - CWL - Wales
 Catania - CTA - Italy
-Chi?inau - KIV - Moldova
+Chisinau - KIV - Moldova
 Cologne - CGN - Germany
 Copenhagen - CPH - Denmark
 Corfu - CFU - Greece
@@ -314,6 +314,7 @@ Montreal - Quebec - YUL - Canada
 Nashville - Tennessee - MSY - USA
 New Orleans - Louisiana - BNA - USA
 New York City - NYC - USA
+New York - NYC - USA
 Norfolk - Virginia - ORF - USA
 Oklahoma City - Oklahoma - OKC - USA
 Orlando - Florida - MCO - USA
