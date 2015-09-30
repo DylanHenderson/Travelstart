@@ -26,11 +26,11 @@ function readFile(filename, callback){
 
 var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departLocation, callback) {
 
+	query = query.toLowerCase();
 	var terms = tokenizer.tokenize(query.toLowerCase());
 	var tempresult = [];
 	var removedstopwords = [];
 	var correctionoccured = false;
-
 
 	// ========================================================================================================
 	readFile(commontext,function(err1,commondata){
@@ -51,20 +51,53 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 					var codes = [];
 					var locationkeys = [];
 
+					// add the cities and their codes to arrays
 					for (var i=0;i<lines.length;i++) {
 						var line = lines[i].split("-");
 						if (line.length == 3) {
 							cities.push(line[0].trim().toLowerCase());
 							codes.push(line[1].trim());
 						}
+						// some cities have their states in the file as well
+						else if (line.length == 4) {
+							cities.push(line[0].trim().toLowerCase());
+							codes.push(line[2].trim());
+						}
 					}
 
+					// ========================================================================================
+					// temp query to find if cities were typed in the description bar
+					var tempquery = query;
+
+					// remove cities from query and add them to the locations
 					for (var i=0;i<terms.length;i++) {
-						if (cities.indexOf(terms[i]) == -1) {
-							tempresult.push(terms[i]);
-						} else {locationkeys.push(codes[cities.indexOf(terms[i])]);}
+						if (cities.indexOf(terms[i]) != -1) {
+							locationkeys.push(terms[i]);
+							tempquery=tempquery.replace(terms[i], "");
+							tempquery=tempquery.replace("  ", " ");
+						}
 					}
 
+					// finds cities that have more than one word in the name
+					for (var i=0;i<terms.length;i++) {
+						var anothertemp = tempquery;
+						while (anothertemp.lastIndexOf(" ") != -1) {
+							if (cities.indexOf(anothertemp) != -1) {
+								locationkeys.push(anothertemp);
+								query = query.replace(anothertemp,"");
+								query=query.replace("  ", " ");
+								tempquery = tempquery.replace(anothertemp, "");
+								tempquery=tempquery.replace("  ", " ");
+								break;
+							}
+							else { anothertemp = anothertemp.substring(0,anothertemp.lastIndexOf(" "));}
+						}
+						tempquery = tempquery.substring(tempquery.indexOf(" ")+1);
+					}
+
+					// ========================================================================================
+
+					tempresult = query.split(" ");
 					// take original query and remove stop words and fix spelling errors
 					console.log("removing stop words, fixing spelling errors,");
 					console.log("singularizing query terms, converting words to most common form");
@@ -97,7 +130,6 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 					var keys = []; // keywords that will be sent to the db, synonyms will be sent as well
 					var nokey =[]; // synonyms only will be sent to the db
 
-					// 
 					for(var i=0;i<removedstopwords.length;i++) {
 						if (commonwords.indexOf(removedstopwords[i]) != -1) { 
 							keys.push(removedstopwords[i]);
@@ -125,8 +157,8 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 								priceMax: maxPrice,
 								departureLocation: departLocation
 							};
-					
-							
+							console.log(todb);
+												
 							var err = null;
 							callback(todb, err);
 
