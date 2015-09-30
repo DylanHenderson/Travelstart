@@ -7,21 +7,46 @@ $(document).ready(function() {
 		searchTerm();
 
 	})
+    $('#search1').on('click',function(){
 
+        searchTerm();
+
+    })
 });
 
 function searchTerm(){
 	    // jQuery AJAX call for JSON
 
-    var name = $("input").val();
-    console.log(name)
+    var name = $("#searchTerm").val();
+    var location = $("select").val();
+    
+    var dDate =  $("#dep").val();
+    var rDate =  $("#ret").val();
+    var minPrice =  $("#min").val();
+    var maxPrice =  $("#max").val();
 
+    console.log(name);
+    console.log(location);
+    console.log(dDate);
+    console.log(rDate);
+    console.log(minPrice);
+    console.log(maxPrice);
 
-    $.post('/query', {searchQuery: name, priceMin: 0, priceMax: 9000, departureDate: [1,1,1], returnDate: [1,1,1], departureLocation: "CPT"}, function(data, textStatus) {
+    $.post('/query', {searchQuery: name, priceMin: minPrice, priceMax: maxPrice, departureDate: dDate, returnDate: rDate, departureLocation: location}, function(data, textStatus) 
+    {
       //data contains the JSON object
       //textStatus contains the status: success, error, etc
       var dig = data.result;
-      console.log(dig);
+
+       $.each(dig,function(i,obj){  
+
+          var blah = '<h3>'+obj.locationName+
+          '<span>'+obj.price+'</span>'+
+          '</h3>';
+
+          console.log(blah);
+          $('#test').html(blah);
+        });
 
     }, "json");
 
