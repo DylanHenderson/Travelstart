@@ -69,15 +69,6 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 					// temp query to find if cities were typed in the description bar
 					var tempquery = query;
 
-					// remove cities from query and add them to the locations
-					for (var i=0;i<terms.length;i++) {
-						if (cities.indexOf(terms[i]) != -1) {
-							locationkeys.push(terms[i]);
-							tempquery=tempquery.replace(terms[i], "");
-							tempquery=tempquery.replace("  ", " ");
-						}
-					}
-
 					// finds cities that have more than one word in the name
 					for (var i=0;i<terms.length;i++) {
 						var anothertemp = tempquery;
@@ -95,9 +86,21 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 						tempquery = tempquery.substring(tempquery.indexOf(" ")+1);
 					}
 
+					tempquery = query;
+					terms = tokenizer.tokenize(query.toLowerCase());
+
+					// remove cities from query and add them to the locations
+					for (var i=0;i<terms.length;i++) {
+						if (cities.indexOf(terms[i]) != -1) {
+							locationkeys.push(terms[i]);
+							tempquery=tempquery.replace(terms[i], "");
+							tempquery=tempquery.replace("  ", " ");
+						}
+					}
+
 					// ========================================================================================
 
-					tempresult = query.split(" ");
+					tempresult = tempquery.split(" ");
 					// take original query and remove stop words and fix spelling errors
 					console.log("removing stop words, fixing spelling errors,");
 					console.log("singularizing query terms, converting words to most common form");

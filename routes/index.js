@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 // user enters query such as "somewhere fun"
 router.post('/query', function(req, res) {
   	//query, deptDate, arrDate, minPrice, maxPrice, callback
-	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,"CPT",function(results,err){
+	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,req.body.departureLocation,function(results,err){
 
 		db.retrieve(results,function(results1,err1){
 
