@@ -97,9 +97,11 @@ module.exports = {
 	getLocationInfo: function(query,callback){
 		retrieval.getLocations(query,function(err,docs){
 			if(err){
+				console.log("sending through error: "+ err);
 				callback(err,null);
 			}else{
 				//console.log(docs);
+				console.log("sending through docs");
 				callback(null,docs);
 			}
 		});

@@ -218,13 +218,8 @@ module.exports = {
         finalLocList[i] = locationVectors[i].location;
 
       }
-      /*
-      function setfinalList(){
-        db.getLocationInfo(finalLocList,function(err,results){
-            console.log(results);
-            callback(results,err)  
-        });
-      }*/
+      
+
 
       }
       function populateFlights(list){
@@ -251,12 +246,28 @@ module.exports = {
     console.log("Eligible Locations:   ");
     console.log(finalLocList);
     console.log("Eligible Flights");
-    console.log(finalFlightList);
+   // console.log(finalFlightList);
 
     //callback()
-    
 
-    callback(finalFlightList, err);
+    db.getLocationInfo(finalLocList,function(err,results){
+      console.log(results);
+      callback(results, err);
+      /*
+      for(everything in flight list){
+        add info for each things
+        location code =  get location code from flight list
+
+        for(everything in location info){
+          if location code is the same
+
+          flightlist[i] = flightlist[i] += locationInfo[i]
+        }
+        flightlist[i] 
+      }
+      */
+    });
+    
   }
 
 };

@@ -62,7 +62,7 @@ module.exports = {
 	},
 
     getLocations: function(query,callback){
-        location_query = {"location":{"$in":query.locations}};
+        location_query = {"location":{"$in":query}};
         fetch(location_query,"destinationCollection",function(err,results){
             callback(err,results);
         });
