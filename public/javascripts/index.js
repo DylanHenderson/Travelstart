@@ -32,10 +32,11 @@ function searchTerm(){
       //data contains the JSON object
       //textStatus contains the status: success, error, etc
       var dig = data.result;
+      var everything = "";
+      var blah = "";
 
        $.each(dig,function(i,obj){  
-
-          var blah = '<h3>'+obj.locationName+
+          blah = '<div class="plan">'+'<h3>'+obj.location_name+
           '<span>'+obj.price+'</span>'+
           '</h3>'+
           '<a class="btn btn-default"> Book </a>'+
@@ -44,10 +45,11 @@ function searchTerm(){
           '<li></li>'+
           '<li></li>'+
           '<li> <a class="btn btn-default"> Details </a> </li>'+
-          '<ul>';
-
-          $('#test').html(blah);
+          '<ul>'+'</div>';
+          everything = everything + blah;          
         });
+
+        $('#cent').html(everything);
 
     }, "json");
 
