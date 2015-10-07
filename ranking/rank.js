@@ -1,149 +1,77 @@
 var moment = require('moment');
+var db = require('../database/database');
 moment().format();
 module.exports = {
 
-	calculateRank: function(query, callback){
-		//do stuff
-   
+  calculateRank: function(original_data, callback){
+    //do stuff
       
-		console.log('result ranking');
+        
+    console.log('result ranking');
         
 
        //example hardcoded query
-		var samplequery = "Fun Holiday Place";
-		var startDate = "2015/05/01";
-		var endDate ="2015/06/03";
-		var sampleMaxPrice = "4000"
-		var stringsplit = samplequery.split(" ");
-       
-       //Hardcoded database entries 
-		var results =
+    var samplequery = ["Fun", "Romantic"];
+    
+    var documentvector =[];
+    var queryvector =[];
+    var finalLoc;
+    var numResults = original_data.keywords.length;
+    var finalLocList =[];
+    var finalFlightList = [];
+    var sampleDocumentFrequency = {};
+    
+        
 
-		[           
-                  
-				{
-					locationName:"Port_Elizebeth",
-
-					keywords :{ "Fun":0,"Exciting":5,"Holiday":7},
-					
-					rating_score: 0,
-
-					price: 2000,
-
-					date: "2015/06/01"
-				},
-
-				{
-					locationName: "Cape_Town",
-					
-					keywords : { "Fun":9,"Exciting":4,"Holiday":8},
-					
-					rating_score:0,
-
-					price: 2000,
-
-					date: "2015/06/03"
-				},
-
-				 {
-				 	locationName: "Durban",
-				 	
-				 	keywords:{ "Fun":6,"Exciting":7,"Holiday":6},
-				    
-				    rating_score: 0,
-
-				    price: 5000,
-
-					date: "2015/07/11"
-				 },
-				  {
-				 	locationName: "Saldana",
-				 	
-				 	keywords:{ "Fun":5,"Exciting":7,"Holiday":9},
-				    
-				    rating_score: 0,
-
-				 	price: 2500,
-
-					date: "2015/11/01"
-				 },
-				 {
-				 	locationName: "East_London",
-				 	
-				 	keywords:{ "Fun":5,"Exciting":0,"Holiday":4,},
-				    
-				    rating_score: 0,
-
-				 	price: 3000,
-
-					date: "2015/08/03"
-				 }
-
-
-         		];
-
-            
-          
-         // var resultsArray = [];
-          //ranking formuala
-          //Still a work in progress
-          //Possible weighting given to order of keywords,and there frequency.
-
-          var finalResults =[];
-          var priceWeight =1;
-          var dateWeight =1;
-          var countKeywords =0; //essential to count keywords for ranking formula
-
-          
-          //Loop through dummydata array
-
-          for(var i = 0; i<results.length;i++){
-            //apply scoring formula for search results.
-            var score =0;
-           	priceWeighting();
-           	dateWeighting();
-
-
-            //Add a score for each keyword found in the query string
-           //var score = Math.sqrt((Math.pow(results[i].keywords[stringsplit[0]+""],2) +Math.pow(results[i].keywords[stringsplit[1]+""],stringsplit.length))/stringsplit.length) ;
-           
-            for(var j=0;j<stringsplit.length;j++){
-               var addScore=0;
-               addScore = Math.sqrt((Math.pow(results[i].keywords[stringsplit[j]+""],2)));
-               
-               //if keyword is not found in query string, add a score of 0
-               if(isNaN(addScore)){
-               	addScore=0;
-               	countKeywords --;
-               }
-               
-
-               else{
-               	//proceed
-               }
-
-               score = score + addScore;
-               countKeywords++;
-              
-            }
-
-            score = score/countKeywords;
-            //Extra weighting added according to how closely results match user's requested price and date
-             if(sampleMaxPrice>results[i].price && dateWithinRange(results[i].date)){
-             finalResults[i]=results[i];
-             finalResults[i].rating_score = score*dateWeight*priceWeight;
-             }
-
-            
+        for (var i=0; i<original_data.keywords.length; i++){
+          if(sampleDocumentFrequency[original_data.keywords[i].keyword.toUpperCase()]===undefined){
+            sampleDocumentFrequency[original_data.keywords[i].keyword.toUpperCase()]=1;
+          }else{
+            sampleDocumentFrequency[original_data.keywords[i].keyword.toUpperCase()]++;
           }
+        }
+      
+      
+       
 
+        var locationVectors = [
+        // {
+          // location: "AMS",
+          // vector: [],
+          // score:0
+          // }
+        
+
+        ];
+        var locationList=[];
+
+       for(var i=0;i<original_data.keywords.length;i++){
+        var qLocation = original_data.keywords[i].location;
+        if(qLocation in locationList){}
+        
+        else{
+        locationVectors.push({
+         location: qLocation,
+         vector: [],
+         score:0
+
+        });
+        locationList.push(qLocation);
+        }
+        
+        
+
+       }         
+        
+
+      
           function priceWeighting(){
           //add additional weigting to cheaper flights or flights under the price limit
           
           //Price Weight = square root of selected price/ actual price
 
           priceWeight =Math.pow(sampleMaxPrice/results[i].price,0.5);
-                    
+          
           }
 
 
@@ -152,72 +80,172 @@ module.exports = {
           function dateWeighting(){
             
           dateWeight = 1;
+          
           }
           
           //check if date is within range
           // for hard contraints
           function dateWithinRange(date) {
-		  
-		  var currentDate = new Date(date);
-		    
-		    var minDate = new Date(startDate);
-		    var maxDate =  new Date(endDate);
+      
+      var currentDate = new Date(date);
+        
+        var minDate = new Date(startDate);
+        var maxDate =  new Date(endDate);
 
-		    if (currentDate > minDate && currentDate < maxDate ){ // checks if dates are within range
-		         return true;
-		    }
+        if (currentDate > minDate && currentDate < maxDate ){ // checks if dates are within range
+             return true;
+        }
 
-		    if(isNaN(minDate.valueOf() || maxDate.valueOf )){ //if no contraints are entered, return all dates
-		    	return true;
-		    }
-		    else{
-		        return false;
-		    }
-		}
+        if(isNaN(minDate.valueOf() || maxDate.valueOf )){ //if no contraints are entered, return all dates
+          return true;
+        }
+        else{
+            return false;
+        }   
+    }
 
 
           // finalscore = score*weight1*weight2
 
 
 
+     function createQueryVectors(query){
+
+      var documentvector = [];
+      
+      for (var i = 0;i<query.length;i++){
+       if(sampleDocumentFrequency[query[i].toUpperCase()]===undefined){
+        sampleDocumentFrequency[query[i].toUpperCase()]=1;
+         }
+
+       queryvector[i] = Math.log(1+numResults/sampleDocumentFrequency[query[i].toUpperCase()]);
+      
+       for (var j = 0;j<locationVectors.length;j++){
+
+       locationVectors[j].vector[i]=0;
+
+       for (var k = 0;k<original_data.keywords.length;k++){
+       
+        if(locationVectors[j].location == original_data.keywords[k].location){
+       
+          if(query[i].toUpperCase() == original_data.keywords[k].keyword.toUpperCase()){
+           
+           locationVectors[j].vector[i] = weightDocument(original_data.keywords[k].weight);
+           
+        }
+      
+      } 
+
+      }
+     }
+     
+     }
+   }
+   function vectorRanking(query){
+
+   createQueryVectors(query);
+  
+   for(var i=0;i<locationVectors.length;i++){
+  
+    var numerator = dotProduct(locationVectors[i].vector,queryvector);
+    var denominator = normalise(locationVectors[i].vector)*normalise(queryvector);
+    var score = numerator;
+    locationVectors[i].score =score;
+    //console.log(locationVectors[i].score);
+    }
+
+
+
+   }
+         function weightTerm(number){
+         
+         
+
+         }
+         function weightDocument(number){
+          //weighting for terms in the document
+           return 1+Math.log(number);
+
+         }
+
+
+         function dotProduct(vector1,vector2){
+        var adder =0;
+        var total =0;
+        for(var i=0;i<vector1.length;i++){
+          adder = vector1[i]*vector2[i];
+          total = total + adder; 
+        }
+        
+         return total;
+        } 
+      
+
+        function normalise(vector){
+        var adder =0;
+        var total =0;
+        for(var i=0;i<vector.length;i++){
+          adder = Math.pow(vector[i],2);
+          total = total + adder; 
+        }
+         total = Math.sqrt(total);
+         return total;
+        }
+
+        // function secondRanking(){
+
+        // }
+          
          //sort results based on rating
          function compare(a,b) {
-		  if (a.rating_score < b.rating_score)
-		    return 1;
-		   if (a.rating_score > b.rating_score)
-		    return -1;
-		  return 0;
-		}
+      if (a.score < b.score)
+        return 1;
+       if (a.score > b. score)
+        return -1;
+      return 0;
+    }
+         function comparePrice(a,b) {
+      if (a.price > b.price)
+        return 1;
+       if (a.price < b.price)
+        return -1;
+      return 0;
+    }
 
- //        function getDates(startDate, stopDate) {
-	//     var dateArray = [];
-	//     var currentDate = moment(startDate);
-	//     while (currentDate <= stopDate) {
-	//         dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
-	//         currentDate = moment(currentDate).add(1, 'days');
-	//     }
-	//     return dateArray;
-	// }
-		
-        
+      function setfinalLocationList(){
+      locationVectors.sort(compare);
+      for (var i=0;i<locationVectors.length;i++){
+        finalLocList[i] = locationVectors[i].location;
+      }
 
-  //     function compare2(a,b) {
-		//   if (a.price < b.price)
-		//     return 1;
-		//   if (a.price > b.price)
-		//     return -1;
-		//   return 0;
-		// }
-        
+
+      }
+      function populateFlights(list){
+       for(var i =0;i<original_data.flights.length;i++){
       
-        finalResults.sort(compare);
-   		var err = null;
-		
+       if(list.indexOf(original_data.flights[i].destination)>-1){
+        finalFlightList.push(original_data.flights[i]);
+       
+      }
+       finalFlightList.sort(comparePrice);   
+       
 
-		callback(finalResults, err);
-	}
+      }
+    }
+      
+      setfinalLocationList();
 
+      populateFlights(finalLocList);
+      finalFlightList.sort(comparePrice);
+      vectorRanking(samplequery);
+      locationVectors.sort(compare);
+          
+    var err = null;
+    console.log("Eligible Locations:   ");
+    console.log(finalLocList);
+    console.log("Eligible Flights");
+    console.log(finalFlightList);
+    callback(locationVectors, err);
+  }
 
 };
-
-
