@@ -216,7 +216,9 @@ module.exports = {
       locationVectors.sort(compare);
       for (var i=0;i<locationVectors.length;i++){
         finalLocList[i] = locationVectors[i].location;
+
       }
+      
 
 
       }
@@ -244,8 +246,28 @@ module.exports = {
     console.log("Eligible Locations:   ");
     console.log(finalLocList);
     console.log("Eligible Flights");
-    console.log(finalFlightList);
-    callback(locationVectors, err);
+   // console.log(finalFlightList);
+
+    //callback()
+
+    db.getLocationInfo(finalLocList,function(err,results){
+      console.log(results);
+      callback(results, err);
+      /*
+      for(everything in flight list){
+        add info for each things
+        location code =  get location code from flight list
+
+        for(everything in location info){
+          if location code is the same
+
+          flightlist[i] = flightlist[i] += locationInfo[i]
+        }
+        flightlist[i] 
+      }
+      */
+    });
+    
   }
 
 };
