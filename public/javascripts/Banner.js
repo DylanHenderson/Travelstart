@@ -29,4 +29,9 @@ function sendResults()
 
 	console.log(stars);
 	console.log(phrase);
+
+	$.post()
+	{
+		
+	}
 }

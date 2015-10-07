@@ -19,7 +19,7 @@ module.exports = {
     var numResults = original_data.keywords.length;
     var finalLocList =[];
     var finalFlightList = [];
-    var sampleDocumentFrequency = {};
+    var sampleDocumentFrequency = {}; 
     
         
 
@@ -223,35 +223,60 @@ module.exports = {
 
       }
       function populateFlights(list){
-       for(var i =0;i<original_data.flights.length;i++){
       
-       if(list.indexOf(original_data.flights[i].destination)>-1){
-        finalFlightList.push(original_data.flights[i]);
-       
-      }
-       finalFlightList.sort(comparePrice);   
-       
-
-      }
     }
+    function mergeRecursive(obj1, obj2) {
+
+      for (var p in obj2) {
+        try {
+          // Property in destination object set; update its value.
+          if ( obj2[p].constructor==Object ) {
+            obj1[p] = MergeRecursive(obj1[p], obj2[p]);
+
+          } else {
+            obj1[p] = obj2[p];
+
+          }
+
+        } catch(e) {
+          // Property in destination object not set; create it and set its value.
+          obj1[p] = obj2[p];
+
+        }
+      }
+
+      return obj1;
+    }
+
       
       setfinalLocationList();
 
-      populateFlights(finalLocList);
+    //  populateFlights(finalLocList);
       finalFlightList.sort(comparePrice);
       vectorRanking(samplequery);
       locationVectors.sort(compare);
-          
+    //finalFlightList = finalFlightList.slice(0,8);
+
     var err = null;
     console.log("Eligible Locations:   ");
     console.log(finalLocList);
     console.log("Eligible Flights");
-   // console.log(finalFlightList);
-
     //callback()
-
+    
     db.getLocationInfo(finalLocList,function(err,results){
+      console.log("starrt");
       console.log(results);
+
+     
+       for (var j=0;j<original_data.flights.length;j++){
+       for (var i =0;i<results.length;i++){
+        if(results[i].location == original_data.flights[j].destination){
+          results[i] = mergeRecursive(results[i],original_data.flights[j]);
+          
+        }
+       }
+      }
+      
       callback(results, err);
       /*
       for(everything in flight list){
@@ -266,7 +291,7 @@ module.exports = {
         flightlist[i] 
       }
       */
-    });
+    })
     
   }
 
