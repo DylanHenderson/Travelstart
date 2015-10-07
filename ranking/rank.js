@@ -216,8 +216,15 @@ module.exports = {
       locationVectors.sort(compare);
       for (var i=0;i<locationVectors.length;i++){
         finalLocList[i] = locationVectors[i].location;
-      }
 
+      }
+      /*
+      function setfinalList(){
+        db.getLocationInfo(finalLocList,function(err,results){
+            console.log(results);
+            callback(results,err)  
+        });
+      }*/
 
       }
       function populateFlights(list){
@@ -245,7 +252,11 @@ module.exports = {
     console.log(finalLocList);
     console.log("Eligible Flights");
     console.log(finalFlightList);
-    callback(locationVectors, err);
+
+    //callback()
+    
+
+    callback(finalFlightList, err);
   }
 
 };
