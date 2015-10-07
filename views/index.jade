@@ -1,161 +1,164 @@
 extends layout
 
 block content
-   
-  #main.container
-    .row
-      .box
-        .form-group.col-lg-12
-          .cent
-            p
-              input#searchTerm.form-control(type='text', placeholder='Search')
-              a.tooltip(href='#')
-                img(src='/images/tool.png')
+  
+  #overDiv
+    #main.container
+      .row
+        .box
+          .form-group.col-lg-12
+            .cent
+              p
+                input#searchTerm.form-control(type='text', placeholder='Search')
+                a.tooltip(href='#')
+                  img(src='/images/tool.png')
+                  span
+                    strong Example input
+                    br
+                    | Fun holiday.
+                    br
+                    | Tropical destinations.
+                    br
+                    | Romantic paradise.  
+              
+              p
+                select.form-control
+                  option(value='' disabled selected, style="color:#999") Location
+                  option(value='CPT') Cape Town
+                  option(value='JHB') Johannesburg
+                  option(value='DRB') Durban
+                a.tooltip(href='#')
+                  img(src='/images/tool.png')
+                  span
+                    strong Example input
+                    br
+                    | Select your departure city. 
+
+              a#search(type='button')
+                button#search.btn.btn-default(onclick='showResults()') Submit
+              a.tooltip(href='#')  
+                button#more.btn.btn-default(type='button', onclick='showDiv()') More
                 span
-                  strong Example input
-                  br
-                  | Fun holiday.
-                  br
-                  | Tropical destinations.
-                  br
-                  | Romantic paradise.  
+                    strong More Button
+                    br
+                    | Lets you have a more specific search with dates and price ranges.
+
+    #moreOptions.container(style='display:none;')
+      .row
+        .box
+          .form-group.col-lg-12
+            .cent
+              p
+                input#dep.form-control2(type='date')
+                span &nbsp returning &nbsp
+                input#ret.form-control2(type='date')
+              p    
+                input#min.form-control1(type='number', placeholder='Minimum fair') 
+                span &nbsp to &nbsp
+                input#max.form-control1(type='number', placeholder='Maximum fair')
+
+              a#search1(type='button')
+                button#search1.btn.btn-default(onclick='showResults()') Submit
+
+    #pricing-table.clear(style='display:none;')
+      
+      #cent
+        .plan
+          h3          
+            | Rome
+            span $59
+          a#book.btn.btn-default() Book
+          ul
+            li
+              |  Detail 1
+            li
+              |  Detail 2
+            li
+              |  Detail 3
+            li
+              a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+        .plan
+          h3          
+            | Rome
+            span $59
+          a.btn.btn-default(href='') Book
+          ul
+            li
+              |  Detail 1
+            li
+              |  Detail 2
+            li
+              |  Detail 3
+            li
+              a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+        .plan
+          h3          
+            | Rome
+            span $59
+          a.btn.btn-default(href='') Book
+          ul
+            li
+              |  Detail 1
+            li
+              |  Detail 2
+            li
+              |  Detail 3
+            li
+              a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+        .plan
+          h3          
+            | Rome
+            span $59
+          a.btn.btn-default(href='') Book
+          ul
+            li
+              |  Detail 1
+            li
+              |  Detail 2
+            li
+              |  Detail 3
+            li
+              a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
+        #test.plan
+        
+        
+        .popUpBannerBox <!-- Full Width/Height Background -->
+          .popUpBannerInner <!-- Center Inner Container -->
+            .popUpBannerContent <!-- Content -->
+              h2 Help us help you!
+              p
+                | Please enter rating of this result in comparison to entered value:
+
+                fieldset.rating
+                  input#star5(type='radio', name='rating', value='5')
+                  label(for='star5', title='Rocks!') 5 stars
+                  input#star4(type='radio', name='rating', value='4')
+                  label(for='star4', title='Pretty good') 4 stars
+                  input#star3(type='radio', name='rating', value='3')
+                  label(for='star3', title='Meh') 3 stars
+                  input#star2(type='radio', name='rating', value='2')
+                  label(for='star2', title='Kinda bad') 2 stars
+                  input#star1(type='radio', name='rating', value='1')
+                  label(for='star1', title='Sucks big time') 1 star
+
+              p 
+                | Please enter a word or phrase that would best describe the holiday if the one you used to search does not so so well you just chose.
+              input#terms.form-control(type='text', placeholder='Keyword/Phrase')
+              br
+              br  
+              p
+                a#sub(type='button')
+                  button#sub.btn.btn-default(onclick='showResults()') Submit
+                a#skip(type='button')
+                  button.btn.btn-default(onclick='showResults()') Skip  
+
             
-            p
-              select.form-control
-                option(value='' disabled selected, style="color:#999") Location
-                option(value='CPT') Cape Town
-                option(value='JHB') Johannesburg
-                option(value='DRB') Durban
-              a.tooltip(href='#')
-                img(src='/images/tool.png')
-                span
-                  strong Example input
-                  br
-                  | Select your departure city. 
 
-            a#search(type='button')
-              button#sub.btn.btn-default(onclick='showResults()') Submit
-            a.tooltip(href='#')  
-              button#more.btn.btn-default(type='button', onclick='showDiv()') More
-              span
-                  strong More Button
-                  br
-                  | Lets you have a more specific search with dates and price ranges.
-
-  #moreOptions.container(style='display:none;')
-    .row
-      .box
-        .form-group.col-lg-12
-          .cent
-            p
-              input#dep.form-control2(type='date')
-              span &nbsp returning &nbsp
-              input#ret.form-control2(type='date')
-            p    
-              input#min.form-control1(type='number', placeholder='Minimum fair') 
-              span &nbsp to &nbsp
-              input#max.form-control1(type='number', placeholder='Maximum fair')
-
-            a#search1(type='button')
-              button#sub.btn.btn-default(onclick='showResults()') Submit
-
-  #pricing-table.clear(style='display:none;')
-    
-    #cent
-      .plan
-        h3          
-          | Rome
-          span $59
-        a#book.btn.btn-default() Book
-        ul
-          li
-            |  Detail 1
-          li
-            |  Detail 2
-          li
-            |  Detail 3
-          li
-            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
-      .plan
-        h3          
-          | Rome
-          span $59
-        a.btn.btn-default(href='') Book
-        ul
-          li
-            |  Detail 1
-          li
-            |  Detail 2
-          li
-            |  Detail 3
-          li
-            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
-      .plan
-        h3          
-          | Rome
-          span $59
-        a.btn.btn-default(href='') Book
-        ul
-          li
-            |  Detail 1
-          li
-            |  Detail 2
-          li
-            |  Detail 3
-          li
-            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
-      .plan
-        h3          
-          | Rome
-          span $59
-        a.btn.btn-default(href='') Book
-        ul
-          li
-            |  Detail 1
-          li
-            |  Detail 2
-          li
-            |  Detail 3
-          li
-            a.btn.btn-default#result1(href='#', onclick="showDetails()") Details
-      #test.plan
-      
-      
-      .popUpBannerBox <!-- Full Width/Height Background -->
-        .popUpBannerInner <!-- Center Inner Container -->
-          .popUpBannerContent <!-- Content -->
-            h2 Help us help you!
-            p
-              | Please enter rating of this result in comparison to entered value:
-              span.starRating
-                input#rating5(type='radio', name='rating', value='5')
-                label(for='rating5') 5
-                input#rating4(type='radio', name='rating', value='4')
-                label(for='rating4') 4
-                input#rating3(type='radio', name='rating', value='3', checked='')
-                label(for='rating3') 3
-                input#rating2(type='radio', name='rating', value='2')
-                label(for='rating2') 2
-                input#rating1(type='radio', name='rating', value='1')
-                label(for='rating1') 1
-            p 
-              | Please enter a word or phrase that would best describe the holiday if the one you used to search does not so so well you just chose.
-            input#terms.form-control(type='text', placeholder='Keyword/Phrase')
-            br
-            br  
-            p
-              a#sub(type='button')
-                button.btn.btn-default(onclick='showResults()') Submit
-              a#skip(type='button')
-                button.btn.btn-default(onclick='showResults()') Skip  
-
-          
-
-  #details.container(style='display:none;')
-    .row
-      .box
-        .form-group.col-lg-12
-          .cent    
-            img(src='/images/Rome.jpg')
-            p Rome, Italy’s capital, is a sprawling, cosmopolitan city with nearly 3,000 years of globally influential art, architecture and culture on display. Ancient ruins such as the Roman Forum and the Colosseum evoke the power of the former Roman Empire. Vatican City, headquarters of the Roman Catholic Church, boasts St. Peter’s Basilica and the Vatican Museums, which house masterpieces such as Michelangelo’s Sistine Chapel frescoes.
-            a.btn.btn-default(href='') Book
+    #details.container(style='display:none;')
+      .row
+        .box
+          .form-group.col-lg-12
+            .cent    
+              img(src='/images/Rome.jpg')
+              p Rome, Italy’s capital, is a sprawling, cosmopolitan city with nearly 3,000 years of globally influential art, architecture and culture on display. Ancient ruins such as the Roman Forum and the Colosseum evoke the power of the former Roman Empire. Vatican City, headquarters of the Roman Catholic Church, boasts St. Peter’s Basilica and the Vatican Museums, which house masterpieces such as Michelangelo’s Sistine Chapel frescoes.
+              a.btn.btn-default(href='') Book
