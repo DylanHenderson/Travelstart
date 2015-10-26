@@ -1,5 +1,5 @@
 var rewire = require('rewire');
-
+var fs = require('fs');
 var initialization = rewire('../initialization.js');
 var retrieval = rewire('../retrieve.js');
 var insertion = rewire('../insertion.js');
@@ -26,12 +26,21 @@ var fetch = retrieval.__get__('fetch');
 var addKeywordCollection = insertion.__get__('addKeywordCollection');
 // function addKeywordCollection(location,keyword,weight_increase,callback){
 // /getLocations: function(query,callback){
+
+
+
+
+
+
+
+
 setDB_initialization("test_data");
 setDB_retrieval("test_data");
 setDB_insertion("test_data");
 var collectionName = "keywordCollection";
 
 var collection = db.collection(collectionName);
+
 
 
 describe('dbpediaQueries',function(){
@@ -67,7 +76,6 @@ describe('getLocations',function(){
 	it('should return location info for a given list of locations', function(done){
 		setDB_retrieval("destination_data");
 		retrieval.getLocations(["PAR","LON"],function(err,results){
-			console.log(results);
 			expect(results[0]).to.contain.any.keys({'location':'PAR'});
 			done();
 		})
@@ -78,6 +86,7 @@ describe('getLocations',function(){
 
 });
 
+/*
 describe('addKeywordCollection',function(){
 	it('should be a function', function(){
 		expect(addKeywordCollection).to.be.a('function');	
@@ -136,7 +145,7 @@ describe('addKeywordCollection',function(){
 		});
 	});
 
-	/*
+	
 	setDB_insertion("destination_data");
 	it('should never cause the collection to contain duplicates',function(done){
 		collection.find({}).toArray(function(err, data) {
@@ -164,9 +173,10 @@ describe('addKeywordCollection',function(){
 		    
 		});
 	});
-	*/
+	
 
 })
+*/
 
 describe('fetch',function(){
 
