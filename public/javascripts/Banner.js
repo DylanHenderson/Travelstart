@@ -1,6 +1,8 @@
+var location_selected="";
+
 $(document).ready(function() {
 
-	$('#skip, #sub').click(function() 
+	$('#sub').click(function() 
 	{
 		sendResults();
 		$('.popUpBannerBox').fadeOut("2000");
@@ -9,8 +11,10 @@ $(document).ready(function() {
 	
 });
 
-function showPopUp() 
+function showPopUp(location_name)
 {
+	console.log(location_name);
+	location_selected=location_name;
 	$('.popUpBannerBox').fadeIn("2000");
 }
 
@@ -21,10 +25,11 @@ function sendResults()
 
 	console.log(stars);
 	console.log(phrase);
+	
+    $.post('/keyword', {location: location_selected, keyword: phrase}, function(data, textStatus) 
+    {
 
-	$.post()
-	{
 
-	}
+    }, "json");
 }
 

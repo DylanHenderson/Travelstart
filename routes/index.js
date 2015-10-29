@@ -18,7 +18,7 @@ router.post('/query', function(req, res) {
 
 			ranking.calculateRank(results1,function(results2,err2){
 				console.log("sending through results");
-				console.log(results2);
+				//console.log(results2);
 				//res.send({result: results2},200);
 				res.status(200).send({result: results2});
 			});
@@ -32,14 +32,18 @@ router.post('/query', function(req, res) {
 // user selects a location from the list such as "PAR"
 router.post('/location', function(req, res) {
 
-	db.updateWeighting(req.body);
+	//db.updateWeighting(req.body);
+	console.log(req.body);
+	//db.updateWeightingUser(req.body);
+	res.status(200).send({result: "ok"});
 
 });
 
 // user enters a keyword for a location they have selected
 router.post('/keyword', function(req, res) {
-
-	db.updateWeightingUser(req.body);
+	console.log(req.body);
+	//db.updateWeightingUser(req.body);
+	res.status(200).send({result: "ok"});
 
 });
 

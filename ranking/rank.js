@@ -264,20 +264,41 @@ module.exports = {
     //callback()
     
     db.getLocationInfo(finalLocList,function(err,results){
-      console.log("starrt");
-      console.log(results);
+      console.log(finalLocList);
+      for(var i =0; i< results.length; i++){
 
-     
-       for (var j=0;j<original_data.flights.length;j++){
-       for (var i =0;i<results.length;i++){
-        if(results[i].location == original_data.flights[j].destination){
-          results[i] = mergeRecursive(results[i],original_data.flights[j]);
-          
+
+        for(var j=0; j<finalLocList; j++){
+          console.log("flight: "+results[i]);
+          console.log("location "+finalLocList[j]);
         }
+      }
+
+
+
+
+       for (var i =0;i<results.length;i++){
+         for (var j=0;j<original_data.flights.length;j++){
+        if(results[i].location == original_data.flights[j].destination){
+          original_data.flights[j] = mergeRecursive(original_data.flights[j],results[i]);
+          
        }
       }
+    }
+      var finalFlights = [];
+
+      for (var k=0;k<original_data.flights.length;k++){
+        if(! original_data.flights[k].location_name){
+        }else{
+          finalFlights.push(original_data.flights[k]);
+        }
+      }
+
       
-      callback(results, err);
+
+
+      
+      callback(finalFlights, err);
       /*
       for(everything in flight list){
         add info for each things
