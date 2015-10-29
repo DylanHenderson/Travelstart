@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 // user enters query such as "somewhere fun"
 router.post('/query', function(req, res) {
   	//query, deptDate, arrDate, minPrice, maxPrice, callback
-	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,"CPT",function(results,err){
+	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,req.body.departureLocation,function(results,err){
 
 		db.retrieve(results,function(results1,err1){
 
@@ -30,25 +30,17 @@ router.post('/query', function(req, res) {
 });
 
 // user selects a location from the list such as "PAR"
-router.get('/location', function(req, res, next) {
-  
-	
+router.post('/location', function(req, res) {
 
-	db.updateWeighting(req.query);
-
-
-
+	db.updateWeighting(req.body);
 
 });
-
-
 
 // user enters a keyword for a location they have selected
-router.get('/keyword', function(req, res, next) {
-  
-	db.updateWeightingUser(req.query);
+router.post('/keyword', function(req, res) {
+
+	db.updateWeightingUser(req.body);
 
 });
-
 
 module.exports = router;
