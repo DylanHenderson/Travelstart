@@ -13,11 +13,6 @@ body {
     -o-background-size: cover;
 }
 
-#details img
-{
-    float: left;
-}
-
 h1,
 h2,
 h3,

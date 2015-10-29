@@ -1,26 +1,18 @@
 $(document).ready(function() {
 
-	$('#book').on('click',function(){
-		console.log("shows up");
-		showPopUp();
-	})
-
-	$('#sub').on('click',function(){
-		console.log("clicked");
+	$('#skip, #sub').click(function() 
+	{
 		sendResults();
-	})
+		$('.popUpBannerBox').fadeOut("2000");
+		return false;
+	});
+	
 });
 
 function showPopUp() 
 {
-		$('.popUpBannerBox').fadeIn("2000");
+	$('.popUpBannerBox').fadeIn("2000");
 }
-
-
-$('#skip').click(function() {
-	$('.popUpBannerBox').fadeOut("2000");
-	return false;
-});
 
 function sendResults()
 {
@@ -32,6 +24,7 @@ function sendResults()
 
 	$.post()
 	{
-		
+
 	}
 }
+

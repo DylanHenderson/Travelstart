@@ -1744,6 +1744,7 @@ output {
   text-align: center;
 }
 .form-control {
+  display: initial;
   width: 90%;
   height: 34px;
   padding: 6px 12px;
@@ -5176,10 +5177,10 @@ button.close {
   border-width: 0 5px 5px;
   border-bottom-color: #000;
 }*/
-a.tooltip {outline:none; }
-a.tooltip strong {line-height:30px;}
-a.tooltip:hover {text-decoration:none;} 
-a.tooltip span {
+a.tooltips {outline:none; }
+a.tooltips strong {line-height:30px;}
+a.tooltips:hover {text-decoration:none;} 
+a.tooltips span {
     z-index:10;
     display:none; 
     padding:14px 20px;
@@ -5188,7 +5189,7 @@ a.tooltip span {
     width:300px; 
     line-height:16px;
 }
-a.tooltip:hover span{
+a.tooltips:hover span{
     display:inline; 
     position:absolute; 
     color:#111;
@@ -5198,7 +5199,7 @@ a.tooltip:hover span{
 .callout {z-index:20;position:absolute;top:30px;border:0;left:-12px;}
     
 
-a.tooltip span
+a.tooltips span
 {
     border-radius:4px;
     box-shadow: 5px 5px 8px #CCC;

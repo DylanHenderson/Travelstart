@@ -35,18 +35,20 @@ function searchTerm(){
       var everything = "";
       var blah = "";
 
+      console.log(data);
+
        $.each(dig,function(i,obj){  
-          blah = '<div class="plan">'+'<h3>'+obj.location_name+
-          '<span>'+obj.price+'</span>'+
+          flight = '<div class="plan">'+'<h3>'+obj.location_name+
+          '<span>R'+obj.price+'</span>'+
           '</h3>'+
-          '<a class="btn btn-default"> Book </a>'+
+          '<a class="btn btn-default", onclick="showPopUp()"> Book </a>'+
           '<ul>'+
+          '<li>'+obj.country+'</li>'+
           '<li></li>'+
           '<li></li>'+
-          '<li></li>'+
-          '<li> <a class="btn btn-default"> Details </a> </li>'+
           '<ul>'+'</div>';
-          everything = everything + blah;          
+
+          everything = everything + flight;          
         });
 
         $('#cent').html(everything);
