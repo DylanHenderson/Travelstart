@@ -42,7 +42,7 @@ function searchTerm(){
           '<span>R'+obj.price+'</span>'+
           '</h3>'+
           //'<a class="btn btn-default", onclick="showPopUp('+'"'+obj.location_name+'"'+')\"> Book </a>'+
-          '<a class="btn btn-default", onclick=\"showPopUp('+'\''+obj.location_name+ '\',' +'\''+name+ '\''+')\"> Book </a>'+
+          '<a class="btn btn-default", onclick=\"showPopUp('+'\''+obj.location+ '\',' +'\''+name+ '\''+')\"> Book </a>'+
           '<ul>'+
           '<li>'+obj.country+'</li>'+
           '<li></li>'+
