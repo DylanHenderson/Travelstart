@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 // user enters query such as "somewhere fun"
 router.post('/query', function(req, res) {
   	//query, deptDate, arrDate, minPrice, maxPrice, callback
-	query.formulate(req.body.searchQuery,[1,1,1],[1,1,1],5000,9000,req.body.departureLocation,function(results,err){
+  	console.log(req.body);
+	query.formulate(req.body.searchQuery,req.body.departureDate,req.body.arrivalDate,req.body.priceMin,req.body.priceMax,req.body.departureLocation,function(results,err){
 
 		db.retrieve(results,function(results1,err1){
 
@@ -32,18 +33,27 @@ router.post('/query', function(req, res) {
 // user selects a location from the list such as "PAR"
 router.post('/location', function(req, res) {
 
-	//db.updateWeighting(req.body);
-	console.log(req.body);
-	//db.updateWeightingUser(req.body);
-	res.status(200).send({result: "ok"});
+	query.formulate(req.body.keyword,"","","","","",function(results,err){
 
+		var weight_update = {keywords: results.keywords,location: req.body.location};
+		db.updateWeighting(weight_update,function(err){
+
+			res.status(200).send({result: "ok"});
+		});
+		
+	});
 });
 
 // user enters a keyword for a location they have selected
 router.post('/keyword', function(req, res) {
-	console.log(req.body);
-	//db.updateWeightingUser(req.body);
-	res.status(200).send({result: "ok"});
+	//formulate entered keyword
+	query.formulate(req.body.keyword,"","","","","",function(results,err){
+		var weight_update = {keywords: results.keywords,location: req.body.location};
+		db.updateWeightingUser(weight_update)
+		res.status(200).send({result: "ok"});
+
+		
+	});
 
 });
 
