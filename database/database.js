@@ -109,13 +109,9 @@ module.exports = {
 
 	//for when a user selects one of the results, send through the location with keywords to add/update
 	updateWeighting: function(query){
-		query = {
-			location: "ROM",
-			keywords:["Romantic","ancient"]
-		}
-		var weight_change = 2;
+		var weight_change = 1;
 		for(var i =0; i< query.keywords.length; i++){
-			insertion.addKeywordCollection(query.location, query.keywords[i],weight_change,function(err){
+			insertion.addKeywordUpdates(query.location, query.keywords[i],weight_change,function(err){
 				if(err){
 					console.log(err);
 				}else{
@@ -127,13 +123,9 @@ module.exports = {
 
 	//for when a user types in a keyword for a location
 	updateWeightingUser: function(query){
-		query = {
-			location: "ROM",
-			keywords:["Romantic","ancient"]
-		}
-		var weight_change = 3;
+		var weight_change = 2;
 		for(var i =0; i< query.keywords.length; i++){
-			insertion.addKeywordCollection(query.location, query.keywords[i],weight_change,function(err){
+			insertion.addKeywordUpdates(query.location, query.keywords[i],weight_change,function(err){
 				if(err){
 					console.log(err);
 				}else{

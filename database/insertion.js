@@ -13,7 +13,12 @@ module.exports = {
 	addKeywords: function(locations,keywords,weight){
 		//add such keywords to the location (if given location) and normalize weighting
         addEachKeyword(locations,keywords,weight);
-	}
+	},
+
+    addKeywordUpdates: function(locations,keyword,weight,callback){
+        //add such keywords to the location (if given location) and normalize weighting
+        addKeywordCollection(locations,keyword,weight,callback);
+    }
 };
 
 function addEachKeyword(locations,keywords,weight){

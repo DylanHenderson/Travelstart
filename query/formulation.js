@@ -74,6 +74,7 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 					for (var i=0;i<terms.length;i++) {
 						var anothertemp = tempquery;
 						while (anothertemp.lastIndexOf(" ") != -1) {
+							console.log(anothertemp);
 							if (cities.indexOf(anothertemp) != -1) {
 								locationkeys.push(anothertemp);
 								query = query.replace(anothertemp,"");
@@ -83,7 +84,7 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 								break;
 							}
 							else { anothertemp = anothertemp.substring(0,anothertemp.lastIndexOf(" "));}
-							console.log(anothertemp);
+							
 						}
 						tempquery = tempquery.substring(tempquery.indexOf(" ")+1);
 					}
