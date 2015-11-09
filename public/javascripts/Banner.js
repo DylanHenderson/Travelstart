@@ -6,9 +6,15 @@ $(document).ready(function() {
 	{
 		sendResults();
 		$('.popUpBannerBox').fadeOut("2000");
+		window.location.replace("/");
 		return false;
 	});
-	
+	$('#skip').click(function() 
+	{
+		window.location.replace("/");
+		$('.popUpBannerBox').fadeOut("2000");
+		return false;
+	});
 });
 
 function showPopUp(location_name)
