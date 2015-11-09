@@ -1,0 +1,113 @@
+keywordQueries - data management - code documentation
+========
+
+A system that is used for the data management of keyword based queries. This system is included with a UI, 
+a controller as well as query formulation and ranking, but could be used and edited separately.  
+
+
+Features
+--------
+
+- The creation and updating of keyword-destination pairs through user input.
+- Initial seeding of a keyword-destination pair database for 5 destinations.
+- Keyword based queries.
+- accurate error reporting
+
+Methods
+--------
+
+- populate: method to pre-populate the database
+- retrieve: method to retrieve results in the form of keyword-location pairs from the database
+- getAdditionalInfo: method to retrieve more information for a list of locations
+- updateWeighting and updateWeightingUser: methods to update the weighting of stored keywords
+
+Basic Use Example:
+
+    db.retrieve({keywords:["Romantic","Exciting"]},function(results,err){
+	console.log(results);
+
+    });
+
+    Retrieves the results for a keyword based query searching for the keywords Romantic and Exciting,
+    The weight indicates keyword relevance
+
+    Result:
+    [
+	{
+	    location: PAR,
+            keyword: Romantic,
+            weight: 70
+        },
+        {
+            location: PAR,
+            keyword: Exciting,
+            weight: 40
+        },
+        {
+            location: ROM,
+            keyword: Romantic,
+            weight: 45
+        }
+
+    ]
+
+Requirements
+------------
+-Mongo, needs to be set up and waiting for incoming connections on localhost
+-Node
+
+
+Installation
+------------
+
+Install keywordQueries by running:
+
+    npm install - from the extracted package
+
+
+Running
+------------
+Firstly the MongoDB database needs to be started, the following commands are from the mongo folder:
+    - mongod must be directed to the data folder with the command mongod --dbpath "<travelstart directory>/data"
+    - (optional) a mongo shell can be started to check the database with command 'mongo' followed by 'use destination_data'
+
+
+keywordQueries can be run with the command:
+    - npm start
+
+Localhost:3000 can be visited in a browser to view the site.
+
+Populate
+--------
+Method called initially to populate the database with 
+destination information, keyword-destination pairs, flights and routes
+
+db.populate(function(err){
+    console.log(err);
+});
+
+Retrieve
+--------
+Method called to retrieve results from the database, can be called with locations and keywords.
+The system will then return results that contain the keywords or the locations.
+
+db.retrieve(query,function(results,err){
+    If(!err) console.log(results)
+});
+
+getAdditionalInfo
+-----------------
+method called to get additional info on a list of location codes returned by retrieve
+
+db.getAdditionalInfo(locationList,function(err,results){
+    If(!err) console.log(results)
+});
+
+updateWeighting
+-----------------
+method called to update the weighting of keywords for a location by 1 or 2 for updateWeightingUser
+Query contains location and keywords
+
+db.updateWeighting(query,function(err,results){
+    If(!err) console.log(results)
+});

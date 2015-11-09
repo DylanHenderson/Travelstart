@@ -22,14 +22,7 @@ var createFlightRoutes = initialization.__get__('createFlightRoutes');
 var createFlightDestinations = initialization.__get__('createFlightDestinations');
 var createDestinationDetails = initialization.__get__('createDestinationDetails');
 var fetch = retrieval.__get__('fetch');
-//var getLocations = retrieval.__get__('getLocations');
 var addKeywordCollection = insertion.__get__('addKeywordCollection');
-// function addKeywordCollection(location,keyword,weight_increase,callback){
-// /getLocations: function(query,callback){
-
-
-
-
 
 
 
@@ -42,28 +35,6 @@ var collectionName = "keywordCollection";
 var collection = db.collection(collectionName);
 
 
-
-describe('dbpediaQueries',function(){
-	it('should be a function',function(){
-		expect(createDestinationDetails).to.be.a('function');
-	});
-
-	it('should eventually call back with a null error and a list of updated locations when given a dbpedia query',function(){
-		expect(createDestinationDetails).to.be.a('function');
-	});
-
-	it('should execute multiple sets of queries',function(){
-		expect(createDestinationDetails).to.be.a('function');
-	});
-
-	it('should handle empty inputs',function(){
-		expect(createDestinationDetails).to.be.a('function');
-	});
-
-	it('should should not crash when given an incorrect query',function(){
-		expect(createDestinationDetails).to.be.a('function');
-	});	
-});
 
 
 describe('getLocations',function(){
@@ -86,7 +57,7 @@ describe('getLocations',function(){
 
 });
 
-/*
+
 describe('addKeywordCollection',function(){
 	it('should be a function', function(){
 		expect(addKeywordCollection).to.be.a('function');	
@@ -119,7 +90,7 @@ describe('addKeywordCollection',function(){
 	});
 
 
-
+	
 	it('should adjust the weight of an already existing element',function(done){
 		addKeywordCollection('PAR','Romantic',1,function(err){
 			expect(err).to.eql(null);
@@ -145,7 +116,8 @@ describe('addKeywordCollection',function(){
 		});
 	});
 
-	
+	//tested on live database
+	/*
 	setDB_insertion("destination_data");
 	it('should never cause the collection to contain duplicates',function(done){
 		collection.find({}).toArray(function(err, data) {
@@ -173,10 +145,10 @@ describe('addKeywordCollection',function(){
 		    
 		});
 	});
-	
+	*/
 
 })
-*/
+
 
 describe('fetch',function(){
 
@@ -270,6 +242,9 @@ describe('createDestinationDetails',function(){
 	});
 
 });
+
+
+
 
 describe('createFlightDestinations',function(){
 	it('should be a function',function(){
