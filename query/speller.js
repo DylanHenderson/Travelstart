@@ -106,8 +106,6 @@ speller.edits = function (word) {
 	return results;
 };
 
-speller.train("romantic");
-
 
 var trainingtext = "./query/nsc.txt";
 // ====================================================================================================================
