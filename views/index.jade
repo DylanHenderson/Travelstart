@@ -8,41 +8,40 @@ block content
         .box
           .form-group.col-lg-12
             .cent
-              form
-                p
-                  input#searchTerm.form-control(type='text', placeholder='Search')
-                  a.tooltips(href='#')
-                    img(src='/images/tool.png')
-                    span
-                      strong Example input
-                      br
-                      | Fun.
-                      br
-                      | Exciting.
-                      br
-                      | Romantic.  
-                
-                p
-                  select#city.form-control
-                    option(value='' disabled selected, style="color:#999") Location
-                    option(value='CPT') Cape Town
-                    option(value='JHB') Johannesburg
-                    option(value='DRB') Durban
-                  a.tooltips(href='#')
-                    img(src='/images/tool.png')
-                    span
-                      strong Example input
-                      br
-                      | Select your departure city. 
-
-                a#search(type='button')
-                  button#search.btn.btn-default(onclick='showResults()') Submit
-                a.tooltips(href='#')  
-                  button#more.btn.btn-default(type='button', onclick='showDiv()') More
+              p
+                input#searchTerm.form-control(type='text', placeholder='Search')
+                a.tooltips(href='#')
+                  img(src='/images/tool.png')
                   span
-                      strong More Button
-                      br
-                      | Lets you have a more specific search with dates and price ranges.
+                    strong Example input
+                    br
+                    | Fun.
+                    br
+                    | Exciting.
+                    br
+                    | Romantic.  
+              
+              p
+                select#city.form-control
+                  option(value='' disabled selected, style="color:#999") Location
+                  option(value='CPT') Cape Town
+                  option(value='JHB') Johannesburg
+                  option(value='DRB') Durban
+                a.tooltips(href='#')
+                  img(src='/images/tool.png')
+                  span
+                    strong Example input
+                    br
+                    | Select your departure city. 
+
+              a(type='button')
+                button#search.btn.btn-default(onclick='showResults()') Submit
+              a.tooltips(href='#')  
+                button#more.btn.btn-default(type='button', onclick='showDiv()') More
+                span
+                    strong More Button
+                    br
+                    | Lets you have a more specific search with dates and price ranges.
 
     #moreOptions.container(style='display:none;')<!-- Buttons-->    
       .row
@@ -58,13 +57,13 @@ block content
                 span &nbsp to &nbsp
                 input#max.form-control1(type='number', placeholder='Maximum fair')
 
-              a#search1(type='button')
+              a(type='button')
                 button#search1.btn.btn-default(onclick='showResults()') Submit
 
     #pricing-table.clear(style='display:none;')<!-- Results view -->      
       #cent 
 
-    .container
+    #car.container
       .row
         .box  
           .form-group.col-lg-12

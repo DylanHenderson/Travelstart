@@ -12,11 +12,16 @@ function showDetails()
 
 function showResults()
 {
-	document.getElementById('main').style.height = '0px'
-	document.getElementById('moreOptions').style.height = '0px'
-	document.getElementById('main').style.visibility = 'hidden';
-	document.getElementById('moreOptions').style.visibility = 'hidden';
 	document.getElementById('main').style.display = 'none';
 	document.getElementById('moreOptions').style.display = 'none';
+	document.getElementById('car').style.display = 'none';
 	document.getElementById('pricing-table').style.display = "block";
+}
+
+function showSearch()
+{
+	document.getElementById('main').style.display = 'block';
+	document.getElementById('moreOptions').style.display = 'block';
+	document.getElementById('car').style.display = 'block';
+	document.getElementById('pricing-table').style.display = "none";
 }

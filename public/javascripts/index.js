@@ -33,6 +33,7 @@ function searchTerm(){
       //textStatus contains the status: success, error, etc
       var dig = data.result;
       var everything = "";
+      var print = "";
       var blah = "";
 
       console.log(data);
@@ -52,7 +53,13 @@ function searchTerm(){
           everything = everything + flight;          
         });
 
-        $('#cent').html(everything);
+        back = '<a type="button">'+
+        '<buttom id="back" onclick="showSearch()" class="btn btn-default">'+'Back'+'</buttom>'+
+        '</a>';
+
+        print = everything + back;
+
+        $('#cent').html(print);
 
     }, "json");
 
