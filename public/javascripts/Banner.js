@@ -17,11 +17,17 @@ $(document).ready(function() {
 	});
 });
 
-function showPopUp(location_name)
+function showPopUp(location_name,phrase)
 {
 	console.log(location_name);
 	location_selected=location_name;
 	$('.popUpBannerBox').fadeIn("2000");
+
+	$.post('/location', {location: location_selected, keyword: phrase}, function(data, textStatus) 
+    {
+
+
+    }, "json");
 }
 
 function sendResults()
