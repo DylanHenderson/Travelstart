@@ -173,6 +173,7 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 							// lookup word with wordnet
 							wordnet.lookup(toexpand[iteration], function(results) {
 								console.log("finding expansion terms");
+								var keylen = keylist.length;
 								for(var k=0; k<results.length;k++) {
 									var extraterms = results[k].synonyms;
 									
@@ -183,6 +184,7 @@ var formulate = function(query, departDate, arrDate, minPrice, maxPrice, departL
 										}
 									}
 								}
+								if (keylist.length == keylen) {keylist.push(toexpand[iteration]);}
 								wordnetSearch(toexpand,iteration+1,keylist);
 							});					
 						}
