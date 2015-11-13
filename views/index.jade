@@ -8,42 +8,43 @@ block content
         .box
           .form-group.col-lg-12
             .cent
-              p
-                input#searchTerm.form-control(type='text', placeholder='Search')
-                a.tooltips(href='#')
-                  img(src='/images/tool.png')
-                  span
-                    strong Example input
-                    br
-                    | Fun holiday.
-                    br
-                    | Tropical destinations.
-                    br
-                    | Romantic paradise.  
-              
-              p
-                select.form-control
-                  option(value='' disabled selected, style="color:#999") Location
-                  option(value='CPT') Cape Town
-                  option(value='JHB') Johannesburg
-                  option(value='DRB') Durban
-                a.tooltips(href='#')
-                  img(src='/images/tool.png')
-                  span
-                    strong Example input
-                    br
-                    | Select your departure city. 
+              form
+                p
+                  input#searchTerm.form-control(type='text', placeholder='Search')
+                  a.tooltips(href='#')
+                    img(src='/images/tool.png')
+                    span
+                      strong Example input
+                      br
+                      | Fun.
+                      br
+                      | Exciting.
+                      br
+                      | Romantic.  
+                
+                p
+                  select#city.form-control
+                    option(value='' disabled selected, style="color:#999") Location
+                    option(value='CPT') Cape Town
+                    option(value='JHB') Johannesburg
+                    option(value='DRB') Durban
+                  a.tooltips(href='#')
+                    img(src='/images/tool.png')
+                    span
+                      strong Example input
+                      br
+                      | Select your departure city. 
 
-              a#search(type='button')
-                button#search.btn.btn-default(onclick='showResults()') Submit
-              a.tooltips(href='#')  
-                button#more.btn.btn-default(type='button', onclick='showDiv()') More
-                span
-                    strong More Button
-                    br
-                    | Lets you have a more specific search with dates and price ranges.
+                a#search(type='button')
+                  button#search.btn.btn-default(onclick='showResults()') Submit
+                a.tooltips(href='#')  
+                  button#more.btn.btn-default(type='button', onclick='showDiv()') More
+                  span
+                      strong More Button
+                      br
+                      | Lets you have a more specific search with dates and price ranges.
 
-    #moreOptions.container(style='display:none;')
+    #moreOptions.container(style='display:none;')<!-- Buttons-->    
       .row
         .box
           .form-group.col-lg-12
@@ -60,7 +61,7 @@ block content
               a#search1(type='button')
                 button#search1.btn.btn-default(onclick='showResults()') Submit
 
-    #pricing-table.clear(style='display:none;')      
+    #pricing-table.clear(style='display:none;')<!-- Results view -->      
       #cent 
 
     .container
@@ -98,8 +99,8 @@ block content
                 span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
                 span.sr-only Next  
        
-    .popUpBannerBox <!-- Full Width/Height Background -->
-      .popUpBannerInner <!-- Center Inner Container -->
+    .popUpBannerBox <!-- Banner for feedback-->
+      .popUpBannerInner 
         .popUpBannerContent <!-- Content -->
           h2 Help us help you!
           p
