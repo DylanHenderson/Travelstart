@@ -53,9 +53,9 @@ block content
                 span &nbsp returning &nbsp
                 input#ret.form-control2(type='date')
               p    
-                input#min.form-control1(type='number', placeholder='Minimum fair') 
+                input#min.form-control1(type='number', placeholder='Minimum fair', min='500', step='500') 
                 span &nbsp to &nbsp
-                input#max.form-control1(type='number', placeholder='Maximum fair')
+                input#max.form-control1(type='number', placeholder='Maximum fair', min='500', step='500')
 
               a(type='button')
                 button#search1.btn.btn-default(onclick='showResults()') Submit

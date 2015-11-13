@@ -53,6 +53,11 @@ function searchTerm(){
           everything = everything + flight;          
         });
 
+       if (!(everything))
+       {
+          everything= '<h1>'+'No destinations found'+'</h1>'
+       }
+
         back = '<a type="button">'+
         '<buttom id="back" onclick="showSearch()" class="btn btn-default">'+'Back'+'</buttom>'+
         '</a>';
