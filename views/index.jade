@@ -15,14 +15,14 @@ block content
                   span
                     strong Example input
                     br
-                    | Fun holiday.
+                    | Fun.
                     br
-                    | Tropical destinations.
+                    | Exciting.
                     br
-                    | Romantic paradise.  
+                    | Romantic.  
               
               p
-                select.form-control
+                select#city.form-control
                   option(value='' disabled selected, style="color:#999") Location
                   option(value='CPT') Cape Town
                   option(value='JHB') Johannesburg
@@ -34,7 +34,7 @@ block content
                     br
                     | Select your departure city. 
 
-              a#search(type='button')
+              a(type='button')
                 button#search.btn.btn-default(onclick='showResults()') Submit
               a.tooltips(href='#')  
                 button#more.btn.btn-default(type='button', onclick='showDiv()') More
@@ -43,7 +43,7 @@ block content
                     br
                     | Lets you have a more specific search with dates and price ranges.
 
-    #moreOptions.container(style='display:none;')
+    #moreOptions.container(style='display:none;')<!-- Buttons-->    
       .row
         .box
           .form-group.col-lg-12
@@ -53,17 +53,17 @@ block content
                 span &nbsp returning &nbsp
                 input#ret.form-control2(type='date')
               p    
-                input#min.form-control1(type='number', placeholder='Minimum fair') 
+                input#min.form-control1(type='number', placeholder='Minimum fair', min='500', step='500') 
                 span &nbsp to &nbsp
-                input#max.form-control1(type='number', placeholder='Maximum fair')
+                input#max.form-control1(type='number', placeholder='Maximum fair', min='500', step='500')
 
-              a#search1(type='button')
+              a(type='button')
                 button#search1.btn.btn-default(onclick='showResults()') Submit
 
-    #pricing-table.clear(style='display:none;')      
+    #pricing-table.clear(style='display:none;')<!-- Results view -->      
       #cent 
 
-    .container
+    #car.container
       .row
         .box  
           .form-group.col-lg-12
@@ -98,8 +98,8 @@ block content
                 span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
                 span.sr-only Next  
        
-    .popUpBannerBox <!-- Full Width/Height Background -->
-      .popUpBannerInner <!-- Center Inner Container -->
+    .popUpBannerBox <!-- Banner for feedback-->
+      .popUpBannerInner 
         .popUpBannerContent <!-- Content -->
           h2 Help us help you!
           p

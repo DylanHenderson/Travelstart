@@ -36,10 +36,9 @@ router.post('/location', function(req, res) {
 	query.formulate(req.body.keyword,"","","","","",function(results,err){
 
 		var weight_update = {keywords: results.keywords,location: req.body.location};
-		db.updateWeighting(weight_update,function(err){
+		db.updateWeighting(weight_update);
 
-			res.status(200).send({result: "ok"});
-		});
+		res.status(200).send({result: "ok"});
 		
 	});
 });
